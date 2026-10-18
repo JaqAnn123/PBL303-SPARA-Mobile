@@ -12,20 +12,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   static const Color _cardColor = Color(0xFFFAF5EC);
   static const int _totalPages = 2;
-
-  int _currentPage = 0;
-  bool _obscurePassword = true;
-  bool _obscureConfirm = true;
-
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _nimController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmController = TextEditingController();
-
-  String? _jurusan;
-  String? _prodi;
+  static const String _requiredFieldMessage = 'Isi data terlebih dahulu!';
 
   static const Map<String, List<String>> _prodiByJurusan = {
     'Manajemen Bisnis': [
@@ -60,6 +47,21 @@ class _RegisterPageState extends State<RegisterPage> {
     ],
   };
 
+  final _formKey = GlobalKey<FormState>();
+  int _currentPage = 0;
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
+
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _nimController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
+
+  String? _jurusan;
+  String? _prodi;
+
   List<String> get _jurusanList => _prodiByJurusan.keys.toList();
   List<String> get _prodiList =>
       _jurusan == null ? const [] : _prodiByJurusan[_jurusan]!;
@@ -75,16 +77,55 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _next() => setState(() => _currentPage = 1);
+  void _next() {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _currentPage = 1);
+  }
+
   void _back() => setState(() => _currentPage = 0);
 
   void _goToLogin() => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const LoginPage()),
-      );
+    context,
+    MaterialPageRoute(builder: (_) => const LoginPage()),
+  );
 
-  void _submit() {
-    // TODO: kirim data pendaftaran ke server
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        icon: const Icon(
+          Icons.help_outline,
+          color: AppColors.accentTeal,
+          size: 32,
+        ),
+        content: const Text(
+          'Apakah anda yakin data yang dimasukkan sudah benar?',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: AppColors.textDark,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          OutlinedButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Periksa Kembali'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.accentTeal,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Ya, benar'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
     _goToLogin();
   }
 
@@ -143,11 +184,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       Expanded(
                         child: SingleChildScrollView(
                           padding: const EdgeInsets.fromLTRB(24, 28, 24, 16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: _currentPage == 0
-                                ? _buildPageOne()
-                                : _buildPageTwo(),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: _currentPage == 0
+                                  ? _buildPageOne()
+                                  : _buildPageTwo(),
+                            ),
                           ),
                         ),
                       ),
@@ -167,9 +211,10 @@ class _RegisterPageState extends State<RegisterPage> {
     return [
       _label('Nama'),
       const SizedBox(height: 8),
-      TextField(
+      TextFormField(
         controller: _nameController,
         textCapitalization: TextCapitalization.words,
+        validator: _requiredFieldValidator,
         decoration: _inputDecoration(
           hint: 'Masukkan nama anda',
           prefixIcon: Icons.person_outline,
@@ -178,9 +223,10 @@ class _RegisterPageState extends State<RegisterPage> {
       const SizedBox(height: 16),
       _label('Email'),
       const SizedBox(height: 8),
-      TextField(
+      TextFormField(
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
+        validator: _requiredFieldValidator,
         decoration: _inputDecoration(
           hint: 'Masukkan email anda',
           prefixIcon: Icons.mail_outline,
@@ -189,9 +235,10 @@ class _RegisterPageState extends State<RegisterPage> {
       const SizedBox(height: 16),
       _label('Nomor Telepon'),
       const SizedBox(height: 8),
-      TextField(
+      TextFormField(
         controller: _phoneController,
         keyboardType: TextInputType.phone,
+        validator: _requiredFieldValidator,
         decoration: _inputDecoration(
           hint: 'Masukkan nomor telepon anda',
           prefixIcon: Icons.phone_outlined,
@@ -219,8 +266,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ? 'Pilih jurusan terlebih dahulu'
             : 'Pilih program studi anda',
         items: _prodiList,
-        onChanged:
-            _jurusan == null ? null : (v) => setState(() => _prodi = v),
+        onChanged: _jurusan == null ? null : (v) => setState(() => _prodi = v),
       ),
     ];
   }
@@ -229,9 +275,10 @@ class _RegisterPageState extends State<RegisterPage> {
     return [
       _label('Nomor Induk'),
       const SizedBox(height: 8),
-      TextField(
+      TextFormField(
         controller: _nimController,
         keyboardType: TextInputType.number,
+        validator: _requiredFieldValidator,
         decoration: _inputDecoration(
           hint: 'Masukkan nomor induk anda',
           prefixIcon: Icons.person_outline,
@@ -240,9 +287,10 @@ class _RegisterPageState extends State<RegisterPage> {
       const SizedBox(height: 16),
       _label('Kata Sandi'),
       const SizedBox(height: 8),
-      TextField(
+      TextFormField(
         controller: _passwordController,
         obscureText: _obscurePassword,
+        validator: _requiredFieldValidator,
         decoration: _inputDecoration(
           hint: 'Masukkan kata sandi anda',
           prefixIcon: Icons.lock_open_outlined,
@@ -256,9 +304,10 @@ class _RegisterPageState extends State<RegisterPage> {
       const SizedBox(height: 16),
       _label('Konfimasi Kata Sandi'),
       const SizedBox(height: 8),
-      TextField(
+      TextFormField(
         controller: _confirmController,
         obscureText: _obscureConfirm,
+        validator: _requiredFieldValidator,
         decoration: _inputDecoration(
           hint: 'Konfirmasi kata sandi anda',
           prefixIcon: Icons.lock_open_outlined,
@@ -295,7 +344,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
                 onPressed: _next,
                 child: const Row(
@@ -303,8 +353,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     Text(
                       'Berikutnya',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(width: 8),
                     Icon(Icons.arrow_forward, size: 18),
@@ -319,9 +371,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.accentTeal,
                   backgroundColor: Colors.white,
-                  side: const BorderSide(color: AppColors.accentTeal, width: 1.5),
+                  side: const BorderSide(
+                    color: AppColors.accentTeal,
+                    width: 1.5,
+                  ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
                 onPressed: _back,
                 child: const Text(
@@ -339,7 +395,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
                 onPressed: _submit,
                 child: const Text(
@@ -410,25 +467,40 @@ class _RegisterPageState extends State<RegisterPage> {
   }) {
     return DropdownButtonFormField<String>(
       key: key,
-      value: value,
+      initialValue: value,
       isExpanded: true,
       icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.textDark),
       decoration: _inputDecoration(
         hint: hint,
         prefixIcon: Icons.apartment_outlined,
       ),
+      validator: (selectedValue) {
+        if (selectedValue == null || selectedValue.isEmpty) {
+          return _requiredFieldMessage;
+        }
+        return null;
+      },
       hint: Text(
         hint,
         style: TextStyle(color: Colors.grey.shade400, fontSize: 14),
       ),
       items: items
-          .map((e) => DropdownMenuItem(
-                value: e,
-                child: Text(e, style: const TextStyle(fontSize: 14)),
-              ))
+          .map(
+            (e) => DropdownMenuItem(
+              value: e,
+              child: Text(e, style: const TextStyle(fontSize: 14)),
+            ),
+          )
           .toList(),
       onChanged: onChanged,
     );
+  }
+
+  String? _requiredFieldValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return _requiredFieldMessage;
+    }
+    return null;
   }
 
   InputDecoration _inputDecoration({
