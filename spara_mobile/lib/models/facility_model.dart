@@ -7,6 +7,7 @@ class Facility {
   final String building;
   final String floor;
   final String type;
+  final String status;
 
   const Facility({
     required this.id,
@@ -17,29 +18,32 @@ class Facility {
     required this.building,
     required this.floor,
     required this.type,
+    this.status = 'Tersedia',
   });
 }
 
 final List<Facility> dummyFacilities = [
   Facility(
     id: 'RU01',
-    name: 'Workspace Virtual Reality',
+    name: 'Ruang Kelas A101',
     category: 'RUET01',
     imagePath: 'lib/assets/images/facility/room1.jpg',
-    capacity: '10 Orang',
-    building: 'Gedung Utama Lt.5',
-    floor: 'Lantai 5',
+    capacity: '40 Orang',
+    building: 'Gedung A',
+    floor: 'Lantai 1',
     type: 'Ruangan',
+    status: 'Tersedia',
   ),
   Facility(
     id: 'RU02',
-    name: 'Workspace Virtual Reality',
+    name: 'Ruang Kelas A102',
     category: 'RUET02',
     imagePath: 'lib/assets/images/facility/room2.jpg',
-    capacity: '20 Orang',
-    building: 'Gedung Utama Lt.5',
-    floor: 'Lantai 5',
+    capacity: '40 Orang',
+    building: 'Gedung A',
+    floor: 'Lantai 1',
     type: 'Ruangan',
+    status: 'Dipinjam',
   ),
   Facility(
     id: 'RU03',
@@ -47,9 +51,10 @@ final List<Facility> dummyFacilities = [
     category: 'RUET03',
     imagePath: 'lib/assets/images/facility/room3.jpg',
     capacity: '15 Orang',
-    building: 'Gedung Utama Lt.5',
+    building: 'Gedung Utama',
     floor: 'Lantai 5',
     type: 'Ruangan',
+    status: 'Tersedia',
   ),
   Facility(
     id: 'AL01',
@@ -60,6 +65,7 @@ final List<Facility> dummyFacilities = [
     building: 'Gedung B',
     floor: 'Lantai 2',
     type: 'Peralatan',
+    status: 'Tersedia',
   ),
   Facility(
     id: 'AL02',
@@ -70,5 +76,6 @@ final List<Facility> dummyFacilities = [
     building: 'Gedung A',
     floor: 'Lantai 1',
     type: 'Peralatan',
+    status: 'Maintenance',
   ),
 ];

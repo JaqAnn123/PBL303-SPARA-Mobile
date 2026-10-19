@@ -141,7 +141,10 @@ void main() {
     await tester.tap(find.text('Pencarian'));
     await tester.pumpAndSettle();
     expect(tester.widget<BottomNavigationBar>(bottomNav).currentIndex, 1);
-    expect(find.text('Pencarian Fasilitas'), findsOneWidget);
+    expect(
+      find.text('Temukan ruangan dan peralatan yang kamu butuhkan'),
+      findsOneWidget,
+    );
 
     await tester.enterText(find.byType(TextField), 'Proyektor');
     await tester.pumpAndSettle();
