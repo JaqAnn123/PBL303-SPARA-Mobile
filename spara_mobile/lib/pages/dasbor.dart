@@ -118,31 +118,206 @@ class _DasborPageState extends State<DasborPage> {
   ];
 
   static const List<_Fac> _extraDummy = [
-    _Fac(id: 'RG-101', name: 'Ruang Kelas A.101', type: 'Ruangan', building: 'Gedung A', floor: '1', capacity: '40'),
-    _Fac(id: 'RG-102', name: 'Ruang Kelas A.102', type: 'Ruangan', building: 'Gedung A', floor: '1', capacity: '36'),
-    _Fac(id: 'RG-201', name: 'Laboratorium Komputer 1', type: 'Ruangan', building: 'Gedung B', floor: '2', capacity: '30'),
-    _Fac(id: 'RG-202', name: 'Laboratorium Komputer 2', type: 'Ruangan', building: 'Gedung B', floor: '2', capacity: '30'),
-    _Fac(id: 'RG-203', name: 'Laboratorium Jaringan', type: 'Ruangan', building: 'Gedung B', floor: '3', capacity: '24'),
-    _Fac(id: 'RG-204', name: 'Laboratorium Fisika', type: 'Ruangan', building: 'Gedung C', floor: '1', capacity: '28'),
-    _Fac(id: 'RG-301', name: 'Ruang Seminar S.301', type: 'Ruangan', building: 'Gedung C', floor: '3', capacity: '80'),
-    _Fac(id: 'RG-302', name: 'Aula Utama', type: 'Ruangan', building: 'Gedung Rektorat', floor: '1', capacity: '250'),
-    _Fac(id: 'RG-303', name: 'Auditorium Kampus', type: 'Ruangan', building: 'Gedung Rektorat', floor: '2', capacity: '400'),
-    _Fac(id: 'RG-304', name: 'Ruang Rapat Dekanat', type: 'Ruangan', building: 'Gedung D', floor: '2', capacity: '16'),
-    _Fac(id: 'RG-305', name: 'Ruang Diskusi 2', type: 'Ruangan', building: 'Perpustakaan', floor: '2', capacity: '12'),
-    _Fac(id: 'RG-306', name: 'Studio Multimedia', type: 'Ruangan', building: 'Gedung D', floor: '1', capacity: '20'),
-    _Fac(id: 'RG-307', name: 'Ruang Sidang Skripsi', type: 'Ruangan', building: 'Gedung D', floor: '3', capacity: '15'),
-    _Fac(id: 'AL-101', name: 'Proyektor Epson EB-X06', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-102', name: 'Proyektor BenQ MX550', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-103', name: 'Laptop Lenovo ThinkPad E14', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-104', name: 'Laptop ASUS Vivobook 14', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-105', name: 'Komputer Dell OptiPlex', type: 'Peralatan', building: 'Gedung B', floor: '2', capacity: '1'),
-    _Fac(id: 'AL-106', name: 'Kamera Sony A6400', type: 'Peralatan', building: 'Studio Multimedia', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-107', name: 'Kamera Canon EOS 200D', type: 'Peralatan', building: 'Studio Multimedia', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-108', name: 'Speaker Portable JBL', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-109', name: 'Mikrofon Wireless Shure', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '2'),
-    _Fac(id: 'AL-110', name: 'Papan Tulis Portable', type: 'Peralatan', building: 'Gedung A', floor: '1', capacity: '1'),
-    _Fac(id: 'AL-111', name: 'Whiteboard Mobile', type: 'Peralatan', building: 'Gedung A', floor: '2', capacity: '1'),
-    _Fac(id: 'AL-112', name: 'Proyektor Portable Mini', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
+    _Fac(
+      id: 'RG-101',
+      name: 'Ruang Kelas A.101',
+      type: 'Ruangan',
+      building: 'Gedung A',
+      floor: '1',
+      capacity: '40',
+    ),
+    _Fac(
+      id: 'RG-102',
+      name: 'Ruang Kelas A.102',
+      type: 'Ruangan',
+      building: 'Gedung A',
+      floor: '1',
+      capacity: '36',
+    ),
+    _Fac(
+      id: 'RG-201',
+      name: 'Laboratorium Komputer 1',
+      type: 'Ruangan',
+      building: 'Gedung B',
+      floor: '2',
+      capacity: '30',
+    ),
+    _Fac(
+      id: 'RG-202',
+      name: 'Laboratorium Komputer 2',
+      type: 'Ruangan',
+      building: 'Gedung B',
+      floor: '2',
+      capacity: '30',
+    ),
+    _Fac(
+      id: 'RG-203',
+      name: 'Laboratorium Jaringan',
+      type: 'Ruangan',
+      building: 'Gedung B',
+      floor: '3',
+      capacity: '24',
+    ),
+    _Fac(
+      id: 'RG-204',
+      name: 'Laboratorium Fisika',
+      type: 'Ruangan',
+      building: 'Gedung C',
+      floor: '1',
+      capacity: '28',
+    ),
+    _Fac(
+      id: 'RG-301',
+      name: 'Ruang Seminar S.301',
+      type: 'Ruangan',
+      building: 'Gedung C',
+      floor: '3',
+      capacity: '80',
+    ),
+    _Fac(
+      id: 'RG-302',
+      name: 'Aula Utama',
+      type: 'Ruangan',
+      building: 'Gedung Rektorat',
+      floor: '1',
+      capacity: '250',
+    ),
+    _Fac(
+      id: 'RG-303',
+      name: 'Auditorium Kampus',
+      type: 'Ruangan',
+      building: 'Gedung Rektorat',
+      floor: '2',
+      capacity: '400',
+    ),
+    _Fac(
+      id: 'RG-304',
+      name: 'Ruang Rapat Dekanat',
+      type: 'Ruangan',
+      building: 'Gedung D',
+      floor: '2',
+      capacity: '16',
+    ),
+    _Fac(
+      id: 'RG-305',
+      name: 'Ruang Diskusi 2',
+      type: 'Ruangan',
+      building: 'Perpustakaan',
+      floor: '2',
+      capacity: '12',
+    ),
+    _Fac(
+      id: 'RG-306',
+      name: 'Studio Multimedia',
+      type: 'Ruangan',
+      building: 'Gedung D',
+      floor: '1',
+      capacity: '20',
+    ),
+    _Fac(
+      id: 'RG-307',
+      name: 'Ruang Sidang Skripsi',
+      type: 'Ruangan',
+      building: 'Gedung D',
+      floor: '3',
+      capacity: '15',
+    ),
+    _Fac(
+      id: 'AL-101',
+      name: 'Proyektor Epson EB-X06',
+      type: 'Peralatan',
+      building: 'Gudang Inventaris',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-102',
+      name: 'Proyektor BenQ MX550',
+      type: 'Peralatan',
+      building: 'Gudang Inventaris',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-103',
+      name: 'Laptop Lenovo ThinkPad E14',
+      type: 'Peralatan',
+      building: 'Gudang Inventaris',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-104',
+      name: 'Laptop ASUS Vivobook 14',
+      type: 'Peralatan',
+      building: 'Gudang Inventaris',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-105',
+      name: 'Komputer Dell OptiPlex',
+      type: 'Peralatan',
+      building: 'Gedung B',
+      floor: '2',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-106',
+      name: 'Kamera Sony A6400',
+      type: 'Peralatan',
+      building: 'Studio Multimedia',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-107',
+      name: 'Kamera Canon EOS 200D',
+      type: 'Peralatan',
+      building: 'Studio Multimedia',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-108',
+      name: 'Speaker Portable JBL',
+      type: 'Peralatan',
+      building: 'Gudang Inventaris',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-109',
+      name: 'Mikrofon Wireless Shure',
+      type: 'Peralatan',
+      building: 'Gudang Inventaris',
+      floor: '1',
+      capacity: '2',
+    ),
+    _Fac(
+      id: 'AL-110',
+      name: 'Papan Tulis Portable',
+      type: 'Peralatan',
+      building: 'Gedung A',
+      floor: '1',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-111',
+      name: 'Whiteboard Mobile',
+      type: 'Peralatan',
+      building: 'Gedung A',
+      floor: '2',
+      capacity: '1',
+    ),
+    _Fac(
+      id: 'AL-112',
+      name: 'Proyektor Portable Mini',
+      type: 'Peralatan',
+      building: 'Gudang Inventaris',
+      floor: '1',
+      capacity: '1',
+    ),
   ];
 
   int _capacityOf(_Fac f) {
@@ -289,7 +464,9 @@ class _DasborPageState extends State<DasborPage> {
         SnackBar(
           behavior: SnackBarBehavior.floating,
           backgroundColor: AppColors.textDark,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           content: Row(
             children: [
               Icon(icon, color: Colors.white, size: 20),
@@ -339,7 +516,11 @@ class _DasborPageState extends State<DasborPage> {
                           color: const Color(0xFFEAF6F4),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(n.icon, color: AppColors.darkTeal, size: 20),
+                        child: Icon(
+                          n.icon,
+                          color: AppColors.darkTeal,
+                          size: 20,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -414,33 +595,30 @@ class _DasborPageState extends State<DasborPage> {
       ),
       builder: (sheetContext) {
         Widget row(IconData icon, String label, String value) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: [
-                  Icon(icon, size: 20, color: AppColors.darkTeal),
-                  const SizedBox(width: 12),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: AppColors.textGrey,
-                      fontSize: 13,
-                    ),
-                  ),
-                  const Spacer(),
-                  Flexible(
-                    child: Text(
-                      value,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        color: AppColors.textDark,
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ],
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              Icon(icon, size: 20, color: AppColors.darkTeal),
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style: const TextStyle(color: AppColors.textGrey, fontSize: 13),
               ),
-            );
+              const Spacer(),
+              Flexible(
+                child: Text(
+                  value,
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    color: AppColors.textDark,
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
 
         return SafeArea(
           child: SingleChildScrollView(
@@ -553,6 +731,10 @@ class _DasborPageState extends State<DasborPage> {
     if (borrow == true && mounted) await _showBookingSheet(f);
   }
 
+  Future<void> _showSearchFacilityDetail(Facility facility) async {
+    await _showFacilityDetail(_Fac.from(facility));
+  }
+
   Future<void> _showBookingSheet(_Fac f) async {
     DateTime? date;
     TimeOfDay? start;
@@ -586,8 +768,10 @@ class _DasborPageState extends State<DasborPage> {
               onTap: onTap,
               borderRadius: BorderRadius.circular(14),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF6F9F8),
                   borderRadius: BorderRadius.circular(14),
@@ -606,7 +790,9 @@ class _DasborPageState extends State<DasborPage> {
                         value ?? label,
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: filled ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight: filled
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                           color: filled ? AppColors.textDark : Colors.grey,
                         ),
                       ),
@@ -722,8 +908,11 @@ class _DasborPageState extends State<DasborPage> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(Icons.error_outline,
-                            size: 16, color: AppColors.error),
+                        const Icon(
+                          Icons.error_outline,
+                          size: 16,
+                          color: AppColors.error,
+                        ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
@@ -745,14 +934,15 @@ class _DasborPageState extends State<DasborPage> {
                       onPressed: () {
                         if (date == null || start == null || end == null) {
                           setSheet(
-                            () => error = 'Lengkapi tanggal dan jam peminjaman.',
+                            () =>
+                                error = 'Lengkapi tanggal dan jam peminjaman.',
                           );
                           return;
                         }
                         if (mins(end!) <= mins(start!)) {
                           setSheet(
-                            () => error =
-                                'Jam selesai harus setelah jam mulai.',
+                            () =>
+                                error = 'Jam selesai harus setelah jam mulai.',
                           );
                           return;
                         }
@@ -804,7 +994,7 @@ class _DasborPageState extends State<DasborPage> {
           index: _navIndex,
           children: [
             _buildDashboard(context),
-            const FacilitySearchPage(),
+            FacilitySearchPage(onFacilitySelected: _showSearchFacilityDetail),
             const LoanHistoryPage(),
             const ProfilePage(),
           ],
@@ -837,12 +1027,7 @@ class _DasborPageState extends State<DasborPage> {
           ),
         ),
         if (searching) Positioned.fill(child: _buildSearchResults()),
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: _buildHeader(context),
-        ),
+        Positioned(top: 0, left: 0, right: 0, child: _buildHeader(context)),
       ],
     );
   }
@@ -1310,8 +1495,10 @@ class _DasborPageState extends State<DasborPage> {
     final filtered = _filteredFacilities;
     final pageCount = _pageCountFor(filtered.length);
     final page = _currentPage.clamp(1, pageCount).toInt();
-    final items =
-        filtered.skip((page - 1) * _itemsPerPage).take(_itemsPerPage).toList();
+    final items = filtered
+        .skip((page - 1) * _itemsPerPage)
+        .take(_itemsPerPage)
+        .toList();
 
     final listKey = ValueKey(
       '$_selectedCategory-$page-$_capacityFilter-$_equipmentFilter-'
@@ -1346,8 +1533,11 @@ class _DasborPageState extends State<DasborPage> {
                         color: Colors.white.withValues(alpha: 0.14),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(Icons.bolt,
-                          color: Color(0xFFFFC107), size: 22),
+                      child: const Icon(
+                        Icons.bolt,
+                        color: Color(0xFFFFC107),
+                        size: 22,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     const Expanded(
@@ -1619,8 +1809,10 @@ class _DasborPageState extends State<DasborPage> {
               }),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 8,
+                ),
                 decoration: BoxDecoration(
                   color: selected ? Colors.white : Colors.transparent,
                   borderRadius: BorderRadius.circular(14),
@@ -1723,123 +1915,129 @@ class _DasborPageState extends State<DasborPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.18),
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.18),
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+              ),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    arrow(
+                      key: const ValueKey('recommendation-previous'),
+                      tooltip: 'Sebelumnya',
+                      icon: Icons.chevron_left_rounded,
+                      onTap: canPrev
+                          ? () => _goToPage(page - 1, pageCount)
+                          : null,
+                    ),
+                    const SizedBox(width: 6),
+                    for (final t in tokens)
+                      if (t == -1)
+                        const SizedBox(
+                          width: 26,
+                          height: 44,
+                          child: Center(
+                            child: Text(
+                              '…',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        )
+                      else
+                        Semantics(
+                          button: true,
+                          selected: t == page,
+                          label: 'Halaman $t',
+                          child: GestureDetector(
+                            onTap: () => _goToPage(t, pageCount),
+                            behavior: HitTestBehavior.opaque,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 2,
+                              ),
+                              child: AnimatedContainer(
+                                key: ValueKey('recommendation-page-$t'),
+                                duration: const Duration(milliseconds: 220),
+                                curve: Curves.easeOutBack,
+                                width: t == page ? 46 : 40,
+                                height: t == page ? 46 : 40,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: t == page
+                                      ? const Color(0xFFFFC107)
+                                      : Colors.white.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(
+                                    t == page ? 16 : 14,
+                                  ),
+                                  boxShadow: t == page
+                                      ? [
+                                          BoxShadow(
+                                            color: const Color(0xFFFFC107)
+                                                .withValues(alpha: 0.45),
+                                            blurRadius: 12,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ]
+                                      : null,
+                                ),
+                                child: Text(
+                                  '$t',
+                                  style: TextStyle(
+                                    fontSize: t == page ? 16 : 14,
+                                    fontWeight: FontWeight.w800,
+                                    color: t == page ? _deepTeal : Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    const SizedBox(width: 6),
+                    arrow(
+                      key: const ValueKey('recommendation-next'),
+                      tooltip: 'Berikutnya',
+                      icon: Icons.chevron_right_rounded,
+                      onTap: canNext
+                          ? () => _goToPage(page + 1, pageCount)
+                          : null,
+                    ),
+                  ],
+                ),
+              ),
             ),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+            const SizedBox(height: 10),
+            Text.rich(
+              TextSpan(
+                style: const TextStyle(
+                  color: Color(0xFFCFE3E0),
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w600,
+                ),
                 children: [
-                  arrow(
-                    key: const ValueKey('recommendation-previous'),
-                    tooltip: 'Sebelumnya',
-                    icon: Icons.chevron_left_rounded,
-                    onTap: canPrev ? () => _goToPage(page - 1, pageCount) : null,
+                  const TextSpan(text: 'Halaman '),
+                  TextSpan(
+                    text: '$page dari $pageCount',
+                    style: const TextStyle(
+                      color: Color(0xFFFFC107),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                  const SizedBox(width: 6),
-                  for (final t in tokens)
-                    if (t == -1)
-                      const SizedBox(
-                        width: 26,
-                        height: 44,
-                        child: Center(
-                          child: Text(
-                            '…',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      )
-                    else
-                      Semantics(
-                        button: true,
-                        selected: t == page,
-                        label: 'Halaman $t',
-                        child: GestureDetector(
-                          onTap: () => _goToPage(t, pageCount),
-                          behavior: HitTestBehavior.opaque,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child: AnimatedContainer(
-                              key: ValueKey('recommendation-page-$t'),
-                              duration: const Duration(milliseconds: 220),
-                              curve: Curves.easeOutBack,
-                              width: t == page ? 46 : 40,
-                              height: t == page ? 46 : 40,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: t == page
-                                    ? const Color(0xFFFFC107)
-                                    : Colors.white.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(
-                                  t == page ? 16 : 14,
-                                ),
-                                boxShadow: t == page
-                                    ? [
-                                        BoxShadow(
-                                          color: const Color(0xFFFFC107)
-                                              .withValues(alpha: 0.45),
-                                          blurRadius: 12,
-                                          offset: const Offset(0, 4),
-                                        ),
-                                      ]
-                                    : null,
-                              ),
-                              child: Text(
-                                '$t',
-                                style: TextStyle(
-                                  fontSize: t == page ? 16 : 14,
-                                  fontWeight: FontWeight.w800,
-                                  color: t == page ? _deepTeal : Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                  const SizedBox(width: 6),
-                  arrow(
-                    key: const ValueKey('recommendation-next'),
-                    tooltip: 'Berikutnya',
-                    icon: Icons.chevron_right_rounded,
-                    onTap: canNext ? () => _goToPage(page + 1, pageCount) : null,
-                  ),
+                  TextSpan(text: '  ·  $total fasilitas'),
                 ],
               ),
+              textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(height: 10),
-          Text.rich(
-            TextSpan(
-              style: const TextStyle(
-                color: Color(0xFFCFE3E0),
-                fontSize: 12.5,
-                fontWeight: FontWeight.w600,
-              ),
-              children: [
-                const TextSpan(text: 'Halaman '),
-                TextSpan(
-                  text: '$page dari $pageCount',
-                  style: const TextStyle(
-                    color: Color(0xFFFFC107),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                TextSpan(text: '  ·  $total fasilitas'),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
         ),
       ),
     );
@@ -1946,8 +2144,11 @@ class _FacilityCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.apartment,
-                            size: 12, color: Colors.white),
+                        const Icon(
+                          Icons.apartment,
+                          size: 12,
+                          color: Colors.white,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           facility.building,
@@ -2109,13 +2310,13 @@ class _Fac {
   });
 
   factory _Fac.from(Facility f) => _Fac(
-        id: '${f.id}',
-        name: '${f.name}',
-        type: '${f.type}',
-        building: '${f.building}',
-        floor: '${f.floor}',
-        capacity: '${f.capacity}',
-      );
+    id: '${f.id}',
+    name: '${f.name}',
+    type: '${f.type}',
+    building: '${f.building}',
+    floor: '${f.floor}',
+    capacity: '${f.capacity}',
+  );
 
   final String id;
   final String name;
