@@ -166,6 +166,29 @@ void main() {
     expect(find.text('Mau pinjem apa nih hari ini?'), findsOneWidget);
   });
 
+  testWidgets('search result opens facility details and loan request', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(800, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const MaterialApp(home: DasborPage()));
+    await tester.tap(find.text('Pencarian'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('search-facility-AL01')));
+    await tester.pumpAndSettle();
+    expect(find.text('Proyektor Epson 4K'), findsNWidgets(2));
+    expect(find.text('Kode AL01'), findsOneWidget);
+
+    await tester.tap(find.text('Pinjam Sekarang'));
+    await tester.pumpAndSettle();
+    expect(find.text('Ajukan Peminjaman'), findsOneWidget);
+    expect(find.text('Keperluan peminjaman'), findsOneWidget);
+  });
+
   testWidgets('back from a secondary tab returns to the dashboard', (
     WidgetTester tester,
   ) async {
