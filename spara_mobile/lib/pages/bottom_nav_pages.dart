@@ -7,14 +7,21 @@ const _teal = Color(0xFF08766C);
 const _pageBackground = Color(0xFFF5F4EE);
 
 class FacilitySearchPage extends StatefulWidget {
-  const FacilitySearchPage({super.key});
+  const FacilitySearchPage({super.key, required this.onFacilitySelected});
+
+  final Future<void> Function(Facility facility) onFacilitySelected;
 
   @override
   State<FacilitySearchPage> createState() => _FacilitySearchPageState();
 }
 
 class _FacilitySearchPageState extends State<FacilitySearchPage> {
-  static const _statusFilters = ['Semua', 'Tersedia', 'Dipinjam', 'Maintenance'];
+  static const _statusFilters = [
+    'Semua',
+    'Tersedia',
+    'Dipinjam',
+    'Maintenance',
+  ];
 
   final _searchController = TextEditingController();
   String _query = '';
@@ -77,8 +84,10 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
                       padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
                       itemCount: results.length,
                       separatorBuilder: (_, _) => const SizedBox(height: 10),
-                      itemBuilder: (context, index) =>
-                          _SearchResultCard(facility: results[index]),
+                      itemBuilder: (context, index) => _SearchResultCard(
+                        facility: results[index],
+                        onTap: () => widget.onFacilitySelected(results[index]),
+                      ),
                     ),
             ),
           ],
@@ -228,8 +237,11 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
             return ChoiceChip(
               avatar: icon == null
                   ? null
-                  : Icon(icon,
-                      size: 18, color: selected ? Colors.white : _teal),
+                  : Icon(
+                      icon,
+                      size: 18,
+                      color: selected ? Colors.white : _teal,
+                    ),
               label: Text(label),
               selected: selected,
               onSelected: (_) => onTap(),
@@ -242,8 +254,7 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
                 fontWeight: FontWeight.w600,
                 color: selected ? Colors.white : AppColors.textDark,
               ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -251,16 +262,16 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
           }
 
           Widget sectionTitle(String text) => Padding(
-                padding: const EdgeInsets.only(bottom: 10, top: 6),
-                child: Text(
-                  text,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textDark,
-                  ),
-                ),
-              );
+            padding: const EdgeInsets.only(bottom: 10, top: 6),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textDark,
+              ),
+            ),
+          );
 
           return SafeArea(
             child: SingleChildScrollView(
@@ -305,8 +316,7 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
                         chip(
                           label: option,
                           selected: draftCategory == option,
-                          onTap: () =>
-                              setSheet(() => draftCategory = option),
+                          onTap: () => setSheet(() => draftCategory = option),
                         ),
                     ],
                   ),
@@ -357,9 +367,10 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
 }
 
 class _SearchResultCard extends StatelessWidget {
-  const _SearchResultCard({required this.facility});
+  const _SearchResultCard({required this.facility, required this.onTap});
 
   final Facility facility;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -378,8 +389,9 @@ class _SearchResultCard extends StatelessWidget {
         ],
       ),
       child: InkWell(
+        key: ValueKey('search-facility-${facility.id}'),
         borderRadius: BorderRadius.circular(14),
-        onTap: () {},
+        onTap: onTap,
         child: Row(
           children: [
             ClipRRect(
@@ -419,29 +431,12 @@ class _SearchResultCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   _StatusBadge(status: facility.status),
                   const SizedBox(height: 6),
-                  Row(
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 4,
                     children: [
-                      Icon(Icons.apartment,
-                          size: 12, color: Colors.grey.shade600),
-                      const SizedBox(width: 3),
-                      Text(
-                        facility.building,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Icon(Icons.stairs,
-                          size: 12, color: Colors.grey.shade600),
-                      const SizedBox(width: 3),
-                      Text(
-                        facility.floor,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
+                      _locationLabel(Icons.apartment, facility.building),
+                      _locationLabel(Icons.stairs, facility.floor),
                     ],
                   ),
                 ],
@@ -450,6 +445,20 @@ class _SearchResultCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _locationLabel(IconData icon, String value) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 12, color: Colors.grey.shade600),
+        const SizedBox(width: 3),
+        Text(
+          value,
+          style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+        ),
+      ],
     );
   }
 }

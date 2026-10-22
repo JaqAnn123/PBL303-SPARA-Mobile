@@ -60,8 +60,9 @@ class _DasborPageState extends State<DasborPage> {
 
   List<Facility> get _filteredFacilities {
     final category = _selectedCategory == 0 ? 'Ruangan' : 'Peralatan';
-    final chip =
-        _selectedChip == null ? null : _chips[_selectedChip!].label.toLowerCase();
+    final chip = _selectedChip == null
+        ? null
+        : _chips[_selectedChip!].label.toLowerCase();
     return dummyFacilities.where((f) {
       if (f.type != category) return false;
       if (chip == null) return true;
@@ -98,7 +99,9 @@ class _DasborPageState extends State<DasborPage> {
         SnackBar(
           behavior: SnackBarBehavior.floating,
           backgroundColor: AppColors.textDark,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           content: Row(
             children: [
               Icon(icon, color: Colors.white, size: 20),
@@ -148,7 +151,11 @@ class _DasborPageState extends State<DasborPage> {
                           color: const Color(0xFFEAF6F4),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(n.icon, color: AppColors.darkTeal, size: 20),
+                        child: Icon(
+                          n.icon,
+                          color: AppColors.darkTeal,
+                          size: 20,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -222,33 +229,30 @@ class _DasborPageState extends State<DasborPage> {
       ),
       builder: (sheetContext) {
         Widget row(IconData icon, String label, String value) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: [
-                  Icon(icon, size: 20, color: AppColors.darkTeal),
-                  const SizedBox(width: 12),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: AppColors.textGrey,
-                      fontSize: 13,
-                    ),
-                  ),
-                  const Spacer(),
-                  Flexible(
-                    child: Text(
-                      value,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        color: AppColors.textDark,
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ],
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              Icon(icon, size: 20, color: AppColors.darkTeal),
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style: const TextStyle(color: AppColors.textGrey, fontSize: 13),
               ),
-            );
+              const Spacer(),
+              Flexible(
+                child: Text(
+                  value,
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    color: AppColors.textDark,
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
 
         return SafeArea(
           child: Padding(
@@ -378,8 +382,10 @@ class _DasborPageState extends State<DasborPage> {
               onTap: onTap,
               borderRadius: BorderRadius.circular(14),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF6F9F8),
                   borderRadius: BorderRadius.circular(14),
@@ -398,7 +404,9 @@ class _DasborPageState extends State<DasborPage> {
                         value ?? label,
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: filled ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight: filled
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                           color: filled ? AppColors.textDark : Colors.grey,
                         ),
                       ),
@@ -514,8 +522,11 @@ class _DasborPageState extends State<DasborPage> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(Icons.error_outline,
-                            size: 16, color: AppColors.error),
+                        const Icon(
+                          Icons.error_outline,
+                          size: 16,
+                          color: AppColors.error,
+                        ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
@@ -537,14 +548,15 @@ class _DasborPageState extends State<DasborPage> {
                       onPressed: () {
                         if (date == null || start == null || end == null) {
                           setSheet(
-                            () => error = 'Lengkapi tanggal dan jam peminjaman.',
+                            () =>
+                                error = 'Lengkapi tanggal dan jam peminjaman.',
                           );
                           return;
                         }
                         if (mins(end!) <= mins(start!)) {
                           setSheet(
-                            () => error =
-                                'Jam selesai harus setelah jam mulai.',
+                            () =>
+                                error = 'Jam selesai harus setelah jam mulai.',
                           );
                           return;
                         }
@@ -596,7 +608,7 @@ class _DasborPageState extends State<DasborPage> {
           index: _navIndex,
           children: [
             _buildDashboard(context),
-            const FacilitySearchPage(),
+            FacilitySearchPage(onFacilitySelected: _showFacilityDetail),
             const LoanHistoryPage(),
             const ProfilePage(),
           ],
@@ -739,8 +751,11 @@ class _DasborPageState extends State<DasborPage> {
                             padding: EdgeInsets.symmetric(horizontal: 14),
                             child: Row(
                               children: [
-                                Icon(Icons.search,
-                                    color: AppColors.darkTeal, size: 22),
+                                Icon(
+                                  Icons.search,
+                                  color: AppColors.darkTeal,
+                                  size: 22,
+                                ),
                                 SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
@@ -752,8 +767,11 @@ class _DasborPageState extends State<DasborPage> {
                                     ),
                                   ),
                                 ),
-                                Icon(Icons.tune,
-                                    color: AppColors.accentTeal, size: 20),
+                                Icon(
+                                  Icons.tune,
+                                  color: AppColors.accentTeal,
+                                  size: 20,
+                                ),
                               ],
                             ),
                           ),
@@ -956,8 +974,10 @@ class _DasborPageState extends State<DasborPage> {
     final filtered = _filteredFacilities;
     final pageCount = _pageCountFor(filtered.length);
     final page = _currentPage.clamp(1, pageCount).toInt();
-    final items =
-        filtered.skip((page - 1) * _itemsPerPage).take(_itemsPerPage).toList();
+    final items = filtered
+        .skip((page - 1) * _itemsPerPage)
+        .take(_itemsPerPage)
+        .toList();
 
     return Container(
       key: const ValueKey('recommendation-panel'),
@@ -987,8 +1007,11 @@ class _DasborPageState extends State<DasborPage> {
                         color: Colors.white.withValues(alpha: 0.14),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(Icons.bolt,
-                          color: Color(0xFFFFC107), size: 22),
+                      child: const Icon(
+                        Icons.bolt,
+                        color: Color(0xFFFFC107),
+                        size: 22,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     const Expanded(
@@ -1102,8 +1125,10 @@ class _DasborPageState extends State<DasborPage> {
               }),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 8,
+                ),
                 decoration: BoxDecoration(
                   color: selected ? Colors.white : Colors.transparent,
                   borderRadius: BorderRadius.circular(14),
@@ -1339,8 +1364,11 @@ class _FacilityCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.apartment,
-                            size: 12, color: Colors.white),
+                        const Icon(
+                          Icons.apartment,
+                          size: 12,
+                          color: Colors.white,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           facility.building,
