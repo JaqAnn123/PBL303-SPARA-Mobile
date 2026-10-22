@@ -25,10 +25,47 @@ class _DasborPageState extends State<DasborPage> {
     (label: 'Peralatan & Inventaris', icon: Icons.devices_outlined),
   ];
 
-  static const _chips = [
-    (label: 'Proyektor', icon: Icons.view_in_ar_outlined),
+  static const _capacityRanges = [
+    (label: '≤ 20 orang', min: 0, max: 20),
+    (label: '21–40 orang', min: 21, max: 40),
+    (label: '> 40 orang', min: 41, max: 100000),
+  ];
+
+  static const _roomFacilityOptions = [
+    (label: 'Proyektor', icon: Icons.video_camera_front_outlined),
+    (label: 'AC', icon: Icons.ac_unit),
+    (label: 'Wi-Fi', icon: Icons.wifi),
+    (label: 'Papan Tulis', icon: Icons.draw_outlined),
     (label: 'Komputer', icon: Icons.computer_outlined),
-    (label: 'Papan Tulis', icon: Icons.desktop_windows_outlined),
+    (label: 'Sound System', icon: Icons.speaker_outlined),
+  ];
+
+  static const _equipmentTypes = [
+    (
+      label: 'Proyektor',
+      icon: Icons.video_camera_front_outlined,
+      keywords: ['proyektor', 'projector'],
+    ),
+    (
+      label: 'Komputer / Laptop',
+      icon: Icons.computer_outlined,
+      keywords: ['komputer', 'laptop', 'pc', 'notebook'],
+    ),
+    (
+      label: 'Kamera',
+      icon: Icons.photo_camera_outlined,
+      keywords: ['kamera', 'camera'],
+    ),
+    (
+      label: 'Audio',
+      icon: Icons.mic_none_outlined,
+      keywords: ['speaker', 'mikrofon', 'microphone', 'audio', 'sound'],
+    ),
+    (
+      label: 'Papan Tulis',
+      icon: Icons.draw_outlined,
+      keywords: ['papan', 'whiteboard'],
+    ),
   ];
 
   static const _notifications = [
@@ -52,20 +89,151 @@ class _DasborPageState extends State<DasborPage> {
     ),
   ];
 
+  final GlobalKey _headerKey = GlobalKey();
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocus = FocusNode();
+
+  double _headerHeight = 220;
+  String _query = '';
+
   int _navIndex = 0;
   int _selectedCategory = 0;
   int _currentPage = 1;
-  int? _selectedChip;
   bool _hasUnread = true;
 
-  List<Facility> get _filteredFacilities {
-    final category = _selectedCategory == 0 ? 'Ruangan' : 'Peralatan';
-    final chip =
-        _selectedChip == null ? null : _chips[_selectedChip!].label.toLowerCase();
-    return dummyFacilities.where((f) {
+  int? _capacityFilter;
+  final Set<String> _roomFacilityFilters = <String>{};
+  int? _equipmentFilter;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
+  late final List<_Fac> _allFacilities = [
+    ...dummyFacilities.map(_Fac.from),
+    ..._extraDummy,
+  ];
+
+  static const List<_Fac> _extraDummy = [
+    _Fac(id: 'RG-101', name: 'Ruang Kelas A.101', type: 'Ruangan', building: 'Gedung A', floor: '1', capacity: '40'),
+    _Fac(id: 'RG-102', name: 'Ruang Kelas A.102', type: 'Ruangan', building: 'Gedung A', floor: '1', capacity: '36'),
+    _Fac(id: 'RG-201', name: 'Laboratorium Komputer 1', type: 'Ruangan', building: 'Gedung B', floor: '2', capacity: '30'),
+    _Fac(id: 'RG-202', name: 'Laboratorium Komputer 2', type: 'Ruangan', building: 'Gedung B', floor: '2', capacity: '30'),
+    _Fac(id: 'RG-203', name: 'Laboratorium Jaringan', type: 'Ruangan', building: 'Gedung B', floor: '3', capacity: '24'),
+    _Fac(id: 'RG-204', name: 'Laboratorium Fisika', type: 'Ruangan', building: 'Gedung C', floor: '1', capacity: '28'),
+    _Fac(id: 'RG-301', name: 'Ruang Seminar S.301', type: 'Ruangan', building: 'Gedung C', floor: '3', capacity: '80'),
+    _Fac(id: 'RG-302', name: 'Aula Utama', type: 'Ruangan', building: 'Gedung Rektorat', floor: '1', capacity: '250'),
+    _Fac(id: 'RG-303', name: 'Auditorium Kampus', type: 'Ruangan', building: 'Gedung Rektorat', floor: '2', capacity: '400'),
+    _Fac(id: 'RG-304', name: 'Ruang Rapat Dekanat', type: 'Ruangan', building: 'Gedung D', floor: '2', capacity: '16'),
+    _Fac(id: 'RG-305', name: 'Ruang Diskusi 2', type: 'Ruangan', building: 'Perpustakaan', floor: '2', capacity: '12'),
+    _Fac(id: 'RG-306', name: 'Studio Multimedia', type: 'Ruangan', building: 'Gedung D', floor: '1', capacity: '20'),
+    _Fac(id: 'RG-307', name: 'Ruang Sidang Skripsi', type: 'Ruangan', building: 'Gedung D', floor: '3', capacity: '15'),
+    _Fac(id: 'AL-101', name: 'Proyektor Epson EB-X06', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-102', name: 'Proyektor BenQ MX550', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-103', name: 'Laptop Lenovo ThinkPad E14', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-104', name: 'Laptop ASUS Vivobook 14', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-105', name: 'Komputer Dell OptiPlex', type: 'Peralatan', building: 'Gedung B', floor: '2', capacity: '1'),
+    _Fac(id: 'AL-106', name: 'Kamera Sony A6400', type: 'Peralatan', building: 'Studio Multimedia', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-107', name: 'Kamera Canon EOS 200D', type: 'Peralatan', building: 'Studio Multimedia', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-108', name: 'Speaker Portable JBL', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-109', name: 'Mikrofon Wireless Shure', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '2'),
+    _Fac(id: 'AL-110', name: 'Papan Tulis Portable', type: 'Peralatan', building: 'Gedung A', floor: '1', capacity: '1'),
+    _Fac(id: 'AL-111', name: 'Whiteboard Mobile', type: 'Peralatan', building: 'Gedung A', floor: '2', capacity: '1'),
+    _Fac(id: 'AL-112', name: 'Proyektor Portable Mini', type: 'Peralatan', building: 'Gudang Inventaris', floor: '1', capacity: '1'),
+  ];
+
+  int _capacityOf(_Fac f) {
+    final m = RegExp(r'\d+').firstMatch('${f.capacity}');
+    return int.tryParse(m?.group(0) ?? '') ?? 0;
+  }
+
+  List<String> _roomFacilitiesOf(_Fac f) {
+    final n = f.name.toLowerCase();
+    final s = <String>{'AC', 'Wi-Fi'};
+    if (n.contains('lab') || n.contains('komputer')) {
+      s.addAll(['Komputer', 'Proyektor']);
+    }
+    if (n.contains('seminar') ||
+        n.contains('aula') ||
+        n.contains('auditorium')) {
+      s.addAll(['Proyektor', 'Sound System']);
+    }
+    if (n.contains('kelas') || n.contains('ruang')) {
+      s.addAll(['Proyektor', 'Papan Tulis']);
+    }
+    if (_capacityOf(f) > 40) s.add('Sound System');
+    return s.toList();
+  }
+
+  bool _matchesEquipment(
+    _Fac f,
+    ({String label, IconData icon, List<String> keywords}) type,
+  ) {
+    final n = f.name.toLowerCase();
+    return type.keywords.any(n.contains);
+  }
+
+  String _equipmentLabelFor(_Fac f) {
+    for (final t in _equipmentTypes) {
+      if (_matchesEquipment(f, t)) return t.label;
+    }
+    return 'Lainnya';
+  }
+
+  List<String> _tagsFor(_Fac f) => f.type == 'Ruangan'
+      ? _roomFacilitiesOf(f)
+      : <String>[_equipmentLabelFor(f)];
+
+  bool get _hasActiveFilter => _selectedCategory == 0
+      ? (_capacityFilter != null || _roomFacilityFilters.isNotEmpty)
+      : _equipmentFilter != null;
+
+  void _resetFilters() {
+    setState(() {
+      if (_selectedCategory == 0) {
+        _capacityFilter = null;
+        _roomFacilityFilters.clear();
+      } else {
+        _equipmentFilter = null;
+      }
+      _currentPage = 1;
+    });
+  }
+
+  List<_Fac> get _filteredFacilities {
+    final isRoom = _selectedCategory == 0;
+    final category = isRoom ? 'Ruangan' : 'Peralatan';
+    return _allFacilities.where((f) {
       if (f.type != category) return false;
-      if (chip == null) return true;
-      return '${f.name} ${f.type} ${f.building}'.toLowerCase().contains(chip);
+      if (isRoom) {
+        if (_capacityFilter != null) {
+          final r = _capacityRanges[_capacityFilter!];
+          final cap = _capacityOf(f);
+          if (cap < r.min || cap > r.max) return false;
+        }
+        if (_roomFacilityFilters.isNotEmpty) {
+          final has = _roomFacilitiesOf(f);
+          if (!_roomFacilityFilters.every(has.contains)) return false;
+        }
+        return true;
+      }
+      if (_equipmentFilter == null) return true;
+      return _matchesEquipment(f, _equipmentTypes[_equipmentFilter!]);
+    }).toList();
+  }
+
+  List<_Fac> get _searchResults {
+    final q = _query.trim().toLowerCase();
+    if (q.isEmpty) return const [];
+    final terms = q.split(RegExp(r'\s+'));
+    return _allFacilities.where((f) {
+      final hay =
+          '${f.name} ${f.id} ${f.type} ${f.building} lantai ${f.floor} ${_tagsFor(f).join(' ')}'
+              .toLowerCase();
+      return terms.every(hay.contains);
     }).toList();
   }
 
@@ -74,21 +242,44 @@ class _DasborPageState extends State<DasborPage> {
 
   String get _greeting {
     final h = DateTime.now().hour;
-    if (h < 11) return 'Selamat pagi,';
-    if (h < 15) return 'Selamat siang,';
-    if (h < 18) return 'Selamat sore,';
-    return 'Selamat malam,';
+    if (h < 11) return 'Selamat Pagi,';
+    if (h < 15) return 'Selamat Siang,';
+    if (h < 18) return 'Selamat Sore,';
+    return 'Selamat Malam,';
   }
 
-  void _onNavTap(int index) => setState(() => _navIndex = index);
+  void _onNavTap(int index) {
+    _searchFocus.unfocus();
+    setState(() => _navIndex = index);
+  }
 
   void _onBackToDashboard() {
-    if (_navIndex != 0) setState(() => _navIndex = 0);
+    if (_navIndex != 0) {
+      setState(() => _navIndex = 0);
+    } else if (_query.isNotEmpty) {
+      _clearSearch();
+    }
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    _searchFocus.unfocus();
+    setState(() => _query = '');
   }
 
   void _goToPage(int page, int pageCount) {
     if (page < 1 || page > pageCount) return;
     setState(() => _currentPage = page);
+  }
+
+  void _scheduleHeaderMeasure() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final box = _headerKey.currentContext?.findRenderObject() as RenderBox?;
+      if (box == null || !box.hasSize) return;
+      final h = box.size.height;
+      if ((h - _headerHeight).abs() > 0.5) setState(() => _headerHeight = h);
+    });
   }
 
   void _toast(String message, {IconData icon = Icons.info_outline}) {
@@ -211,7 +402,8 @@ class _DasborPageState extends State<DasborPage> {
     );
   }
 
-  Future<void> _showFacilityDetail(Facility f) async {
+  Future<void> _showFacilityDetail(_Fac f) async {
+    final tags = _tagsFor(f);
     final borrow = await showModalBottomSheet<bool>(
       context: context,
       showDragHandle: true,
@@ -251,7 +443,7 @@ class _DasborPageState extends State<DasborPage> {
             );
 
         return SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -300,6 +492,22 @@ class _DasborPageState extends State<DasborPage> {
                 row(Icons.layers_outlined, 'Lantai', '${f.floor}'),
                 row(Icons.people_outline, 'Kapasitas', '${f.capacity}'),
                 row(Icons.category_outlined, 'Kategori', f.type),
+                if (tags.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    f.type == 'Ruangan' ? 'Fasilitas ruangan' : 'Jenis alat',
+                    style: const TextStyle(
+                      color: AppColors.textGrey,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [for (final t in tags) _TagChip(label: t)],
+                  ),
+                ],
                 const SizedBox(height: 14),
                 Row(
                   children: [
@@ -345,7 +553,7 @@ class _DasborPageState extends State<DasborPage> {
     if (borrow == true && mounted) await _showBookingSheet(f);
   }
 
-  Future<void> _showBookingSheet(Facility f) async {
+  Future<void> _showBookingSheet(_Fac f) async {
     DateTime? date;
     TimeOfDay? start;
     TimeOfDay? end;
@@ -586,7 +794,7 @@ class _DasborPageState extends State<DasborPage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: _navIndex == 0,
+      canPop: _navIndex == 0 && _query.isEmpty,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) _onBackToDashboard();
       },
@@ -610,17 +818,30 @@ class _DasborPageState extends State<DasborPage> {
   }
 
   Widget _buildDashboard(BuildContext context) {
-    return Column(
+    _scheduleHeaderMeasure();
+    final searching = _query.trim().isNotEmpty;
+
+    return Stack(
       children: [
-        _buildHeader(context),
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_buildLoanInfoCard(), _buildRecommendationPanel()],
-            ),
+        Positioned.fill(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: SizedBox(height: _headerHeight)),
+              SliverToBoxAdapter(child: _buildLoanInfoCard()),
+              SliverToBoxAdapter(child: _buildRecommendationPanel()),
+              const SliverFillRemaining(
+                hasScrollBody: false,
+                child: ColoredBox(color: Color(0xFF08766C)),
+              ),
+            ],
           ),
+        ),
+        if (searching) Positioned.fill(child: _buildSearchResults()),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: _buildHeader(context),
         ),
       ],
     );
@@ -628,6 +849,7 @@ class _DasborPageState extends State<DasborPage> {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
+      key: _headerKey,
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: AppColors.headerGradient,
@@ -724,48 +946,180 @@ class _DasborPageState extends State<DasborPage> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Material(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      elevation: 2,
-                      shadowColor: Colors.black26,
-                      child: InkWell(
-                        key: const ValueKey('dashboard-search'),
-                        borderRadius: BorderRadius.circular(14),
-                        onTap: () => _onNavTap(1),
-                        child: const SizedBox(
-                          height: 50,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 14),
-                            child: Row(
-                              children: [
-                                Icon(Icons.search,
-                                    color: AppColors.darkTeal, size: 22),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    'Cari fasilitas kampus...',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Icon(Icons.tune,
-                                    color: AppColors.accentTeal, size: 20),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildSearchField(),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(14),
+      elevation: 2,
+      shadowColor: Colors.black26,
+      child: SizedBox(
+        height: 50,
+        child: TextField(
+          key: const ValueKey('dashboard-search'),
+          controller: _searchController,
+          focusNode: _searchFocus,
+          textInputAction: TextInputAction.search,
+          onChanged: (v) => setState(() => _query = v),
+          onTapOutside: (_) => _searchFocus.unfocus(),
+          style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+          cursorColor: AppColors.darkTeal,
+          decoration: InputDecoration(
+            hintText: 'Cari fasilitas kampus...',
+            hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(vertical: 14),
+            prefixIcon: const Icon(
+              Icons.search,
+              color: AppColors.darkTeal,
+              size: 22,
+            ),
+            suffixIcon: _query.isEmpty
+                ? null
+                : IconButton(
+                    tooltip: 'Hapus pencarian',
+                    onPressed: _clearSearch,
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: AppColors.accentTeal,
+                      size: 20,
+                    ),
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchResults() {
+    final results = _searchResults;
+    final q = _query.trim();
+
+    return Container(
+      color: _pageBackground,
+      child: ListView.builder(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        padding: EdgeInsets.fromLTRB(16, _headerHeight + 16, 16, 24),
+        itemCount: results.isEmpty ? 2 : results.length + 1,
+        itemBuilder: (context, i) {
+          if (i == 0) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(4, 0, 4, 10),
+              child: Text(
+                '${results.length} hasil untuk “$q”',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textGrey,
+                ),
+              ),
+            );
+          }
+          if (results.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: Column(
+                children: const [
+                  Icon(Icons.search_off, size: 48, color: Colors.grey),
+                  SizedBox(height: 8),
+                  Text(
+                    'Fasilitas tidak ditemukan',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textDark,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Coba kata kunci lain, misalnya nama ruangan, gedung, atau alat.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.textGrey, fontSize: 12.5),
+                  ),
+                ],
+              ),
+            );
+          }
+          final f = results[i - 1];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              elevation: 0.5,
+              shadowColor: Colors.black26,
+              child: InkWell(
+                key: ValueKey('search-result-${f.id}'),
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {
+                  _searchFocus.unfocus();
+                  _showFacilityDetail(f);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 46,
+                        height: 46,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEAF6F4),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          f.type == 'Ruangan'
+                              ? Icons.meeting_room_outlined
+                              : Icons.devices_outlined,
+                          color: AppColors.darkTeal,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              f.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 14.5,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.textDark,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${f.building} · Lantai ${f.floor} · ${f.type}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textGrey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.chevron_right, color: Colors.grey),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -959,6 +1313,11 @@ class _DasborPageState extends State<DasborPage> {
     final items =
         filtered.skip((page - 1) * _itemsPerPage).take(_itemsPerPage).toList();
 
+    final listKey = ValueKey(
+      '$_selectedCategory-$page-$_capacityFilter-$_equipmentFilter-'
+      '${(_roomFacilityFilters.toList()..sort()).join(",")}',
+    );
+
     return Container(
       key: const ValueKey('recommendation-panel'),
       width: double.infinity,
@@ -1011,27 +1370,188 @@ class _DasborPageState extends State<DasborPage> {
                 const SizedBox(height: 16),
                 _buildCategoryTabs(),
                 const SizedBox(height: 14),
-                _buildCapacityChips(),
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOut,
+                  alignment: Alignment.topCenter,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child: KeyedSubtree(
+                      key: ValueKey('filters-$_selectedCategory'),
+                      child: _selectedCategory == 0
+                          ? _buildRoomFilters()
+                          : _buildEquipmentFilters(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
           if (items.isEmpty)
             _buildEmptyRecommendation()
           else
-            ListView.builder(
-              itemCount: items.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(14, 16, 14, 0),
-              itemBuilder: (context, index) => _FacilityCard(
-                facility: items[index],
-                onDetail: () => _showFacilityDetail(items[index]),
-                onBorrow: () => _showBookingSheet(items[index]),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: ListView.builder(
+                key: listKey,
+                itemCount: items.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(14, 16, 14, 0),
+                itemBuilder: (context, index) => _FacilityCard(
+                  facility: items[index],
+                  tags: _tagsFor(items[index]),
+                  onDetail: () => _showFacilityDetail(items[index]),
+                  onBorrow: () => _showBookingSheet(items[index]),
+                ),
               ),
             ),
-          _buildPagination(page, pageCount),
+          _buildPagination(page, pageCount, filtered.length),
         ],
       ),
+    );
+  }
+
+  Widget _buildRoomFilters() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _filterHeader('Kapasitas ruangan', showReset: _hasActiveFilter),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: List.generate(_capacityRanges.length, (i) {
+            return _filterChip(
+              key: ValueKey('capacity-chip-$i'),
+              label: _capacityRanges[i].label,
+              icon: Icons.people_outline,
+              selected: _capacityFilter == i,
+              onSelected: (v) => setState(() {
+                _capacityFilter = v ? i : null;
+                _currentPage = 1;
+              }),
+            );
+          }),
+        ),
+        const SizedBox(height: 14),
+        _filterHeader('Fasilitas dalam ruangan'),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final opt in _roomFacilityOptions)
+              _filterChip(
+                key: ValueKey('facility-chip-${opt.label}'),
+                label: opt.label,
+                icon: opt.icon,
+                selected: _roomFacilityFilters.contains(opt.label),
+                onSelected: (v) => setState(() {
+                  v
+                      ? _roomFacilityFilters.add(opt.label)
+                      : _roomFacilityFilters.remove(opt.label);
+                  _currentPage = 1;
+                }),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEquipmentFilters() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _filterHeader('Jenis alat', showReset: _hasActiveFilter),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: List.generate(_equipmentTypes.length, (i) {
+            final t = _equipmentTypes[i];
+            return _filterChip(
+              key: ValueKey('equipment-chip-$i'),
+              label: t.label,
+              icon: t.icon,
+              selected: _equipmentFilter == i,
+              onSelected: (v) => setState(() {
+                _equipmentFilter = v ? i : null;
+                _currentPage = 1;
+              }),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _filterHeader(String title, {bool showReset = false}) {
+    return SizedBox(
+      height: 24,
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12.5,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.2,
+              ),
+            ),
+          ),
+          if (showReset)
+            GestureDetector(
+              onTap: _resetFilters,
+              behavior: HitTestBehavior.opaque,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  'Atur ulang',
+                  style: TextStyle(
+                    color: Color(0xFFFFC107),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _filterChip({
+    required Key key,
+    required String label,
+    required IconData icon,
+    required bool selected,
+    required ValueChanged<bool> onSelected,
+  }) {
+    return FilterChip(
+      key: key,
+      avatar: Icon(
+        icon,
+        size: 18,
+        color: selected ? Colors.white : AppColors.darkTeal,
+      ),
+      label: Text(label),
+      selected: selected,
+      onSelected: onSelected,
+      selectedColor: _deepTeal,
+      backgroundColor: Colors.white,
+      labelStyle: TextStyle(
+        color: selected ? Colors.white : _deepTeal,
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+      ),
+      side: BorderSide.none,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      showCheckmark: false,
     );
   }
 
@@ -1056,13 +1576,10 @@ class _DasborPageState extends State<DasborPage> {
               'Coba kategori lain atau hapus filter.',
               style: TextStyle(color: Color(0xFFCFE3E0), fontSize: 12.5),
             ),
-            if (_selectedChip != null) ...[
+            if (_hasActiveFilter) ...[
               const SizedBox(height: 14),
               OutlinedButton.icon(
-                onPressed: () => setState(() {
-                  _selectedChip = null;
-                  _currentPage = 1;
-                }),
+                onPressed: _resetFilters,
                 icon: const Icon(Icons.refresh, size: 18),
                 label: const Text('Hapus filter'),
                 style: OutlinedButton.styleFrom(
@@ -1138,129 +1655,217 @@ class _DasborPageState extends State<DasborPage> {
     );
   }
 
-  Widget _buildCapacityChips() {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: List.generate(_chips.length, (i) {
-        final selected = _selectedChip == i;
-        final chip = _chips[i];
-        return FilterChip(
-          avatar: Icon(
-            chip.icon,
-            size: 18,
-            color: selected ? Colors.white : AppColors.darkTeal,
-          ),
-          label: Text(chip.label),
-          selected: selected,
-          onSelected: (value) => setState(() {
-            _selectedChip = value ? i : null;
-            _currentPage = 1;
-          }),
-          selectedColor: _deepTeal,
-          backgroundColor: Colors.white,
-          labelStyle: TextStyle(
-            color: selected ? Colors.white : _deepTeal,
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-          ),
-          side: BorderSide.none,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-          showCheckmark: false,
-        );
-      }),
-    );
+  List<int> _pageTokens(int page, int count) {
+    if (count <= 5) return List.generate(count, (i) => i + 1);
+    final set = <int>{1, count, page - 1, page, page + 1}
+      ..removeWhere((p) => p < 1 || p > count);
+    final sorted = set.toList()..sort();
+    final out = <int>[];
+    for (var i = 0; i < sorted.length; i++) {
+      if (i > 0 && sorted[i] - sorted[i - 1] > 1) out.add(-1);
+      out.add(sorted[i]);
+    }
+    return out;
   }
 
-  Widget _buildPagination(int page, int pageCount) {
+  Widget _buildPagination(int page, int pageCount, int total) {
     final canPrev = page > 1;
     final canNext = page < pageCount;
+    final tokens = _pageTokens(page, pageCount);
 
-    Widget navButton({
+    Widget arrow({
       required Key key,
       required String tooltip,
       required IconData icon,
       required VoidCallback? onTap,
     }) {
-      return IconButton(
-        key: key,
-        tooltip: tooltip,
-        onPressed: onTap,
-        icon: Icon(icon, size: 22),
-        style: IconButton.styleFrom(
-          fixedSize: const Size(44, 44),
-          backgroundColor: Colors.white,
-          foregroundColor: AppColors.darkTeal,
-          disabledBackgroundColor: Colors.white24,
-          disabledForegroundColor: Colors.white54,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+      final enabled = onTap != null;
+      return Tooltip(
+        message: tooltip,
+        child: GestureDetector(
+          key: key,
+          onTap: onTap,
+          behavior: HitTestBehavior.opaque,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: enabled
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.10),
+              shape: BoxShape.circle,
+              boxShadow: enabled
+                  ? [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.16),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Icon(
+              icon,
+              size: 24,
+              color: enabled ? AppColors.darkTeal : Colors.white38,
+            ),
           ),
         ),
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 14, 14, 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          navButton(
-            key: const ValueKey('recommendation-previous'),
-            tooltip: 'Sebelumnya',
-            icon: Icons.chevron_left,
-            onTap: canPrev ? () => _goToPage(page - 1, pageCount) : null,
-          ),
-          Flexible(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(14, 18, 14, 22),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: List.generate(pageCount, (i) {
-                  final p = i + 1;
-                  final isActive = p == page;
-                  return Semantics(
-                    button: true,
-                    selected: isActive,
-                    label: 'Halaman $p',
-                    child: GestureDetector(
-                      onTap: () => _goToPage(p, pageCount),
-                      child: AnimatedContainer(
-                        key: ValueKey('recommendation-page-$p'),
-                        duration: const Duration(milliseconds: 150),
-                        margin: const EdgeInsets.symmetric(horizontal: 3),
-                        width: 40,
-                        height: 40,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: isActive ? _deepTeal : Colors.white,
-                          borderRadius: BorderRadius.circular(12),
+                children: [
+                  arrow(
+                    key: const ValueKey('recommendation-previous'),
+                    tooltip: 'Sebelumnya',
+                    icon: Icons.chevron_left_rounded,
+                    onTap: canPrev ? () => _goToPage(page - 1, pageCount) : null,
+                  ),
+                  const SizedBox(width: 6),
+                  for (final t in tokens)
+                    if (t == -1)
+                      const SizedBox(
+                        width: 26,
+                        height: 44,
+                        child: Center(
+                          child: Text(
+                            '…',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          '$p',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: isActive ? Colors.white : AppColors.textDark,
+                      )
+                    else
+                      Semantics(
+                        button: true,
+                        selected: t == page,
+                        label: 'Halaman $t',
+                        child: GestureDetector(
+                          onTap: () => _goToPage(t, pageCount),
+                          behavior: HitTestBehavior.opaque,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            child: AnimatedContainer(
+                              key: ValueKey('recommendation-page-$t'),
+                              duration: const Duration(milliseconds: 220),
+                              curve: Curves.easeOutBack,
+                              width: t == page ? 46 : 40,
+                              height: t == page ? 46 : 40,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: t == page
+                                    ? const Color(0xFFFFC107)
+                                    : Colors.white.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(
+                                  t == page ? 16 : 14,
+                                ),
+                                boxShadow: t == page
+                                    ? [
+                                        BoxShadow(
+                                          color: const Color(0xFFFFC107)
+                                              .withValues(alpha: 0.45),
+                                          blurRadius: 12,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ]
+                                    : null,
+                              ),
+                              child: Text(
+                                '$t',
+                                style: TextStyle(
+                                  fontSize: t == page ? 16 : 14,
+                                  fontWeight: FontWeight.w800,
+                                  color: t == page ? _deepTeal : Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                  const SizedBox(width: 6),
+                  arrow(
+                    key: const ValueKey('recommendation-next'),
+                    tooltip: 'Berikutnya',
+                    icon: Icons.chevron_right_rounded,
+                    onTap: canNext ? () => _goToPage(page + 1, pageCount) : null,
+                  ),
+                ],
               ),
             ),
           ),
-          navButton(
-            key: const ValueKey('recommendation-next'),
-            tooltip: 'Berikutnya',
-            icon: Icons.chevron_right,
-            onTap: canNext ? () => _goToPage(page + 1, pageCount) : null,
+          const SizedBox(height: 10),
+          Text.rich(
+            TextSpan(
+              style: const TextStyle(
+                color: Color(0xFFCFE3E0),
+                fontSize: 12.5,
+                fontWeight: FontWeight.w600,
+              ),
+              children: [
+                const TextSpan(text: 'Halaman '),
+                TextSpan(
+                  text: '$page dari $pageCount',
+                  style: const TextStyle(
+                    color: Color(0xFFFFC107),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                TextSpan(text: '  ·  $total fasilitas'),
+              ],
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TagChip extends StatelessWidget {
+  const _TagChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE6F3EC),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Color(0xFF197B47),
+          fontSize: 11.5,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -1269,11 +1874,13 @@ class _DasborPageState extends State<DasborPage> {
 class _FacilityCard extends StatelessWidget {
   const _FacilityCard({
     required this.facility,
+    required this.tags,
     required this.onDetail,
     required this.onBorrow,
   });
 
-  final Facility facility;
+  final _Fac facility;
+  final List<String> tags;
   final VoidCallback onDetail;
   final VoidCallback onBorrow;
 
@@ -1406,6 +2013,14 @@ class _FacilityCard extends StatelessWidget {
                     _infoChip(Icons.category_outlined, facility.type),
                   ],
                 ),
+                if (tags.isNotEmpty) ...[
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: [for (final t in tags) _TagChip(label: t)],
+                  ),
+                ],
                 const SizedBox(height: 14),
                 Row(
                   children: [
@@ -1481,4 +2096,31 @@ class _FacilityCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Fac {
+  const _Fac({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.building,
+    required this.floor,
+    required this.capacity,
+  });
+
+  factory _Fac.from(Facility f) => _Fac(
+        id: '${f.id}',
+        name: '${f.name}',
+        type: '${f.type}',
+        building: '${f.building}',
+        floor: '${f.floor}',
+        capacity: '${f.capacity}',
+      );
+
+  final String id;
+  final String name;
+  final String type;
+  final String building;
+  final String floor;
+  final String capacity;
 }

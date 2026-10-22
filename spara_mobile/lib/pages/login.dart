@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Color(0xFFFBF7EE),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(32),
                       topRight: Radius.circular(32),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 import '../theme/app_colors.dart';
 
@@ -45,18 +48,28 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
     'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des',
   ];
+  static const _longMonths = [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
+  ];
+  static const _romanMonths = [
+    'I', 'II', 'III', 'IV', 'V', 'VI',
+    'VII', 'VIII', 'IX', 'X', 'XI', 'XII',
+  ];
+
+  static const _logoAsset = 'assets/images/logo_polibatam.png';
 
   final _searchController = TextEditingController();
   String _query = '';
   String _selectedStatus = 'Semua';
-  _Category? _category; // null = semua kategori
+  _Category? _category;
   _Period _period = _Period.all;
   DateTimeRange? _customRange;
   int _page = 1;
 
-  late final List<_LoanRecord> _records = _buildSampleRecords();
+  pw.MemoryImage? _pdfLogo;
 
-  // ---------------------------------------------------------------- data
+  late final List<_LoanRecord> _records = _buildSampleRecords();
 
   static DateTime _today() {
     final n = DateTime.now();
@@ -67,6 +80,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     final today = _today();
     DateTime ago(int d) => today.subtract(Duration(days: d));
     DateTime ahead(int d) => today.add(Duration(days: d));
+    const applicant = 'Rajiv Tajusa David';
     return [
       _LoanRecord(
         id: 'REQ-2026-011',
@@ -77,6 +91,8 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
         timeSlot: '08:00-10:00',
         location: 'Gedung Riset · Lantai 2',
         submittedAt: ago(0),
+        applicant: applicant,
+        purpose: 'Dokumentasi Kegiatan Himpunan',
       ),
       _LoanRecord(
         id: 'REQ-2026-010',
@@ -87,6 +103,8 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
         timeSlot: '09:00-12:00',
         location: 'Gedung Rektorat · Lantai 3',
         submittedAt: ago(2),
+        applicant: applicant,
+        purpose: 'Seminar Proposal Program Kerja',
       ),
       _LoanRecord(
         id: 'REQ-2026-009',
@@ -97,6 +115,8 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
         timeSlot: '13:00-15:00',
         location: 'Ruang Kelas A.204 · Gedung A',
         submittedAt: ago(9),
+        applicant: applicant,
+        purpose: 'Presentasi Tugas Akhir',
       ),
       _LoanRecord(
         id: 'REQ-2026-008',
@@ -107,6 +127,8 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
         timeSlot: '10:00-12:00',
         location: 'Gedung A · Lantai 2',
         submittedAt: ago(4),
+        applicant: applicant,
+        purpose: 'Rapat Koordinasi Panitia',
       ),
       _LoanRecord(
         id: 'REQ-2026-007',
@@ -117,6 +139,8 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
         timeSlot: '08:00-11:00',
         location: 'Gedung Riset · Lantai 2',
         submittedAt: ago(12),
+        applicant: applicant,
+        purpose: 'Dokumentasi Kegiatan Himpunan',
       ),
       _LoanRecord(
         id: 'REQ-2026-006',
@@ -127,16 +151,25 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
         timeSlot: '08:00-16:00',
         location: 'Gedung Serbaguna · Lantai 1',
         submittedAt: ago(40),
+        applicant: applicant,
+        purpose: 'Kegiatan Orientasi Mahasiswa',
       ),
     ]..sort((a, b) => b.submittedAt.compareTo(a.submittedAt));
   }
 
-  // ------------------------------------------------------------- helpers
-
   String _fmt(DateTime d) =>
       '${d.day.toString().padLeft(2, '0')} ${_months[d.month - 1]} ${d.year}';
 
-  /// Active submission-date range, or null when not filtering by date.
+  String _fmtLong(DateTime d) => '${d.day} ${_longMonths[d.month - 1]} ${d.year}';
+
+  String _letterNumber(_LoanRecord r) {
+    final seq = r.id.split('-').last;
+    return '$seq/SPARA-UN/${_romanMonths[r.submittedAt.month - 1]}/'
+        '${r.submittedAt.year}';
+  }
+
+  String _letterTime(String slot) => slot.replaceAll(':', '.');
+
   DateTimeRange? get _activeRange {
     final today = _today();
     switch (_period) {
@@ -204,8 +237,6 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     _searchController.dispose();
     super.dispose();
   }
-
-  // ------------------------------------------------------------- actions
 
   void _updateStatus(String status) => setState(() {
         _selectedStatus = status;
@@ -469,15 +500,254 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     _toast('Pengajuan ${record.id} dibatalkan.');
   }
 
-  String _letterText(_LoanRecord r) => 'SURAT IZIN PEMINJAMAN\n'
-      'LAYANAN FASILITAS KAMPUS\n\n'
-      'Nomor: ${r.id}/SPARA/${r.submittedAt.year}\n\n'
-      'Dengan ini menerangkan bahwa permohonan peminjaman fasilitas '
-      'berikut telah disetujui:\n\n'
-      'Fasilitas : ${r.name}\n'
-      'Jadwal    : ${_fmt(r.scheduledAt)} · ${r.timeSlot}\n'
-      'Lokasi    : ${r.location}\n\n'
-      'Petugas Layanan\nSPARA Mobile';
+  Future<pw.MemoryImage?> _loadLogo() async {
+    if (_pdfLogo != null) return _pdfLogo;
+    try {
+      final data = await rootBundle.load(_logoAsset);
+      _pdfLogo = pw.MemoryImage(
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+      );
+      return _pdfLogo;
+    } catch (e) {
+      debugPrint('Gagal memuat logo "$_logoAsset": $e');
+      return null;
+    }
+  }
+
+  Future<Uint8List> _buildLetterPdf(
+    _LoanRecord r,
+    PdfPageFormat format,
+    pw.MemoryImage? logo,
+  ) async {
+    final navy = PdfColor.fromHex('#1F3A5F');
+    final ink = PdfColor.fromHex('#1E2B2B');
+    final muted = PdfColor.fromHex('#7A8683');
+    final boxFill = PdfColor.fromHex('#F3F6F5');
+    final boxBorder = PdfColor.fromHex('#D5DCD9');
+    final teal = PdfColor.fromHex('#08766C');
+
+    pw.Widget logoWidget() {
+      if (logo != null) {
+        return pw.SizedBox(
+          width: 64,
+          height: 48,
+          child: pw.Image(logo, fit: pw.BoxFit.contain),
+        );
+      }
+
+      return pw.SizedBox(
+        width: 64,
+        height: 48,
+        child: pw.Column(
+          mainAxisAlignment: pw.MainAxisAlignment.center,
+          children: [
+            pw.Container(
+              width: 30,
+              height: 22,
+              decoration: pw.BoxDecoration(
+                color: teal,
+                borderRadius: pw.BorderRadius.circular(11),
+              ),
+            ),
+            pw.SizedBox(height: 3),
+            pw.Text('polibatam',
+                style: pw.TextStyle(
+                    fontSize: 8, fontWeight: pw.FontWeight.bold, color: navy)),
+            pw.Text('University',
+                style: pw.TextStyle(fontSize: 5.5, color: navy)),
+          ],
+        ),
+      );
+    }
+
+    pw.Widget infoRow(String label, String value, {bool bold = false}) {
+      return pw.Padding(
+        padding: const pw.EdgeInsets.only(bottom: 6),
+        child: pw.Row(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.SizedBox(
+              width: 62,
+              child: pw.Text(label,
+                  style: pw.TextStyle(fontSize: 10, color: ink)),
+            ),
+            pw.Text(': ', style: pw.TextStyle(fontSize: 10, color: ink)),
+            pw.Expanded(
+              child: pw.Text(
+                value,
+                style: pw.TextStyle(
+                  fontSize: 10,
+                  color: ink,
+                  fontWeight: bold ? pw.FontWeight.bold : pw.FontWeight.normal,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final doc = pw.Document(
+      title: 'Surat Izin Peminjaman ${r.id}',
+      author: 'SPARA Mobile',
+    );
+
+    doc.addPage(
+      pw.Page(
+        pageFormat: format,
+        margin: const pw.EdgeInsets.fromLTRB(52, 48, 52, 48),
+        build: (context) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Row(
+              crossAxisAlignment: pw.CrossAxisAlignment.center,
+              children: [
+                logoWidget(),
+                pw.SizedBox(width: 12),
+                pw.Expanded(
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text(
+                        'POLITEKNIK NEGERI BATAM',
+                        style: pw.TextStyle(
+                          fontSize: 9,
+                          fontWeight: pw.FontWeight.bold,
+                          color: navy,
+                        ),
+                      ),
+                      pw.SizedBox(height: 1),
+                      pw.Text(
+                        'SUB BAGIAN UMUM DAN KEPEGAWAIAN',
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          fontWeight: pw.FontWeight.bold,
+                          color: ink,
+                        ),
+                      ),
+                      pw.SizedBox(height: 2),
+                      pw.Text(
+                        'Jalan Ahmad Yani, Teluk Tering, Kecamatan Batam Kota, '
+                        'Kota Batam, Kepulauan Riau 29461',
+                        style: pw.TextStyle(fontSize: 7, color: muted),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            pw.SizedBox(height: 8),
+            pw.Container(height: 2.5, color: PdfColors.black),
+            pw.SizedBox(height: 20),
+
+            pw.Center(
+              child: pw.Text(
+                'SURAT IZIN PEMINJAMAN',
+                style: pw.TextStyle(
+                  fontSize: 17,
+                  fontWeight: pw.FontWeight.bold,
+                  color: ink,
+                ),
+              ),
+            ),
+            pw.SizedBox(height: 3),
+            pw.Center(
+              child: pw.Text(
+                'Nomor: ${_letterNumber(r)}',
+                style: pw.TextStyle(fontSize: 10, color: ink),
+              ),
+            ),
+            pw.SizedBox(height: 16),
+
+            pw.Text(
+              'Subbagian umum Politeknik Negeri Batam menerangkan bahwa '
+              'permohonan berikut telah disetujui:',
+              style: pw.TextStyle(fontSize: 10, color: ink, lineSpacing: 2),
+            ),
+            pw.SizedBox(height: 10),
+
+            pw.Container(
+              width: double.infinity,
+              padding: const pw.EdgeInsets.fromLTRB(14, 12, 14, 6),
+              decoration: pw.BoxDecoration(
+                color: boxFill,
+                borderRadius: pw.BorderRadius.circular(8),
+                border: pw.Border.all(color: boxBorder, width: 0.8),
+              ),
+              child: pw.Column(
+                children: [
+                  infoRow('Pemohon', r.applicant),
+                  infoRow('Fasilitas', r.name, bold: true),
+                  infoRow(
+                    'Waktu',
+                    '${_fmtLong(r.scheduledAt)} · ${_letterTime(r.timeSlot)}',
+                  ),
+                  infoRow('Keperluan', r.purpose),
+                ],
+              ),
+            ),
+            pw.SizedBox(height: 12),
+
+            pw.Text(
+              'Izin berlaku sesuai jadwal. Pemohon wajib menjaga kebersihan, '
+              'keamanan, dan mengembalikan fasilitas dalam kondisi semula.',
+              style: pw.TextStyle(fontSize: 10, color: ink, lineSpacing: 2),
+            ),
+
+            pw.Spacer(),
+
+            pw.Align(
+              alignment: pw.Alignment.centerRight,
+              child: pw.SizedBox(
+                width: 200,
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    pw.Text(
+                      'Batam, ${_fmtLong(r.submittedAt)}',
+                      style: pw.TextStyle(fontSize: 10, color: ink),
+                    ),
+                    pw.SizedBox(height: 56),
+                    pw.Text(
+                      'Sugi Hapni Delima, SE, M.Sc.',
+                      style: pw.TextStyle(
+                        fontSize: 10,
+                        fontWeight: pw.FontWeight.bold,
+                        decoration: pw.TextDecoration.underline,
+                        color: ink,
+                      ),
+                    ),
+                    pw.SizedBox(height: 2),
+                    pw.Text(
+                      'Koordinator Subbagian Umum Polibatam',
+                      style: pw.TextStyle(fontSize: 8, color: ink),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            pw.SizedBox(height: 60),
+          ],
+        ),
+      ),
+    );
+
+    return doc.save();
+  }
+
+  Future<void> _printLetter(_LoanRecord record) async {
+    try {
+      final logo = await _loadLogo();
+      await Printing.layoutPdf(
+        name: 'Surat-Izin-${record.id}.pdf',
+        format: PdfPageFormat.a4,
+        onLayout: (format) => _buildLetterPdf(record, format, logo),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      _toast('Gagal membuat PDF surat izin. Silakan coba lagi.');
+    }
+  }
 
   Future<void> _showLetterPreview(_LoanRecord record) async {
     await showDialog<void>(
@@ -514,66 +784,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
             Flexible(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFE5EAE7)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Center(
-                        child: Column(
-                          children: [
-                            Icon(Icons.account_balance,
-                                color: _teal, size: 32),
-                            SizedBox(height: 6),
-                            Text(
-                              'SURAT IZIN PEMINJAMAN',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'LAYANAN FASILITAS KAMPUS',
-                              style:
-                                  TextStyle(fontSize: 11, color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Divider(height: 28),
-                      Text(
-                        'Nomor: ${record.id}/SPARA/${record.submittedAt.year}',
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                      const SizedBox(height: 14),
-                      const Text(
-                        'Dengan ini menerangkan bahwa permohonan peminjaman '
-                        'fasilitas berikut telah disetujui:',
-                        style: TextStyle(fontSize: 12.5, height: 1.5),
-                      ),
-                      const SizedBox(height: 12),
-                      _previewLine('Fasilitas', record.name),
-                      _previewLine('Jadwal',
-                          '${_fmt(record.scheduledAt)} · ${record.timeSlot}'),
-                      _previewLine('Lokasi', record.location),
-                      const SizedBox(height: 24),
-                      const Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Petugas Layanan\nSPARA Mobile',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, height: 1.5),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: _buildLetterPaper(record),
               ),
             ),
             Padding(
@@ -582,23 +793,15 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
                 width: double.infinity,
                 height: 48,
                 child: FilledButton.icon(
-                  onPressed: () async {
-                    await Clipboard.setData(
-                      ClipboardData(text: _letterText(record)),
-                    );
-                    if (!dialogContext.mounted) return;
-                    Navigator.pop(dialogContext);
-                    if (!mounted) return;
-                    _toast('Isi surat disalin ke papan klip.');
-                  },
+                  onPressed: () => _printLetter(record),
                   style: FilledButton.styleFrom(
                     backgroundColor: _teal,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  icon: const Icon(Icons.copy_all_outlined),
-                  label: const Text('Salin isi surat'),
+                  icon: const Icon(Icons.print_outlined),
+                  label: const Text('Cetak format PDF'),
                 ),
               ),
             ),
@@ -608,21 +811,142 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     );
   }
 
-  Widget _previewLine(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
+  Widget _buildLetterPaper(_LoanRecord record) {
+    const navy = Color(0xFF1F3A5F);
+    const ink = Color(0xFF1E2B2B);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE5EAE7)),
+      ),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 70,
-            child: Text(label, style: const TextStyle(fontSize: 12)),
+          Row(
+            children: [
+              SizedBox(
+                width: 48,
+                height: 38,
+                child: Image.asset(
+                  _logoAsset,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.account_balance,
+                    color: _teal,
+                    size: 28,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'POLITEKNIK NEGERI BATAM',
+                      style: TextStyle(
+                        fontSize: 8,
+                        fontWeight: FontWeight.bold,
+                        color: navy,
+                      ),
+                    ),
+                    Text(
+                      'SUB BAGIAN UMUM DAN KEPEGAWAIAN',
+                      style: TextStyle(
+                        fontSize: 10.5,
+                        fontWeight: FontWeight.bold,
+                        color: ink,
+                      ),
+                    ),
+                    Text(
+                      'Jalan Ahmad Yani, Teluk Tering, Kecamatan Batam Kota, '
+                      'Kota Batam, Kepulauan Riau 29461',
+                      style: TextStyle(fontSize: 6.5, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const Text(': ', style: TextStyle(fontSize: 12)),
-          Expanded(
+          const SizedBox(height: 6),
+          Container(height: 2.5, color: Colors.black),
+          const SizedBox(height: 14),
+          const Center(
             child: Text(
-              value,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              'SURAT IZIN PEMINJAMAN',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: ink,
+              ),
+            ),
+          ),
+          const SizedBox(height: 2),
+          Center(
+            child: Text(
+              'Nomor: ${_letterNumber(record)}',
+              style: const TextStyle(fontSize: 10, color: ink),
+            ),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'Subbagian umum Politeknik Negeri Batam menerangkan bahwa '
+            'permohonan berikut telah disetujui:',
+            style: TextStyle(fontSize: 11, height: 1.45, color: ink),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF3F6F5),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: const Color(0xFFD5DCD9)),
+            ),
+            child: Column(
+              children: [
+                _previewLine('Pemohon', record.applicant),
+                _previewLine('Fasilitas', record.name, bold: true),
+                _previewLine('Waktu',
+                    '${_fmtLong(record.scheduledAt)} · ${_letterTime(record.timeSlot)}'),
+                _previewLine('Keperluan', record.purpose),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            'Izin berlaku sesuai jadwal. Pemohon wajib menjaga kebersihan, '
+            'keamanan, dan mengembalikan fasilitas dalam kondisi semula.',
+            style: TextStyle(fontSize: 11, height: 1.45, color: ink),
+          ),
+          const SizedBox(height: 28),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Batam, ${_fmtLong(record.submittedAt)}',
+                  style: const TextStyle(fontSize: 10.5, color: ink),
+                ),
+                const SizedBox(height: 36),
+                const Text(
+                  'Sugi Hapni Delima, SE, M.Sc.',
+                  style: TextStyle(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                    color: ink,
+                  ),
+                ),
+                const Text(
+                  'Koordinator Subbagian Umum Polibatam',
+                  style: TextStyle(fontSize: 8.5, color: ink),
+                ),
+              ],
             ),
           ),
         ],
@@ -630,7 +954,30 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     );
   }
 
-  // --------------------------------------------------------------- build
+  Widget _previewLine(String label, String value, {bool bold = false}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 66,
+            child: Text(label, style: const TextStyle(fontSize: 11)),
+          ),
+          const Text(': ', style: TextStyle(fontSize: 11)),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1236,6 +1583,8 @@ class _LoanRecord {
     required this.timeSlot,
     required this.location,
     required this.submittedAt,
+    required this.applicant,
+    required this.purpose,
   });
 
   final String id;
@@ -1246,4 +1595,6 @@ class _LoanRecord {
   final String timeSlot;
   final String location;
   final DateTime submittedAt;
+  final String applicant;
+  final String purpose;
 }
