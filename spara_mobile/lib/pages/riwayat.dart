@@ -57,7 +57,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     'VII', 'VIII', 'IX', 'X', 'XI', 'XII',
   ];
 
-  static const _logoAsset = 'assets/images/logo_polibatam.png';
+  static const _logoAsset = 'lib/assets/images/logo_polibatam.png';
 
   final _searchController = TextEditingController();
   String _query = '';
@@ -912,7 +912,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
                 _previewLine('Fasilitas', record.name, bold: true),
                 _previewLine('Waktu',
                     '${_fmtLong(record.scheduledAt)} · ${_letterTime(record.timeSlot)}'),
-                _previewLine('Keperluan', record.purpose),
+                _previewLine('Kegiatan', record.purpose),
               ],
             ),
           ),
