@@ -91,10 +91,6 @@ class _FacilityDetailPageState extends State<FacilityDetailPage> {
           ),
           const SizedBox(height: 16),
           _buildInfoCard(),
-          if ((_facility.description ?? '').trim().isNotEmpty) ...[
-            const SizedBox(height: 14),
-            _buildDescriptionCard(),
-          ],
           if (_isRoom && _facility.facilities.isNotEmpty) ...[
             const SizedBox(height: 14),
             _buildFacilitiesCard(),
@@ -123,7 +119,9 @@ class _FacilityDetailPageState extends State<FacilityDetailPage> {
         children: [
           Center(
             child: Icon(
-              _isRoom ? Icons.meeting_room_outlined : Icons.devices_outlined,
+              _isRoom
+                  ? Icons.meeting_room_outlined
+                  : Icons.devices_other_outlined,
               size: 64,
               color: Colors.white38,
             ),
@@ -160,7 +158,9 @@ class _FacilityDetailPageState extends State<FacilityDetailPage> {
   }
 
   Widget _buildInfoCard() {
+    final description = (_facility.description ?? '').trim();
     return Container(
+      key: const ValueKey('facility-info-card'),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -169,24 +169,66 @@ class _FacilityDetailPageState extends State<FacilityDetailPage> {
       ),
       child: Column(
         children: [
-          _infoRow(Icons.apartment_outlined, 'Gedung', _facility.building),
+          _infoRow(Icons.domain_outlined, 'Gedung', _facility.building),
           if (_isRoom)
-            _infoRow(Icons.layers_outlined, 'Lantai', _facility.floor),
+            _infoRow(Icons.stairs_outlined, 'Lantai', _facility.floor),
           if (_isRoom)
-            _infoRow(Icons.people_outline, 'Kapasitas', _facility.capacity),
+            _infoRow(Icons.people_outlined, 'Kapasitas', _facility.capacity),
           _infoRow(Icons.category_outlined, 'Kategori', _facility.type),
           _infoRow(
-            Icons.badge_outlined,
+            Icons.assignment_ind_outlined,
             'Penanggung Jawab',
             (_facility.pic ?? '').trim().isEmpty ? '-' : _facility.pic!,
           ),
           _infoRow(
-            Icons.verified_outlined,
+            Icons.task_alt_outlined,
             'Status',
             _facility.status,
             valueColor: _statusColor,
-            showDivider: false,
+            showDivider: description.isNotEmpty,
           ),
+          if (description.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 14),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 1),
+                    child: Icon(
+                      Icons.description_outlined,
+                      size: 18,
+                      color: AppColors.darkTeal,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Deskripsi',
+                          style: TextStyle(
+                            color: AppColors.textGrey,
+                            fontSize: 12.5,
+                            height: 1.35,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          description,
+                          style: const TextStyle(
+                            color: AppColors.textDark,
+                            fontSize: 13,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
@@ -202,59 +244,44 @@ class _FacilityDetailPageState extends State<FacilityDetailPage> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 11),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, size: 20, color: AppColors.darkTeal),
-              const SizedBox(width: 12),
-              Text(
-                label,
-                style: const TextStyle(color: AppColors.textGrey, fontSize: 13),
+              Padding(
+                padding: const EdgeInsets.only(top: 1),
+                child: Icon(icon, size: 18, color: AppColors.darkTeal),
               ),
-              const Spacer(),
-              Flexible(
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 5,
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    color: AppColors.textGrey,
+                    fontSize: 12.5,
+                    height: 1.35,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 6,
                 child: Text(
                   value,
-                  textAlign: TextAlign.right,
                   style: TextStyle(
                     color: valueColor ?? AppColors.textDark,
                     fontSize: 13.5,
                     fontWeight: FontWeight.w700,
+                    height: 1.35,
                   ),
                 ),
               ),
             ],
           ),
         ),
-        if (showDivider) const Divider(height: 1),
+        if (showDivider) const Divider(height: 1, color: Color(0xFFF0F3F2)),
       ],
-    );
-  }
-
-  Widget _buildDescriptionCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.black.withValues(alpha: 0.04)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _cardTitle('Deskripsi'),
-          const SizedBox(height: 8),
-          Text(
-            _facility.description!.trim(),
-            style: const TextStyle(
-              color: AppColors.textGrey,
-              fontSize: 13,
-              height: 1.5,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -312,7 +339,7 @@ class _FacilityDetailPageState extends State<FacilityDetailPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.info_outline, size: 18, color: AppColors.darkTeal),
+          const Icon(Icons.info_outlined, size: 18, color: AppColors.darkTeal),
           const SizedBox(width: 10),
           const Expanded(
             child: Text(
@@ -366,7 +393,7 @@ class _FacilityDetailPageState extends State<FacilityDetailPage> {
                 onPressed: _isAvailable && !_openingForm
                     ? _openBookingForm
                     : null,
-                icon: const Icon(Icons.assignment_outlined, size: 19),
+                icon: const Icon(Icons.note_add_outlined, size: 19),
                 label: Text(
                   _isAvailable ? 'Ajukan Peminjaman' : 'Tidak Tersedia',
                   style: const TextStyle(

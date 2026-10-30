@@ -398,4 +398,52 @@ void main() {
     expect(find.text('Detail Pengajuan'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('facility detail keeps info labels and values in their columns', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(360, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const MaterialApp(home: DasborPage()));
+    await tester.tap(find.text('Pencarian'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('search-facility-RG-101')));
+    await tester.pumpAndSettle();
+
+    final infoCard = find.byKey(const ValueKey('facility-info-card'));
+    expect(infoCard, findsOneWidget);
+
+    double leftOf(String text) => tester
+        .getTopLeft(find.descendant(of: infoCard, matching: find.text(text)))
+        .dx;
+
+    const labels = [
+      'Gedung',
+      'Lantai',
+      'Kapasitas',
+      'Kategori',
+      'Penanggung Jawab',
+      'Status',
+      'Deskripsi',
+    ];
+    const values = [
+      'Gedung A',
+      'Lantai 2',
+      '30 Orang',
+      'Ruangan',
+      'Andi Wijaya',
+      'Tersedia',
+    ];
+
+    final labelColumns = labels.map(leftOf).toSet();
+    final valueColumns = values.map(leftOf).toSet();
+
+    expect(labelColumns, hasLength(1));
+    expect(valueColumns, hasLength(1));
+    expect(valueColumns.single, greaterThan(labelColumns.single));
+    expect(tester.takeException(), isNull);
+  });
 }
