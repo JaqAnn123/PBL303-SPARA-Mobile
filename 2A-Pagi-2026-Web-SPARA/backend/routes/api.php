@@ -25,6 +25,25 @@ Route::get('/public-stats', function () {
     ]);
 });
 
+// Daftar program studi untuk form registrasi mobile (no auth required)
+Route::get('/get-program-studi', function () {
+    $programs = \Illuminate\Support\Facades\DB::table('study_programs as sp')
+        ->leftJoin('departments as d', 'sp.department_id', '=', 'd.department_id')
+        ->orderBy('sp.study_program_id')
+        ->get([
+            'sp.study_program_id',
+            'sp.study_program_name',
+            'd.department_name',
+        ])
+        ->map(fn ($program) => [
+            'study_program_id'   => $program->study_program_id,
+            'study_program_name' => $program->study_program_name,
+            'department_name'    => $program->department_name ?? 'Lainnya',
+        ]);
+
+    return response()->json(['data' => $programs]);
+});
+
 Route::get('/get-ruangan', [RuanganController::class, 'getRuangan']);
 Route::middleware('auth:api')->group(function () {
     Route::get('/test', [AuthController::class, 'test']);
@@ -33,6 +52,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/update-profile-photo', [AuthController::class, 'updateProfilePhoto']);
     Route::post('/update-profile-phone', [AuthController::class, 'updateProfilePhone']);
+    Route::post('/update-profile-email', [AuthController::class, 'updateProfileEmail']);
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
     Route::get('/ruangan/{id}', [RuanganController::class, 'show']);

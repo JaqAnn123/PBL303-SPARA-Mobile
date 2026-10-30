@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/facility_model.dart';
+import '../services/api_client.dart';
+import '../services/spara_api.dart';
 import '../theme/app_colors.dart';
 
 const _teal = Color(0xFF08766C);
@@ -28,12 +30,49 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
   String _category = 'Semua';
   String _status = 'Semua';
 
+  List<Facility> _facilities = const [];
+  bool _isLoading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFacilities();
+  }
+
+  Future<void> _loadFacilities() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    try {
+      final facilities = await SparaApi.instance.getFacilities();
+      if (!mounted) return;
+      setState(() {
+        _facilities = facilities;
+        _isLoading = false;
+      });
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.message;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _error = 'Gagal memuat data fasilitas.';
+        _isLoading = false;
+      });
+    }
+  }
+
   int get _activeFilterCount =>
       (_category == 'Semua' ? 0 : 1) + (_status == 'Semua' ? 0 : 1);
 
   List<Facility> get _results {
     final query = _query.trim().toLowerCase();
-    return dummyFacilities.where((f) {
+    return _facilities.where((f) {
       if (_category != 'Semua' && f.type != _category) return false;
       if (_status != 'Semua' && f.status != _status) return false;
       if (query.isEmpty) return true;
@@ -74,21 +113,44 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
               ),
             ),
             Expanded(
-              child: results.isEmpty
-                  ? const _EmptyState(
-                      icon: Icons.search_off,
-                      title: 'Fasilitas tidak ditemukan',
-                      message: 'Coba kata kunci lain atau ubah filter.',
-                    )
-                  : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-                      itemCount: results.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 10),
-                      itemBuilder: (context, index) => _SearchResultCard(
-                        facility: results[index],
-                        onTap: () => widget.onFacilitySelected(results[index]),
-                      ),
-                    ),
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _error != null
+                      ? _EmptyState(
+                          icon: Icons.cloud_off,
+                          title: 'Gagal memuat data',
+                          message: _error!,
+                          actionLabel: 'Coba lagi',
+                          onAction: _loadFacilities,
+                        )
+                      : results.isEmpty
+                          ? const _EmptyState(
+                              icon: Icons.search_off,
+                              title: 'Fasilitas tidak ditemukan',
+                              message: 'Coba kata kunci lain atau ubah filter.',
+                            )
+                          : RefreshIndicator(
+                              onRefresh: _loadFacilities,
+                              child: ListView.separated(
+                                padding: const EdgeInsets.fromLTRB(
+                                  20,
+                                  12,
+                                  20,
+                                  20,
+                                ),
+                                itemCount: results.length,
+                                separatorBuilder: (_, _) =>
+                                    const SizedBox(height: 10),
+                                itemBuilder: (context, index) =>
+                                    _SearchResultCard(
+                                      facility: results[index],
+                                      onTap: () =>
+                                          widget.onFacilitySelected(
+                                            results[index],
+                                          ),
+                                    ),
+                              ),
+                            ),
             ),
           ],
         ),
@@ -499,11 +561,15 @@ class _EmptyState extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.message,
+    this.actionLabel,
+    this.onAction,
   });
 
   final IconData icon;
   final String title;
   final String message;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -530,6 +596,21 @@ class _EmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(color: AppColors.textGrey),
             ),
+            if (actionLabel != null && onAction != null) ...[
+              const SizedBox(height: 16),
+              OutlinedButton.icon(
+                onPressed: onAction,
+                icon: const Icon(Icons.refresh, size: 18),
+                label: Text(actionLabel!),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: _teal,
+                  side: const BorderSide(color: _teal),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),

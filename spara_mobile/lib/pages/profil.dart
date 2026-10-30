@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../models/app_user.dart';
+import '../services/api_client.dart';
+import '../services/session.dart';
+import '../services/spara_api.dart';
 import '../theme/app_colors.dart';
 import 'login.dart';
 
@@ -12,20 +16,64 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  static const _name = 'Rajiv Tajusa David';
-  static const _studentId = '432450126';
-  static const _studyProgram = 'Teknologi Rekayasa Perangkat Lunak';
-  static const _department = 'Jurusan Teknik Informatika';
   static const _pageBackground = Color(0xFFF4F7F6);
 
-  String _phone = '+62 812-3456-7890';
-  String _email = 'rajivcream@gmail.com';
+  AppUser? _user = Session.instance.user;
+  String? _loadError;
 
-  String get _initials {
-    final parts = _name.split(' ').where((p) => p.isNotEmpty).toList();
-    if (parts.isEmpty) return '?';
-    if (parts.length == 1) return parts.first[0].toUpperCase();
-    return (parts.first[0] + parts.last[0]).toUpperCase();
+  String get _name => _user?.name ?? 'Pengguna SPARA';
+  String get _studentId => _user?.idNumber ?? '-';
+  String get _studyProgram => _user?.roleLabel ?? '-';
+  String get _department => 'SPARA · Politeknik Negeri Batam';
+  String get _phone {
+    final value = _user?.phoneNumber.trim() ?? '';
+    return value.isEmpty ? '-' : value;
+  }
+
+  String get _email {
+    final value = _user?.email.trim() ?? '';
+    return value.isEmpty ? '-' : value;
+  }
+
+  String get _initials => _user?.initials ?? 'SP';
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshProfile();
+  }
+
+  Future<void> _refreshProfile() async {
+    if (!Session.instance.isLoggedIn) return;
+    try {
+      final user = await SparaApi.instance.me();
+      await Session.instance.updateUser(user);
+      if (!mounted) return;
+      setState(() {
+        _user = user;
+        _loadError = null;
+      });
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      if (e.isUnauthorized) {
+        await _logout();
+        return;
+      }
+      setState(() => _loadError = e.message);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _loadError = 'Gagal memuat data profil.');
+    }
+  }
+
+  Future<void> _logout() async {
+    await SparaApi.instance.logout();
+    await Session.instance.clear();
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (_) => const LoginPage()),
+      (_) => false,
+    );
   }
 
   Future<void> _changeContact({required bool changePhone}) async {
@@ -174,17 +222,48 @@ class _ProfilePageState extends State<ProfilePage> {
     );
     if (!verifiedInPreview || !mounted) return;
 
-    setState(() {
-      if (changePhone) {
-        _phone = newValue;
-      } else {
-        _email = newValue;
+    if (!changePhone) {
+      try {
+        final updated = await SparaApi.instance.updateEmail(newValue);
+        await Session.instance.updateUser(updated);
+        if (!mounted) return;
+        setState(() => _user = updated);
+        _showMessage(
+          'Email berhasil diperbarui.',
+          icon: Icons.check_circle_outline,
+        );
+      } on ApiException catch (e) {
+        if (!mounted) return;
+        _showMessage(e.message, icon: Icons.error_outline);
+      } catch (_) {
+        if (!mounted) return;
+        _showMessage(
+          'Gagal memperbarui email.',
+          icon: Icons.error_outline,
+        );
       }
-    });
-    _showMessage(
-      'Perubahan tersimpan di pratinjau lokal. Verifikasi server belum tersedia.',
-      icon: Icons.check_circle_outline,
-    );
+      return;
+    }
+
+    try {
+      final updated = await SparaApi.instance.updatePhone(newValue);
+      await Session.instance.updateUser(updated);
+      if (!mounted) return;
+      setState(() => _user = updated);
+      _showMessage(
+        'Nomor telepon berhasil diperbarui.',
+        icon: Icons.check_circle_outline,
+      );
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      _showMessage(e.message, icon: Icons.error_outline);
+    } catch (_) {
+      if (!mounted) return;
+      _showMessage(
+        'Gagal memperbarui nomor telepon.',
+        icon: Icons.error_outline,
+      );
+    }
   }
 
   Future<bool> _verifyCode({
@@ -272,7 +351,8 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 10),
               const _PrototypeNotice(
                 text:
-                    'Pratinjau frontend: kode tidak dikirim atau diverifikasi oleh server.',
+                    'Verifikasi kode belum tersedia di server. Kode apa pun '
+                    'akan dilanjutkan dan perubahan langsung disimpan.',
               ),
             ],
           ),
@@ -301,6 +381,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _changePassword() async {
     final formKey = GlobalKey<FormState>();
+    var currentPassword = '';
     var newPassword = '';
     var confirmPassword = '';
     var obscureCurrent = true;
@@ -353,6 +434,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       label: 'Kata Sandi Saat Ini',
                       prefixIcon: Icons.lock_outline,
                       obscureText: obscureCurrent,
+                      onChanged: (value) => currentPassword = value,
                       suffix:
                           eye(obscureCurrent, () => obscureCurrent = !obscureCurrent),
                       validator: (value) {
@@ -400,7 +482,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(height: 14),
                     const _PrototypeNotice(
                       text:
-                          'Kata sandi saat ini akan diperiksa server. Perubahan belum terhubung ke server.',
+                          'Kata sandi saat ini akan diperiksa oleh server '
+                          'sebelum perubahan disimpan.',
                     ),
                   ],
                 ),
@@ -429,10 +512,28 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
     if (updatedPassword != true || !mounted) return;
-    _showMessage(
-      'Alur ubah kata sandi selesai di pratinjau frontend.',
-      icon: Icons.check_circle_outline,
-    );
+
+    try {
+      await SparaApi.instance.updatePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        confirmation: confirmPassword,
+      );
+      if (!mounted) return;
+      _showMessage(
+        'Kata sandi berhasil diperbarui.',
+        icon: Icons.check_circle_outline,
+      );
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      _showMessage(e.message, icon: Icons.error_outline);
+    } catch (_) {
+      if (!mounted) return;
+      _showMessage(
+        'Gagal memperbarui kata sandi.',
+        icon: Icons.error_outline,
+      );
+    }
   }
 
   Future<void> _confirmLogout() async {
@@ -483,14 +584,11 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
     if (shouldLogout != true || !mounted) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute<void>(builder: (_) => const LoginPage()),
-      (_) => false,
-    );
+    await _logout();
   }
 
   Future<void> _copyStudentId() async {
-    await Clipboard.setData(const ClipboardData(text: _studentId));
+    await Clipboard.setData(ClipboardData(text: _studentId));
     if (!mounted) return;
     _showMessage('NIM disalin ke papan klip.', icon: Icons.copy_all_outlined);
   }
@@ -540,6 +638,44 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   _buildHeader(),
+                  if (_loadError != null)
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFDECEC),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            size: 18,
+                            color: AppColors.error,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              _loadError!,
+                              style: const TextStyle(
+                                color: AppColors.error,
+                                fontSize: 12.5,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: 'Muat ulang',
+                            onPressed: _refreshProfile,
+                            icon: const Icon(Icons.refresh, size: 18),
+                            color: AppColors.error,
+                          ),
+                        ],
+                      ),
+                    ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
                     child: Column(
@@ -703,25 +839,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 14),
-              const Text(
+              Text(
                 _name,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 _studyProgram,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 12.5),
+                style: const TextStyle(color: Colors.white, fontSize: 12.5),
               ),
-              const Text(
+              Text(
                 _department,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white70, fontSize: 12),
+                style: const TextStyle(color: Colors.white70, fontSize: 12),
               ),
               const SizedBox(height: 14),
               Material(
@@ -731,26 +867,35 @@ class _ProfilePageState extends State<ProfilePage> {
                   key: const Key('profile-copy-nim'),
                   borderRadius: BorderRadius.circular(20),
                   onTap: _copyStudentId,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.badge_outlined,
-                            color: Colors.white, size: 16),
-                        SizedBox(width: 6),
+                        const Icon(
+                          Icons.badge_outlined,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 6),
                         Text(
                           'NIM: $_studentId',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12.5,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.3,
                           ),
                         ),
-                        SizedBox(width: 8),
-                        Icon(Icons.copy_outlined,
-                            color: Colors.white70, size: 14),
+                        const SizedBox(width: 8),
+                        const Icon(
+                          Icons.copy_outlined,
+                          color: Colors.white70,
+                          size: 14,
+                        ),
                       ],
                     ),
                   ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spara_mobile/pages/riwayat.dart';
 
+import 'support/mock_api.dart';
+
 void _usePhoneViewport(WidgetTester tester) {
   tester.view.physicalSize = const Size(400, 900);
   tester.view.devicePixelRatio = 1;
@@ -10,6 +12,12 @@ void _usePhoneViewport(WidgetTester tester) {
 }
 
 void main() {
+  setUp(() async {
+    await setUpTestApi();
+  });
+
+  tearDown(tearDownTestApi);
+
   testWidgets('history layout fits a compact phone width', (
     WidgetTester tester,
   ) async {
@@ -19,6 +27,7 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const MaterialApp(home: LoanHistoryPage()));
+    await tester.pumpAndSettle();
 
     expect(find.text('Kamera Sony A6400'), findsOneWidget);
     expect(tester.takeException(), isNull);
@@ -29,10 +38,11 @@ void main() {
   ) async {
     _usePhoneViewport(tester);
     await tester.pumpWidget(const MaterialApp(home: LoanHistoryPage()));
+    await tester.pumpAndSettle();
 
     expect(find.text('Kamera Sony A6400'), findsOneWidget);
     expect(find.text('Ruang Seminar R.302'), findsOneWidget);
-    await tester.drag(find.byType(ListView), const Offset(0, -400));
+    await tester.drag(find.byType(ListView).last, const Offset(0, -400));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.text('Proyektor Epson EB-X06'));
     expect(find.text('Proyektor Epson EB-X06'), findsOneWidget);
@@ -42,7 +52,7 @@ void main() {
     expect(find.text('Ruang Seminar R.302'), findsOneWidget);
     expect(find.text('Kamera Sony A6400'), findsNothing);
 
-    await tester.enterText(find.byType(TextField), 'REQ-2025-007');
+    await tester.enterText(find.byType(TextField), 'REQ-2026-007');
     await tester.pumpAndSettle();
     expect(find.text('Tripod Kamera'), findsOneWidget);
     expect(find.text('Ruang Seminar R.302'), findsNothing);
@@ -53,23 +63,21 @@ void main() {
   ) async {
     _usePhoneViewport(tester);
     await tester.pumpWidget(const MaterialApp(home: LoanHistoryPage()));
-
-    await tester.tap(find.byKey(const ValueKey('cancel-REQ-2025-011')));
     await tester.pumpAndSettle();
-    expect(find.text('Apakah anda yakin?'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('cancel-REQ-2026-011')));
+    await tester.pumpAndSettle();
+    expect(find.text('Batalkan pengajuan?'), findsOneWidget);
 
     await tester.tap(find.text('Kembali'));
     await tester.pumpAndSettle();
     expect(find.text('Kamera Sony A6400'), findsOneWidget);
 
-    await tester.tap(find.byKey(const ValueKey('cancel-REQ-2025-011')));
+    await tester.tap(find.byKey(const ValueKey('cancel-REQ-2026-011')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Iya'));
+    await tester.tap(find.text('Ya, batalkan'));
     await tester.pumpAndSettle();
-    expect(
-      find.text('Pengajuan dibatalkan pada perangkat ini.'),
-      findsOneWidget,
-    );
+    expect(find.text('Pengajuan REQ-2026-011 dibatalkan.'), findsOneWidget);
     await tester.tap(find.text('Menunggu').first);
     await tester.pumpAndSettle();
     expect(find.text('Kamera Sony A6400'), findsNothing);
@@ -80,21 +88,16 @@ void main() {
   ) async {
     _usePhoneViewport(tester);
     await tester.pumpWidget(const MaterialApp(home: LoanHistoryPage()));
+    await tester.pumpAndSettle();
 
     await tester.tap(find.widgetWithText(ChoiceChip, 'Disetujui'));
     await tester.pumpAndSettle();
-    final letterButton = find.byKey(const ValueKey('letter-REQ-2025-010'));
+    final letterButton = find.byKey(const ValueKey('letter-REQ-2026-010'));
     await tester.tap(letterButton);
     await tester.pumpAndSettle();
     expect(find.text('Preview Surat Izin'), findsOneWidget);
     expect(find.text('SURAT IZIN PEMINJAMAN'), findsOneWidget);
-
-    await tester.tap(find.text('Unduh PDF'));
-    await tester.pumpAndSettle();
-    expect(
-      find.text('Unduh PDF belum terhubung ke penyimpanan.'),
-      findsOneWidget,
-    );
+    expect(find.text('Cetak format PDF'), findsOneWidget);
   });
 
   testWidgets('history pagination changes the visible records', (
@@ -102,6 +105,7 @@ void main() {
   ) async {
     _usePhoneViewport(tester);
     await tester.pumpWidget(const MaterialApp(home: LoanHistoryPage()));
+    await tester.pumpAndSettle();
 
     expect(find.text('Kamera Sony A6400'), findsOneWidget);
     expect(find.text('Tripod Kamera'), findsNothing);

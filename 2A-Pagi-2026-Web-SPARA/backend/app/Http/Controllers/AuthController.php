@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -151,6 +152,32 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Nomor telepon berhasil diperbarui',
+            'user' => $this->formatProfilePhoto($user),
+        ], 200);
+    }
+
+    public function updateProfileEmail(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'email' => [
+                'required',
+                'email',
+                'max:100',
+                Rule::unique('users', 'email')->ignore($user->id_number, 'id_number'),
+            ],
+        ], [
+            'email.required' => 'Email tidak boleh kosong.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan oleh akun lain.',
+        ]);
+
+        $user->email = $request->email;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Email berhasil diperbarui.',
             'user' => $this->formatProfilePhoto($user),
         ], 200);
     }

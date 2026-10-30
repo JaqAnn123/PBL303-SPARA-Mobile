@@ -3,9 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:spara_mobile/pages/dasbor.dart';
 import 'package:spara_mobile/pages/login.dart';
 import 'package:spara_mobile/pages/register.dart';
-import 'package:spara_mobile/theme/app_colors.dart';
+
+import 'support/mock_api.dart';
 
 void main() {
+  setUp(() async {
+    await setUpTestApi();
+  });
+
+  tearDown(tearDownTestApi);
+
   testWidgets('login requires both fields before opening the dashboard', (
     WidgetTester tester,
   ) async {
@@ -15,7 +22,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Isi data terlebih dahulu!'), findsNWidgets(2));
-    expect(find.text('Mau pinjem apa nih hari ini?'), findsNothing);
+    expect(find.text('Mau pinjam apa hari ini?'), findsNothing);
   });
 
   testWidgets('registration requires all first-page fields before continuing', (
@@ -136,7 +143,7 @@ void main() {
 
     final bottomNav = find.byType(BottomNavigationBar);
     expect(tester.widget<BottomNavigationBar>(bottomNav).currentIndex, 0);
-    expect(find.text('Mau pinjem apa nih hari ini?'), findsOneWidget);
+    expect(find.text('Mau pinjam apa hari ini?'), findsOneWidget);
 
     await tester.tap(find.text('Pencarian'));
     await tester.pumpAndSettle();
@@ -163,13 +170,13 @@ void main() {
     await tester.tap(find.text('Dasbor'));
     await tester.pumpAndSettle();
     expect(tester.widget<BottomNavigationBar>(bottomNav).currentIndex, 0);
-    expect(find.text('Mau pinjem apa nih hari ini?'), findsOneWidget);
+    expect(find.text('Mau pinjam apa hari ini?'), findsOneWidget);
   });
 
-  testWidgets('search result opens facility details and loan request', (
+  testWidgets('search result opens the facility detail page and loan form', (
     WidgetTester tester,
   ) async {
-    tester.view.physicalSize = const Size(800, 900);
+    tester.view.physicalSize = const Size(800, 1000);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
@@ -180,13 +187,93 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('search-facility-AL01')));
     await tester.pumpAndSettle();
-    expect(find.text('Proyektor Epson 4K'), findsNWidgets(2));
-    expect(find.text('Kode AL01'), findsOneWidget);
 
-    await tester.tap(find.text('Pinjam Sekarang'));
+    expect(find.text('Detail Fasilitas'), findsOneWidget);
+    expect(find.text('Kode AL01'), findsOneWidget);
+    expect(
+      find.text(
+        'Pengajuan peminjaman akan dikirim ke admin/PIC untuk ditinjau '
+        'sebelum disetujui.',
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byKey(const ValueKey('facility-detail-borrow')));
     await tester.pumpAndSettle();
-    expect(find.text('Ajukan Peminjaman'), findsOneWidget);
-    expect(find.text('Keperluan peminjaman'), findsOneWidget);
+
+    expect(find.text('Detail Pengajuan'), findsOneWidget);
+    expect(find.text('Nama Kegiatan'), findsOneWidget);
+    expect(find.text('Penanggung Jawab'), findsOneWidget);
+    expect(find.text('Keterangan'), findsOneWidget);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.text('Detail Fasilitas'), findsOneWidget);
+  });
+
+  testWidgets('loan request is confirmed, submitted and returns to dashboard', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(800, 1100);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    Future<void> tapKey(Key key) async {
+      await tester.ensureVisible(find.byKey(key));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(key));
+      await tester.pumpAndSettle();
+    }
+
+    await tester.pumpWidget(const MaterialApp(home: DasborPage()));
+    await tester.tap(find.text('Pencarian'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('search-facility-RG-101')));
+    await tester.pumpAndSettle();
+    await tapKey(const ValueKey('facility-detail-borrow'));
+
+    await tester.enterText(
+      find.byKey(const ValueKey('booking-name')),
+      'Rapat Himpunan',
+    );
+
+    await tapKey(const ValueKey('booking-date'));
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    await tapKey(const ValueKey('booking-start-time'));
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    await tapKey(const ValueKey('booking-end-time'));
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    await tapKey(const ValueKey('booking-submit'));
+
+    expect(find.text('Konfirmasi Pengajuan'), findsOneWidget);
+    expect(find.text('Rapat Himpunan'), findsWidgets);
+
+    await tester.tap(find.byKey(const ValueKey('booking-confirm')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Pengajuan berhasil diajukan!'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('booking-success-back')));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester
+          .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+          .currentIndex,
+      0,
+    );
+    expect(
+      find.text('Pengajuan Workspace Virtual Reality berhasil dikirim.'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('back from a secondary tab returns to the dashboard', (
@@ -205,13 +292,16 @@ void main() {
           .currentIndex,
       0,
     );
-    expect(find.text('Mau pinjem apa nih hari ini?'), findsOneWidget);
+    expect(find.text('Mau pinjam apa hari ini?'), findsOneWidget);
   });
 
   testWidgets(
     'recommendation pagination has working previous and next buttons',
     (WidgetTester tester) async {
       await tester.pumpWidget(const MaterialApp(home: DasborPage()));
+      await tester.pumpAndSettle();
+
+      const selectedPageColor = Color(0xFFFFC107);
 
       Color pageColor(int page) {
         final pageButton = tester.widget<AnimatedContainer>(
@@ -220,27 +310,22 @@ void main() {
         return (pageButton.decoration! as BoxDecoration).color!;
       }
 
-      expect(pageColor(1), AppColors.darkTeal);
-      await tester.ensureVisible(
-        find.byKey(const ValueKey('recommendation-page-2')),
-      );
-      await tester.tap(find.byKey(const ValueKey('recommendation-page-2')));
-      await tester.pumpAndSettle();
-      expect(pageColor(2), AppColors.darkTeal);
+      Future<void> tapControl(Key key) async {
+        await tester.ensureVisible(find.byKey(key));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(key));
+        await tester.pumpAndSettle();
+      }
 
-      await tester.ensureVisible(
-        find.byKey(const ValueKey('recommendation-previous')),
-      );
-      await tester.tap(find.byKey(const ValueKey('recommendation-previous')));
-      await tester.pumpAndSettle();
-      expect(pageColor(1), AppColors.darkTeal);
+      expect(pageColor(1), selectedPageColor);
+      await tapControl(const ValueKey('recommendation-page-2'));
+      expect(pageColor(2), selectedPageColor);
 
-      await tester.ensureVisible(
-        find.byKey(const ValueKey('recommendation-next')),
-      );
-      await tester.tap(find.byKey(const ValueKey('recommendation-next')));
-      await tester.pumpAndSettle();
-      expect(pageColor(2), AppColors.darkTeal);
+      await tapControl(const ValueKey('recommendation-previous'));
+      expect(pageColor(1), selectedPageColor);
+
+      await tapControl(const ValueKey('recommendation-next'));
+      expect(pageColor(2), selectedPageColor);
     },
   );
 
@@ -265,14 +350,11 @@ void main() {
     );
     expect(recommendationRect.left, 0);
     expect(recommendationRect.right, 240);
-    expect(find.byType(SingleChildScrollView), findsOneWidget);
+    expect(find.byType(CustomScrollView), findsOneWidget);
 
     final loanCardHeading = find.text('Informasi Peminjaman Saya');
     final loanCardTopBeforeScroll = tester.getTopLeft(loanCardHeading).dy;
-    await tester.drag(
-      find.byType(SingleChildScrollView),
-      const Offset(0, -240),
-    );
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -240));
     await tester.pumpAndSettle();
     expect(
       tester.getTopLeft(loanCardHeading).dy,
@@ -282,13 +364,38 @@ void main() {
     await tester.ensureVisible(
       find.byKey(const ValueKey('recommendation-next')),
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('recommendation-next')));
     await tester.pumpAndSettle();
     await tester.ensureVisible(
       find.byKey(const ValueKey('recommendation-previous')),
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('recommendation-previous')));
     await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('facility detail and loan form fit a compact phone width', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 720);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const MaterialApp(home: DasborPage()));
+    await tester.tap(find.text('Pencarian'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('search-facility-RG-101')));
+    await tester.pumpAndSettle();
+    expect(find.text('Detail Fasilitas'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.tap(find.byKey(const ValueKey('facility-detail-borrow')));
+    await tester.pumpAndSettle();
+    expect(find.text('Detail Pengajuan'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

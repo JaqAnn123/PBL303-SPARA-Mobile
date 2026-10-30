@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/api_client.dart';
+import '../services/spara_api.dart';
 import '../theme/app_colors.dart';
 import 'login.dart';
 
@@ -14,38 +16,9 @@ class _RegisterPageState extends State<RegisterPage> {
   static const int _totalPages = 2;
   static const String _requiredFieldMessage = 'Isi data terlebih dahulu!';
 
-  static const Map<String, List<String>> _prodiByJurusan = {
-    'Manajemen Bisnis': [
-      'D2 Distribusi Barang',
-      'D3 Akuntansi',
-      'D4 Administrasi Bisnis Terapan',
-      'D4 Akuntansi Manajerial',
-      'D4 Logistik Perdagangan Internasional',
-    ],
-    'Teknik Elektro': [
-      'D3 Teknik Elektronika Manufaktur',
-      'D3 Teknik Instrumentasi',
-      'D4 Teknologi Rekayasa Elektronika',
-      'D4 Teknik Mekatronika',
-      'D4 Teknologi Rekayasa Pembangkit Energi',
-      'D4 Teknik Robotika',
-    ],
-    'Teknik Informatika': [
-      'D3 Teknik Informatika',
-      'D3 Teknologi Geomatika',
-      'D4 Animasi',
-      'D4 Teknologi Rekayasa Multimedia',
-      'D4 Rekayasa Keamanan Siber',
-      'D4 Teknologi Rekayasa Perangkat Lunak',
-      'D4 Teknologi Permainan',
-    ],
-    'Teknik Mesin': [
-      'D3 Teknik Mesin',
-      'D3 Teknik Perawatan Pesawat Udara',
-      'D4 Teknologi Rekayasa Konstruksi Perkapalan',
-      'D4 Teknologi Rekayasa Pengelasan dan Fabrikasi',
-    ],
-  };
+  Map<String, List<Map<String, dynamic>>> _prodiByJurusan = {};
+  bool _isLoadingProdi = true;
+  String? _prodiError;
 
   final _formKey = GlobalKey<FormState>();
   int _currentPage = 0;
@@ -63,8 +36,60 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _prodi;
 
   List<String> get _jurusanList => _prodiByJurusan.keys.toList();
-  List<String> get _prodiList =>
-      _jurusan == null ? const [] : _prodiByJurusan[_jurusan]!;
+  List<String> get _prodiList => _jurusan == null
+      ? const []
+      : (_prodiByJurusan[_jurusan] ?? const [])
+            .map((program) => '${program['study_program_name']}')
+            .toList();
+
+  int? get _selectedProdiId {
+    if (_jurusan == null || _prodi == null) return null;
+    for (final program in _prodiByJurusan[_jurusan] ?? const []) {
+      if ('${program['study_program_name']}' == _prodi) {
+        return int.tryParse('${program['study_program_id']}');
+      }
+    }
+    return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProgramStudi();
+  }
+
+  Future<void> _loadProgramStudi() async {
+    setState(() {
+      _isLoadingProdi = true;
+      _prodiError = null;
+    });
+    try {
+      final programs = await SparaApi.instance.getProgramStudi();
+      final grouped = <String, List<Map<String, dynamic>>>{};
+      for (final program in programs) {
+        final department = '${program['department_name'] ?? 'Lainnya'}';
+        grouped.putIfAbsent(department, () => []).add(program);
+      }
+      if (!mounted) return;
+      setState(() {
+        _prodiByJurusan = grouped;
+        _isLoadingProdi = false;
+        _prodiError = null;
+      });
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _isLoadingProdi = false;
+        _prodiError = e.message;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isLoadingProdi = false;
+        _prodiError = 'Gagal memuat program studi.';
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -126,7 +151,48 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
     if (confirmed != true || !mounted) return;
-    _goToLogin();
+
+    final prodiId = _selectedProdiId;
+    if (prodiId == null) {
+      _showSnack('Pilih jurusan dan program studi terlebih dahulu.');
+      return;
+    }
+
+    try {
+      await SparaApi.instance.register(
+        idNumber: _nimController.text.trim(),
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+        phoneNumber: _phoneController.text.trim(),
+        studyProgramId: prodiId,
+        password: _passwordController.text,
+        passwordConfirmation: _confirmController.text,
+      );
+      if (!mounted) return;
+      _showSnack('Pendaftaran berhasil. Silakan masuk.');
+      _goToLogin();
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      _showSnack(e.message);
+    } catch (_) {
+      if (!mounted) return;
+      _showSnack('Pendaftaran gagal. Coba lagi.');
+    }
+  }
+
+  void _showSnack(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppColors.textDark,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          content: Text(message),
+        ),
+      );
   }
 
   @override
@@ -245,6 +311,18 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
       const SizedBox(height: 16),
+      if (_isLoadingProdi) ...[
+        const LinearProgressIndicator(minHeight: 3),
+        const SizedBox(height: 10),
+      ],
+      if (_prodiError != null) ...[
+        TextButton.icon(
+          onPressed: _loadProgramStudi,
+          icon: const Icon(Icons.refresh, size: 18),
+          label: Text('$_prodiError Ketuk untuk mencoba lagi.'),
+        ),
+        const SizedBox(height: 8),
+      ],
       _label('Jurusan'),
       const SizedBox(height: 8),
       _dropdown(

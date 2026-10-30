@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../models/app_user.dart';
 import '../models/facility_model.dart';
+import '../services/api_client.dart';
+import '../services/session.dart';
+import '../services/spara_api.dart';
+import '../theme/app_colors.dart';
 import '../widgets/bottom_nav_bar.dart';
 import 'bottom_nav_pages.dart';
+import 'facility_detail_page.dart';
 import 'riwayat.dart';
 import 'profil.dart';
 
 class DasborPage extends StatefulWidget {
-  const DasborPage({super.key});
+  const DasborPage({super.key, this.user});
+
+  final AppUser? user;
 
   @override
   State<DasborPage> createState() => _DasborPageState();
@@ -18,7 +25,6 @@ class _DasborPageState extends State<DasborPage> {
   static const int _itemsPerPage = 3;
   static const _pageBackground = Color(0xFFF4F7F6);
   static const _deepTeal = Color(0xFF064B45);
-  static const _green = Color(0xFF197B47);
 
   static const _tabs = [
     (label: 'Ruangan & Laboratorium', icon: Icons.meeting_room_outlined),
@@ -112,235 +118,47 @@ class _DasborPageState extends State<DasborPage> {
     super.dispose();
   }
 
-  late final List<_Fac> _allFacilities = [
-    ...dummyFacilities.map(_Fac.from),
-    ..._extraDummy,
-  ];
+  List<_Fac> _allFacilities = const [];
+  bool _isLoadingFacilities = true;
+  String? _facilitiesError;
+  AppUser? _user;
 
-  static const List<_Fac> _extraDummy = [
-    _Fac(
-      id: 'RG-101',
-      name: 'Ruang Kelas A.101',
-      type: 'Ruangan',
-      building: 'Gedung A',
-      floor: '1',
-      capacity: '40',
-    ),
-    _Fac(
-      id: 'RG-102',
-      name: 'Ruang Kelas A.102',
-      type: 'Ruangan',
-      building: 'Gedung A',
-      floor: '1',
-      capacity: '36',
-    ),
-    _Fac(
-      id: 'RG-201',
-      name: 'Laboratorium Komputer 1',
-      type: 'Ruangan',
-      building: 'Gedung B',
-      floor: '2',
-      capacity: '30',
-    ),
-    _Fac(
-      id: 'RG-202',
-      name: 'Laboratorium Komputer 2',
-      type: 'Ruangan',
-      building: 'Gedung B',
-      floor: '2',
-      capacity: '30',
-    ),
-    _Fac(
-      id: 'RG-203',
-      name: 'Laboratorium Jaringan',
-      type: 'Ruangan',
-      building: 'Gedung B',
-      floor: '3',
-      capacity: '24',
-    ),
-    _Fac(
-      id: 'RG-204',
-      name: 'Laboratorium Fisika',
-      type: 'Ruangan',
-      building: 'Gedung C',
-      floor: '1',
-      capacity: '28',
-    ),
-    _Fac(
-      id: 'RG-301',
-      name: 'Ruang Seminar S.301',
-      type: 'Ruangan',
-      building: 'Gedung C',
-      floor: '3',
-      capacity: '80',
-    ),
-    _Fac(
-      id: 'RG-302',
-      name: 'Aula Utama',
-      type: 'Ruangan',
-      building: 'Gedung Rektorat',
-      floor: '1',
-      capacity: '250',
-    ),
-    _Fac(
-      id: 'RG-303',
-      name: 'Auditorium Kampus',
-      type: 'Ruangan',
-      building: 'Gedung Rektorat',
-      floor: '2',
-      capacity: '400',
-    ),
-    _Fac(
-      id: 'RG-304',
-      name: 'Ruang Rapat Dekanat',
-      type: 'Ruangan',
-      building: 'Gedung D',
-      floor: '2',
-      capacity: '16',
-    ),
-    _Fac(
-      id: 'RG-305',
-      name: 'Ruang Diskusi 2',
-      type: 'Ruangan',
-      building: 'Perpustakaan',
-      floor: '2',
-      capacity: '12',
-    ),
-    _Fac(
-      id: 'RG-306',
-      name: 'Studio Multimedia',
-      type: 'Ruangan',
-      building: 'Gedung D',
-      floor: '1',
-      capacity: '20',
-    ),
-    _Fac(
-      id: 'RG-307',
-      name: 'Ruang Sidang Skripsi',
-      type: 'Ruangan',
-      building: 'Gedung D',
-      floor: '3',
-      capacity: '15',
-    ),
-    _Fac(
-      id: 'AL-101',
-      name: 'Proyektor Epson EB-X06',
-      type: 'Peralatan',
-      building: 'Gudang Inventaris',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-102',
-      name: 'Proyektor BenQ MX550',
-      type: 'Peralatan',
-      building: 'Gudang Inventaris',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-103',
-      name: 'Laptop Lenovo ThinkPad E14',
-      type: 'Peralatan',
-      building: 'Gudang Inventaris',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-104',
-      name: 'Laptop ASUS Vivobook 14',
-      type: 'Peralatan',
-      building: 'Gudang Inventaris',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-105',
-      name: 'Komputer Dell OptiPlex',
-      type: 'Peralatan',
-      building: 'Gedung B',
-      floor: '2',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-106',
-      name: 'Kamera Sony A6400',
-      type: 'Peralatan',
-      building: 'Studio Multimedia',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-107',
-      name: 'Kamera Canon EOS 200D',
-      type: 'Peralatan',
-      building: 'Studio Multimedia',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-108',
-      name: 'Speaker Portable JBL',
-      type: 'Peralatan',
-      building: 'Gudang Inventaris',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-109',
-      name: 'Mikrofon Wireless Shure',
-      type: 'Peralatan',
-      building: 'Gudang Inventaris',
-      floor: '1',
-      capacity: '2',
-    ),
-    _Fac(
-      id: 'AL-110',
-      name: 'Papan Tulis Portable',
-      type: 'Peralatan',
-      building: 'Gedung A',
-      floor: '1',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-111',
-      name: 'Whiteboard Mobile',
-      type: 'Peralatan',
-      building: 'Gedung A',
-      floor: '2',
-      capacity: '1',
-    ),
-    _Fac(
-      id: 'AL-112',
-      name: 'Proyektor Portable Mini',
-      type: 'Peralatan',
-      building: 'Gudang Inventaris',
-      floor: '1',
-      capacity: '1',
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _user = widget.user ?? Session.instance.user;
+    _loadFacilities();
+  }
 
+  Future<void> _loadFacilities() async {
+    setState(() {
+      _isLoadingFacilities = true;
+      _facilitiesError = null;
+    });
+    try {
+      final facilities = await SparaApi.instance.getFacilities();
+      if (!mounted) return;
+      setState(() {
+        _allFacilities = facilities.map(_Fac.from).toList();
+        _isLoadingFacilities = false;
+      });
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _facilitiesError = e.message;
+        _isLoadingFacilities = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _facilitiesError = 'Gagal memuat data fasilitas.';
+        _isLoadingFacilities = false;
+      });
+    }
+  }
   int _capacityOf(_Fac f) {
     final m = RegExp(r'\d+').firstMatch('${f.capacity}');
     return int.tryParse(m?.group(0) ?? '') ?? 0;
-  }
-
-  List<String> _roomFacilitiesOf(_Fac f) {
-    final n = f.name.toLowerCase();
-    final s = <String>{'AC', 'Wi-Fi'};
-    if (n.contains('lab') || n.contains('komputer')) {
-      s.addAll(['Komputer', 'Proyektor']);
-    }
-    if (n.contains('seminar') ||
-        n.contains('aula') ||
-        n.contains('auditorium')) {
-      s.addAll(['Proyektor', 'Sound System']);
-    }
-    if (n.contains('kelas') || n.contains('ruang')) {
-      s.addAll(['Proyektor', 'Papan Tulis']);
-    }
-    if (_capacityOf(f) > 40) s.add('Sound System');
-    return s.toList();
   }
 
   bool _matchesEquipment(
@@ -358,9 +176,8 @@ class _DasborPageState extends State<DasborPage> {
     return 'Lainnya';
   }
 
-  List<String> _tagsFor(_Fac f) => f.type == 'Ruangan'
-      ? _roomFacilitiesOf(f)
-      : <String>[_equipmentLabelFor(f)];
+  List<String> _tagsFor(_Fac f) =>
+      f.type == 'Ruangan' ? f.facilities : <String>[_equipmentLabelFor(f)];
 
   bool get _hasActiveFilter => _selectedCategory == 0
       ? (_capacityFilter != null || _roomFacilityFilters.isNotEmpty)
@@ -390,7 +207,7 @@ class _DasborPageState extends State<DasborPage> {
           if (cap < r.min || cap > r.max) return false;
         }
         if (_roomFacilityFilters.isNotEmpty) {
-          final has = _roomFacilitiesOf(f);
+          final has = f.facilities;
           if (!_roomFacilityFilters.every(has.contains)) return false;
         }
         return true;
@@ -421,6 +238,18 @@ class _DasborPageState extends State<DasborPage> {
     if (h < 15) return 'Selamat Siang,';
     if (h < 18) return 'Selamat Sore,';
     return 'Selamat Malam,';
+  }
+
+  AppUser? get _currentUser => Session.instance.user ?? _user;
+
+  String get _displayName {
+    final name = _currentUser?.name.trim() ?? '';
+    return name.isEmpty ? 'Pengguna SPARA' : name;
+  }
+
+  String get _displayInitials {
+    final initials = _currentUser?.initials ?? '';
+    return initials.isEmpty ? 'SP' : initials;
   }
 
   void _onNavTap(int index) {
@@ -584,401 +413,25 @@ class _DasborPageState extends State<DasborPage> {
   }
 
   Future<void> _showFacilityDetail(_Fac f) async {
-    final tags = _tagsFor(f);
-    final borrow = await showModalBottomSheet<bool>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    final created = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => FacilityDetailPage(facility: f.toFacility()),
       ),
-      builder: (sheetContext) {
-        Widget row(IconData icon, String label, String value) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            children: [
-              Icon(icon, size: 20, color: AppColors.darkTeal),
-              const SizedBox(width: 12),
-              Text(
-                label,
-                style: const TextStyle(color: AppColors.textGrey, fontSize: 13),
-              ),
-              const Spacer(),
-              Flexible(
-                child: Text(
-                  value,
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                    color: AppColors.textDark,
-                    fontSize: 13.5,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-
-        return SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 120,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF1B4F4A), Color(0xFF2C7A72)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: Icon(
-                    f.type == 'Ruangan'
-                        ? Icons.meeting_room_outlined
-                        : Icons.devices_outlined,
-                    size: 52,
-                    color: Colors.white54,
-                  ),
-                ),
-                const SizedBox(height: 14),
-                Text(
-                  f.name,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textDark,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Kode ${f.id}',
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    color: _green,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Divider(height: 1),
-                row(Icons.apartment_outlined, 'Gedung', f.building),
-                row(Icons.layers_outlined, 'Lantai', '${f.floor}'),
-                row(Icons.people_outline, 'Kapasitas', '${f.capacity}'),
-                row(Icons.category_outlined, 'Kategori', f.type),
-                if (tags.isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    f.type == 'Ruangan' ? 'Fasilitas ruangan' : 'Jenis alat',
-                    style: const TextStyle(
-                      color: AppColors.textGrey,
-                      fontSize: 13,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 6,
-                    children: [for (final t in tags) _TagChip(label: t)],
-                  ),
-                ],
-                const SizedBox(height: 14),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(sheetContext, false),
-                        style: OutlinedButton.styleFrom(
-                          minimumSize: const Size(0, 48),
-                          foregroundColor: AppColors.textDark,
-                          side: const BorderSide(color: Color(0xFFD8E2E0)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                        child: const Text('Tutup'),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      flex: 2,
-                      child: FilledButton.icon(
-                        onPressed: () => Navigator.pop(sheetContext, true),
-                        icon: const Icon(Icons.arrow_forward, size: 18),
-                        label: const Text('Pinjam Sekarang'),
-                        iconAlignment: IconAlignment.end,
-                        style: FilledButton.styleFrom(
-                          minimumSize: const Size(0, 48),
-                          backgroundColor: _green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
-    if (borrow == true && mounted) await _showBookingSheet(f);
+    if (created == true && mounted) {
+      _searchFocus.unfocus();
+      setState(() => _navIndex = 0);
+      await _loadFacilities();
+      if (!mounted) return;
+      _toast(
+        'Pengajuan ${f.name} berhasil dikirim.',
+        icon: Icons.check_circle_outline,
+      );
+    }
   }
 
   Future<void> _showSearchFacilityDetail(Facility facility) async {
     await _showFacilityDetail(_Fac.from(facility));
-  }
-
-  Future<void> _showBookingSheet(_Fac f) async {
-    DateTime? date;
-    TimeOfDay? start;
-    TimeOfDay? end;
-    var purpose = '';
-    String? error;
-
-    String two(int v) => v.toString().padLeft(2, '0');
-    String fmtDate(DateTime d) => '${two(d.day)}/${two(d.month)}/${d.year}';
-    String fmtTime(TimeOfDay t) => '${two(t.hour)}:${two(t.minute)}';
-    int mins(TimeOfDay t) => t.hour * 60 + t.minute;
-
-    final submitted = await showModalBottomSheet<bool>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (sheetContext) => StatefulBuilder(
-        builder: (context, setSheet) {
-          Widget picker({
-            required IconData icon,
-            required String label,
-            required String? value,
-            required VoidCallback onTap,
-          }) {
-            final filled = value != null;
-            return InkWell(
-              onTap: onTap,
-              borderRadius: BorderRadius.circular(14),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 14,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF6F9F8),
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: filled
-                        ? AppColors.accentTeal
-                        : const Color(0xFFE1E8E8),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(icon, size: 20, color: AppColors.darkTeal),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        value ?? label,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: filled
-                              ? FontWeight.w700
-                              : FontWeight.w500,
-                          color: filled ? AppColors.textDark : Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          return SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(
-                20,
-                0,
-                20,
-                16 + MediaQuery.of(context).viewInsets.bottom,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Ajukan Peminjaman',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textDark,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${f.name} · ${f.building}',
-                    style: const TextStyle(
-                      fontSize: 12.5,
-                      color: AppColors.textGrey,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  picker(
-                    icon: Icons.calendar_month_outlined,
-                    label: 'Pilih tanggal',
-                    value: date == null ? null : fmtDate(date!),
-                    onTap: () async {
-                      final now = DateTime.now();
-                      final picked = await showDatePicker(
-                        context: context,
-                        initialDate: date ?? now,
-                        firstDate: DateTime(now.year, now.month, now.day),
-                        lastDate: now.add(const Duration(days: 90)),
-                      );
-                      if (picked != null) setSheet(() => date = picked);
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: picker(
-                          icon: Icons.schedule,
-                          label: 'Mulai',
-                          value: start == null ? null : fmtTime(start!),
-                          onTap: () async {
-                            final picked = await showTimePicker(
-                              context: context,
-                              initialTime:
-                                  start ?? const TimeOfDay(hour: 8, minute: 0),
-                            );
-                            if (picked != null) setSheet(() => start = picked);
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: picker(
-                          icon: Icons.schedule,
-                          label: 'Selesai',
-                          value: end == null ? null : fmtTime(end!),
-                          onTap: () async {
-                            final picked = await showTimePicker(
-                              context: context,
-                              initialTime:
-                                  end ?? const TimeOfDay(hour: 10, minute: 0),
-                            );
-                            if (picked != null) setSheet(() => end = picked);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    onChanged: (v) => purpose = v.trim(),
-                    maxLines: 2,
-                    decoration: InputDecoration(
-                      hintText: 'Keperluan peminjaman',
-                      filled: true,
-                      fillColor: const Color(0xFFF6F9F8),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(
-                          color: AppColors.accentTeal,
-                          width: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (error != null) ...[
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.error_outline,
-                          size: 16,
-                          color: AppColors.error,
-                        ),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Text(
-                            error!,
-                            style: const TextStyle(
-                              color: AppColors.error,
-                              fontSize: 12.5,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                  const SizedBox(height: 18),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: FilledButton(
-                      onPressed: () {
-                        if (date == null || start == null || end == null) {
-                          setSheet(
-                            () =>
-                                error = 'Lengkapi tanggal dan jam peminjaman.',
-                          );
-                          return;
-                        }
-                        if (mins(end!) <= mins(start!)) {
-                          setSheet(
-                            () =>
-                                error = 'Jam selesai harus setelah jam mulai.',
-                          );
-                          return;
-                        }
-                        if (purpose.isEmpty) {
-                          setSheet(() => error = 'Isi keperluan peminjaman.');
-                          return;
-                        }
-                        Navigator.pop(sheetContext, true);
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor: _green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      child: const Text('Kirim pengajuan'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-
-    if (submitted == true && mounted) {
-      _toast(
-        'Pengajuan ${f.name} terkirim (pratinjau lokal).',
-        icon: Icons.check_circle_outline,
-      );
-    }
   }
 
   @override
@@ -1060,12 +513,12 @@ class _DasborPageState extends State<DasborPage> {
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         radius: 22,
-                        backgroundColor: Color(0xFFDDF3EF),
+                        backgroundColor: const Color(0xFFDDF3EF),
                         child: Text(
-                          'RT',
-                          style: TextStyle(
+                          _displayInitials,
+                          style: const TextStyle(
                             color: AppColors.darkTeal,
                             fontWeight: FontWeight.w800,
                             fontSize: 14,
@@ -1086,9 +539,9 @@ class _DasborPageState extends State<DasborPage> {
                             fontSize: 12.5,
                           ),
                         ),
-                        const Text(
-                          'Rajiv Tajusa David',
-                          style: TextStyle(
+                        Text(
+                          _displayName,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
@@ -1451,30 +904,34 @@ class _DasborPageState extends State<DasborPage> {
                 ],
               ),
               const SizedBox(height: 8),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    value,
-                    style: TextStyle(
-                      color: foregroundColor,
-                      fontSize: 32,
-                      height: 1,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
-                    child: Text(
-                      unit,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      value,
                       style: TextStyle(
-                        color: foregroundColor.withValues(alpha: 0.85),
-                        fontSize: 12,
+                        color: foregroundColor,
+                        fontSize: 32,
+                        height: 1,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 6),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 3),
+                      child: Text(
+                        unit,
+                        style: TextStyle(
+                          color: foregroundColor.withValues(alpha: 0.85),
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 6),
               Text(
@@ -1577,7 +1034,11 @@ class _DasborPageState extends State<DasborPage> {
               ],
             ),
           ),
-          if (items.isEmpty)
+          if (_isLoadingFacilities)
+            _buildFacilitiesLoading()
+          else if (_facilitiesError != null)
+            _buildFacilitiesError()
+          else if (items.isEmpty)
             _buildEmptyRecommendation()
           else
             AnimatedSwitcher(
@@ -1592,7 +1053,7 @@ class _DasborPageState extends State<DasborPage> {
                   facility: items[index],
                   tags: _tagsFor(items[index]),
                   onDetail: () => _showFacilityDetail(items[index]),
-                  onBorrow: () => _showBookingSheet(items[index]),
+                  onBorrow: () => _showFacilityDetail(items[index]),
                 ),
               ),
             ),
@@ -1742,6 +1203,76 @@ class _DasborPageState extends State<DasborPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
       showCheckmark: false,
+    );
+  }
+
+  Widget _buildFacilitiesLoading() {
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(20, 32, 20, 16),
+      child: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              width: 30,
+              height: 30,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.6,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 12),
+            Text(
+              'Memuat data fasilitas...',
+              style: TextStyle(color: Color(0xFFCFE3E0), fontSize: 12.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFacilitiesError() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 28, 20, 12),
+      child: Center(
+        child: Column(
+          children: [
+            const Icon(Icons.cloud_off, color: Colors.white70, size: 44),
+            const SizedBox(height: 8),
+            const Text(
+              'Gagal memuat data',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              _facilitiesError ?? 'Periksa koneksi ke server.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFFCFE3E0),
+                fontSize: 12.5,
+              ),
+            ),
+            const SizedBox(height: 14),
+            OutlinedButton.icon(
+              onPressed: _loadFacilities,
+              icon: const Icon(Icons.refresh, size: 18),
+              label: const Text('Coba lagi'),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white,
+                side: const BorderSide(color: Colors.white54),
+                minimumSize: const Size(0, 42),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -1967,7 +1498,7 @@ class _DasborPageState extends State<DasborPage> {
                               child: AnimatedContainer(
                                 key: ValueKey('recommendation-page-$t'),
                                 duration: const Duration(milliseconds: 220),
-                                curve: Curves.easeOutBack,
+                                curve: Curves.easeOutCubic,
                                 width: t == page ? 46 : 40,
                                 height: t == page ? 46 : 40,
                                 alignment: Alignment.center,
@@ -2307,6 +1838,12 @@ class _Fac {
     required this.building,
     required this.floor,
     required this.capacity,
+    this.dbId,
+    this.status = 'Tersedia',
+    this.imageUrl,
+    this.facilities = const [],
+    this.description,
+    this.pic,
   });
 
   factory _Fac.from(Facility f) => _Fac(
@@ -2316,6 +1853,29 @@ class _Fac {
     building: '${f.building}',
     floor: '${f.floor}',
     capacity: '${f.capacity}',
+    dbId: f.dbId,
+    status: f.status,
+    imageUrl: f.imageUrl,
+    facilities: f.facilities,
+    description: f.description,
+    pic: f.pic,
+  );
+
+  Facility toFacility() => Facility(
+    id: id,
+    name: name,
+    category: id,
+    imagePath: 'lib/assets/images/facility/room1.jpg',
+    capacity: capacity,
+    building: building,
+    floor: floor,
+    type: type,
+    status: status,
+    dbId: dbId,
+    imageUrl: imageUrl,
+    facilities: facilities,
+    description: description,
+    pic: pic,
   );
 
   final String id;
@@ -2324,4 +1884,10 @@ class _Fac {
   final String building;
   final String floor;
   final String capacity;
+  final int? dbId;
+  final String status;
+  final String? imageUrl;
+  final List<String> facilities;
+  final String? description;
+  final String? pic;
 }

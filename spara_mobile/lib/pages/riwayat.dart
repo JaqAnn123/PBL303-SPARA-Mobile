@@ -4,6 +4,9 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
+import '../models/facility_model.dart';
+import '../services/api_client.dart';
+import '../services/spara_api.dart';
 import '../theme/app_colors.dart';
 
 enum _Category {
@@ -39,6 +42,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     'Semua',
     'Menunggu',
     'Disetujui',
+    'Ditolak',
     'Selesai',
     'Dibatalkan',
   ];
@@ -69,92 +73,114 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
 
   pw.MemoryImage? _pdfLogo;
 
-  late final List<_LoanRecord> _records = _buildSampleRecords();
-
   static DateTime _today() {
-    final n = DateTime.now();
-    return DateTime(n.year, n.month, n.day);
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day);
   }
 
-  List<_LoanRecord> _buildSampleRecords() {
-    final today = _today();
-    DateTime ago(int d) => today.subtract(Duration(days: d));
-    DateTime ahead(int d) => today.add(Duration(days: d));
-    const applicant = 'Rajiv Tajusa David';
-    return [
-      _LoanRecord(
-        id: 'REQ-2026-011',
-        category: _Category.peralatan,
-        name: 'Kamera Sony A6400',
-        status: 'Menunggu',
-        scheduledAt: ahead(3),
-        timeSlot: '08:00-10:00',
-        location: 'Gedung Riset · Lantai 2',
-        submittedAt: ago(0),
-        applicant: applicant,
-        purpose: 'Dokumentasi Kegiatan Himpunan',
-      ),
-      _LoanRecord(
-        id: 'REQ-2026-010',
-        category: _Category.ruangan,
-        name: 'Ruang Seminar R.302',
-        status: 'Disetujui',
-        scheduledAt: ahead(5),
-        timeSlot: '09:00-12:00',
-        location: 'Gedung Rektorat · Lantai 3',
-        submittedAt: ago(2),
-        applicant: applicant,
-        purpose: 'Seminar Proposal Program Kerja',
-      ),
-      _LoanRecord(
-        id: 'REQ-2026-009',
-        category: _Category.peralatan,
-        name: 'Proyektor Epson EB-X06',
-        status: 'Selesai',
-        scheduledAt: ago(6),
-        timeSlot: '13:00-15:00',
-        location: 'Ruang Kelas A.204 · Gedung A',
-        submittedAt: ago(9),
-        applicant: applicant,
-        purpose: 'Presentasi Tugas Akhir',
-      ),
-      _LoanRecord(
-        id: 'REQ-2026-008',
-        category: _Category.ruangan,
-        name: 'Ruang Rapat A.204',
-        status: 'Menunggu',
-        scheduledAt: ahead(7),
-        timeSlot: '10:00-12:00',
-        location: 'Gedung A · Lantai 2',
-        submittedAt: ago(4),
-        applicant: applicant,
-        purpose: 'Rapat Koordinasi Panitia',
-      ),
-      _LoanRecord(
-        id: 'REQ-2026-007',
-        category: _Category.peralatan,
-        name: 'Tripod Kamera',
-        status: 'Disetujui',
-        scheduledAt: ahead(1),
-        timeSlot: '08:00-11:00',
-        location: 'Gedung Riset · Lantai 2',
-        submittedAt: ago(12),
-        applicant: applicant,
-        purpose: 'Dokumentasi Kegiatan Himpunan',
-      ),
-      _LoanRecord(
-        id: 'REQ-2026-006',
-        category: _Category.ruangan,
-        name: 'Aula Utama',
-        status: 'Selesai',
-        scheduledAt: ago(30),
-        timeSlot: '08:00-16:00',
-        location: 'Gedung Serbaguna · Lantai 1',
-        submittedAt: ago(40),
-        applicant: applicant,
-        purpose: 'Kegiatan Orientasi Mahasiswa',
-      ),
-    ]..sort((a, b) => b.submittedAt.compareTo(a.submittedAt));
+  List<_LoanRecord> _records = const [];
+  bool _isLoading = true;
+  String? _loadError;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRecords();
+  }
+
+  static DateTime _parseDate(dynamic value, {DateTime? fallback}) {
+    if (value is String && value.isNotEmpty) {
+      final parsed = DateTime.tryParse(value);
+      if (parsed != null) return parsed.toLocal();
+    }
+    return fallback ?? _today();
+  }
+
+  static String _shortTime(dynamic value) {
+    final raw = '${value ?? ''}';
+    if (raw.length >= 5) return raw.substring(0, 5);
+    return raw.isEmpty ? '00:00' : raw;
+  }
+
+  static String _statusLabel(String? status) {
+    switch (status) {
+      case 'disetujui':
+        return 'Disetujui';
+      case 'ditolak':
+        return 'Ditolak';
+      case 'dibatalkan':
+        return 'Dibatalkan';
+      default:
+        return 'Menunggu';
+    }
+  }
+
+  Future<void> _loadRecords() async {
+    setState(() {
+      _isLoading = true;
+      _loadError = null;
+    });
+    try {
+      final results = await Future.wait([
+        SparaApi.instance.getRiwayat(),
+        SparaApi.instance.getFacilities(),
+      ]);
+      final rawRecords = results[0] as List<Map<String, dynamic>>;
+      final facilities = results[1] as List<Facility>;
+      final today = _today();
+
+      final byName = <String, Facility>{
+        for (final facility in facilities) facility.name.toLowerCase(): facility,
+      };
+
+      final records = rawRecords.map((json) {
+        final name = '${json['alat'] ?? json['ruangan'] ?? '-'}';
+        final isTool = json['alat'] != null && '${json['alat']}'.isNotEmpty;
+        final facility = byName[name.toLowerCase()];
+        final scheduledAt = _parseDate(
+          json['tanggal_mulai'] ?? json['hari_tanggal'],
+        );
+        final submittedAt = _parseDate(json['dibuat_pada'], fallback: today);
+        final dbId = int.tryParse('${json['id_peminjaman']}') ?? 0;
+        final location = facility != null
+            ? '${facility.building} ? ${facility.floor}'
+            : 'PIC: ${json['pic'] ?? '-'}';
+
+        return _LoanRecord(
+          id: 'REQ-${scheduledAt.year}-${dbId.toString().padLeft(3, '0')}',
+          dbId: dbId,
+          category: isTool ? _Category.peralatan : _Category.ruangan,
+          name: name,
+          status: _statusLabel(json['status_persetujuan'] as String?),
+          scheduledAt: scheduledAt,
+          timeSlot:
+              '${_shortTime(json['jam_mulai'])}-${_shortTime(json['jam_selesai'])}',
+          location: location,
+          submittedAt: submittedAt,
+          applicant: '${json['peminjam'] ?? '-'}',
+          purpose: '${json['name_kegiatan'] ?? '-'}',
+        );
+      }).toList()
+        ..sort((a, b) => b.submittedAt.compareTo(a.submittedAt));
+
+      if (!mounted) return;
+      setState(() {
+        _records = records;
+        _isLoading = false;
+      });
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _loadError = e.message;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _loadError = 'Gagal memuat riwayat peminjaman.';
+        _isLoading = false;
+      });
+    }
   }
 
   String _fmt(DateTime d) =>
@@ -496,6 +522,22 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     );
     if (confirmed != true || !mounted) return;
 
+    final id = record.dbId;
+    if (id != null) {
+      try {
+        await SparaApi.instance.cancelPeminjaman(id);
+      } on ApiException catch (e) {
+        if (!mounted) return;
+        _toast(e.message);
+        return;
+      } catch (_) {
+        if (!mounted) return;
+        _toast('Gagal membatalkan pengajuan.');
+        return;
+      }
+    }
+
+    if (!mounted) return;
     setState(() => record.status = 'Dibatalkan');
     _toast('Pengajuan ${record.id} dibatalkan.');
   }
@@ -1041,16 +1083,51 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
             ),
           ),
           Expanded(
-            child: visible.isEmpty
-                ? _buildEmptyState()
-                : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                    itemCount: visible.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 12),
-                    itemBuilder: (context, index) =>
-                        _buildRecordCard(visible[index]),
-                  ),
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _loadError != null
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.cloud_off,
+                                size: 48,
+                                color: AppColors.textGrey,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                _loadError!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: AppColors.textGrey,
+                                ),
+                              ),
+                              const SizedBox(height: 14),
+                              OutlinedButton.icon(
+                                onPressed: _loadRecords,
+                                icon: const Icon(Icons.refresh, size: 18),
+                                label: const Text('Coba lagi'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : visible.isEmpty
+                        ? _buildEmptyState()
+                        : RefreshIndicator(
+                            onRefresh: _loadRecords,
+                            child: ListView.separated(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                              itemCount: visible.length,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 12),
+                              itemBuilder: (context, index) =>
+                                  _buildRecordCard(visible[index]),
+                            ),
+                          ),
           ),
           _buildPagination(page, pageCount),
         ],
@@ -1276,14 +1353,16 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
           const SizedBox(height: 6),
           _infoRow(Icons.location_on_outlined, record.location),
           const SizedBox(height: 12),
-          Row(
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
             children: [
-              Expanded(
-                child: Text(
-                  '${record.id}\nDiajukan ${_fmt(record.submittedAt)}',
-                  style: const TextStyle(
-                      fontSize: 11, color: Colors.grey, height: 1.4),
-                ),
+              Text(
+                '${record.id}\nDiajukan ${_fmt(record.submittedAt)}',
+                style: const TextStyle(
+                    fontSize: 11, color: Colors.grey, height: 1.4),
               ),
               if (canCancel)
                 OutlinedButton.icon(
@@ -1343,7 +1422,8 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
   }
 
   Widget _buildProgressCard(_LoanRecord record) {
-    if (record.status == 'Dibatalkan') {
+    if (record.status == 'Dibatalkan' || record.status == 'Ditolak') {
+      final rejected = record.status == 'Ditolak';
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(10),
@@ -1352,13 +1432,17 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: const Color(0xFFF5D8D5)),
         ),
-        child: const Row(
+        child: Row(
           children: [
-            Icon(Icons.cancel_outlined, size: 16, color: Color(0xFFD34E4E)),
-            SizedBox(width: 6),
+            Icon(
+              rejected ? Icons.highlight_off : Icons.cancel_outlined,
+              size: 16,
+              color: const Color(0xFFD34E4E),
+            ),
+            const SizedBox(width: 6),
             Text(
-              'Pengajuan dibatalkan',
-              style: TextStyle(fontSize: 12, color: Color(0xFFD34E4E)),
+              rejected ? 'Pengajuan ditolak' : 'Pengajuan dibatalkan',
+              style: const TextStyle(fontSize: 12, color: Color(0xFFD34E4E)),
             ),
           ],
         ),
@@ -1568,6 +1652,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
       'Disetujui' => const Color(0xFF198B68),
       'Selesai' => const Color(0xFF5E6B75),
       'Dibatalkan' => const Color(0xFFD34E4E),
+      'Ditolak' => const Color(0xFFD34E4E),
       _ => AppColors.textGrey,
     };
   }
@@ -1585,9 +1670,11 @@ class _LoanRecord {
     required this.submittedAt,
     required this.applicant,
     required this.purpose,
+    this.dbId,
   });
 
   final String id;
+  final int? dbId;
   final _Category category;
   final String name;
   String status;
