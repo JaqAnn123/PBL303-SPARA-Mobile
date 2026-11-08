@@ -777,13 +777,23 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
     return doc.save();
   }
 
-  Future<void> _printLetter(_LoanRecord record) async {
+  Future<void> _downloadLetter(_LoanRecord record) async {
     try {
       final logo = await _loadLogo();
-      await Printing.layoutPdf(
-        name: 'Surat-Izin-${record.id}.pdf',
-        format: PdfPageFormat.a4,
-        onLayout: (format) => _buildLetterPdf(record, format, logo),
+      final bytes = await _buildLetterPdf(
+        record,
+        PdfPageFormat.a4,
+        logo,
+      );
+      final saved = await Printing.sharePdf(
+        bytes: bytes,
+        filename: 'Surat-Izin-${record.id}.pdf',
+      );
+      if (!mounted) return;
+      _toast(
+        saved
+            ? 'PDF berhasil diunduh.'
+            : 'Gagal mengunduh PDF. Silakan coba lagi.',
       );
     } catch (_) {
       if (!mounted) return;
@@ -835,15 +845,15 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
                 width: double.infinity,
                 height: 48,
                 child: FilledButton.icon(
-                  onPressed: () => _printLetter(record),
+                  onPressed: () => _downloadLetter(record),
                   style: FilledButton.styleFrom(
                     backgroundColor: _teal,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  icon: const Icon(Icons.print_outlined),
-                  label: const Text('Cetak format PDF'),
+                  icon: const Icon(Icons.download_outlined),
+                  label: const Text('Download PDF'),
                 ),
               ),
             ),
@@ -1177,7 +1187,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
             label: Text('$count'),
             backgroundColor: const Color(0xFFD34E4E),
             child: Material(
-              color: count > 0 ? _teal : Colors.white,
+              color: _teal,
               borderRadius: BorderRadius.circular(14),
               child: InkWell(
                 key: const ValueKey('open-filter'),
@@ -1190,7 +1200,7 @@ class _LoanHistoryPageState extends State<LoanHistoryPage> {
                     height: 48,
                     child: Icon(
                       Icons.tune,
-                      color: count > 0 ? Colors.white : _teal,
+                      color: Colors.white,
                     ),
                   ),
                 ),

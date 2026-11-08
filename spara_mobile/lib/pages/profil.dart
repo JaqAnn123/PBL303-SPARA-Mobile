@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../models/app_user.dart';
 import '../services/api_client.dart';
+import '../services/notification_center.dart';
 import '../services/session.dart';
 import '../services/spara_api.dart';
 import '../theme/app_colors.dart';
@@ -20,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   AppUser? _user = Session.instance.user;
   String? _loadError;
+  bool _isUploadingPhoto = false;
 
   String get _name => _user?.name ?? 'Pengguna SPARA';
   String get _studentId => _user?.idNumber ?? '-';
@@ -36,6 +39,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   String get _initials => _user?.initials ?? 'SP';
+
+  String? get _photoUrl {
+    final value = _user?.profilePicture?.trim() ?? '';
+    return value.isEmpty ? null : value;
+  }
 
   @override
   void initState() {
@@ -68,11 +76,165 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _logout() async {
     await SparaApi.instance.logout();
+    NotificationCenter.instance.stop();
     await Session.instance.clear();
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute<void>(builder: (_) => const LoginPage()),
       (_) => false,
+    );
+  }
+
+  Future<void> _changePhoto() async {
+    if (_isUploadingPhoto) return;
+
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      backgroundColor: Colors.white,
+      showDragHandle: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Ubah Foto Profil',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.textDark,
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Pilih sumber foto. Ukuran maksimal 2 MB.',
+                style: TextStyle(color: AppColors.textGrey, fontSize: 13),
+              ),
+              const SizedBox(height: 14),
+              _photoSourceOption(
+                icon: Icons.photo_camera_outlined,
+                title: 'Kamera',
+                subtitle: 'Ambil foto langsung',
+                onTap: () => Navigator.pop(sheetContext, ImageSource.camera),
+              ),
+              const SizedBox(height: 8),
+              _photoSourceOption(
+                icon: Icons.photo_library_outlined,
+                title: 'Galeri',
+                subtitle: 'Pilih dari penyimpanan',
+                onTap: () => Navigator.pop(sheetContext, ImageSource.gallery),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (source == null || !mounted) return;
+
+    XFile? file;
+    try {
+      file = await ImagePicker().pickImage(
+        source: source,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        imageQuality: 85,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      _showMessage(
+        'Tidak dapat membuka pemilih gambar.',
+        icon: Icons.error_outline,
+      );
+      return;
+    }
+    if (file == null || !mounted) return;
+
+    final bytes = await file.readAsBytes();
+    if (bytes.lengthInBytes > 2 * 1024 * 1024) {
+      if (!mounted) return;
+      _showMessage(
+        'Ukuran foto maksimal 2 MB.',
+        icon: Icons.error_outline,
+      );
+      return;
+    }
+
+    setState(() => _isUploadingPhoto = true);
+    try {
+      final updated = await SparaApi.instance.uploadProfilePhoto(
+        bytes: bytes,
+        filename: file.name.isEmpty ? 'profile.jpg' : file.name,
+      );
+      await Session.instance.updateUser(updated);
+      if (!mounted) return;
+      setState(() => _user = updated);
+      _showMessage(
+        'Foto profil berhasil diperbarui.',
+        icon: Icons.check_circle_outline,
+      );
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      _showMessage(e.message, icon: Icons.error_outline);
+    } catch (_) {
+      if (!mounted) return;
+      _showMessage('Gagal mengunggah foto profil.', icon: Icons.error_outline);
+    } finally {
+      if (mounted) setState(() => _isUploadingPhoto = false);
+    }
+  }
+
+  Widget _photoSourceOption({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF6F9F8),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE1E8E8)),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.primary, size: 22),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: AppColors.textDark,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      color: AppColors.textGrey,
+                      fontSize: 11.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+          ],
+        ),
+      ),
     );
   }
 
@@ -85,8 +247,9 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.transparent,
           title: Row(
@@ -185,11 +348,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 14),
-                  const _PrototypeNotice(
-                    text:
-                        'Pratinjau frontend: kode verifikasi belum dikirim oleh server.',
-                  ),
                 ],
               ),
             ),
@@ -237,10 +395,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _showMessage(e.message, icon: Icons.error_outline);
       } catch (_) {
         if (!mounted) return;
-        _showMessage(
-          'Gagal memperbarui email.',
-          icon: Icons.error_outline,
-        );
+        _showMessage('Gagal memperbarui email.', icon: Icons.error_outline);
       }
       return;
     }
@@ -348,12 +503,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 10),
-              const _PrototypeNotice(
-                text:
-                    'Verifikasi kode belum tersedia di server. Kode apa pun '
-                    'akan dilanjutkan dan perubahan langsung disimpan.',
-              ),
             ],
           ),
         ),
@@ -393,19 +542,20 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) {
           Widget eye(bool obscured, VoidCallback toggle) => IconButton(
-                tooltip: obscured ? 'Tampilkan' : 'Sembunyikan',
-                onPressed: () => setDialogState(toggle),
-                icon: Icon(
-                  obscured
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  size: 20,
-                ),
-              );
+            tooltip: obscured ? 'Tampilkan' : 'Sembunyikan',
+            onPressed: () => setDialogState(toggle),
+            icon: Icon(
+              obscured
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+              size: 20,
+            ),
+          );
 
           return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.transparent,
             title: const Row(
@@ -435,8 +585,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       prefixIcon: Icons.lock_outline,
                       obscureText: obscureCurrent,
                       onChanged: (value) => currentPassword = value,
-                      suffix:
-                          eye(obscureCurrent, () => obscureCurrent = !obscureCurrent),
+                      suffix: eye(
+                        obscureCurrent,
+                        () => obscureCurrent = !obscureCurrent,
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Isi data terlebih dahulu!';
@@ -468,7 +620,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       obscureText: obscureConfirm,
                       onChanged: (value) => confirmPassword = value,
                       suffix: eye(
-                          obscureConfirm, () => obscureConfirm = !obscureConfirm),
+                        obscureConfirm,
+                        () => obscureConfirm = !obscureConfirm,
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Isi data terlebih dahulu!';
@@ -529,10 +683,7 @@ class _ProfilePageState extends State<ProfilePage> {
       _showMessage(e.message, icon: Icons.error_outline);
     } catch (_) {
       if (!mounted) return;
-      _showMessage(
-        'Gagal memperbarui kata sandi.',
-        icon: Icons.error_outline,
-      );
+      _showMessage('Gagal memperbarui kata sandi.', icon: Icons.error_outline);
     }
   }
 
@@ -600,7 +751,9 @@ class _ProfilePageState extends State<ProfilePage> {
         SnackBar(
           behavior: SnackBarBehavior.floating,
           backgroundColor: AppColors.textDark,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
           content: Row(
             children: [
               Icon(icon, color: Colors.white, size: 20),
@@ -613,19 +766,19 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   ButtonStyle get _dialogOutlinedStyle => OutlinedButton.styleFrom(
-        minimumSize: const Size(0, 44),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        foregroundColor: AppColors.textDark,
-        side: const BorderSide(color: Color(0xFFD8E2E0)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      );
+    minimumSize: const Size(0, 44),
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    foregroundColor: AppColors.textDark,
+    side: const BorderSide(color: Color(0xFFD8E2E0)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  );
 
   ButtonStyle get _dialogFilledStyle => FilledButton.styleFrom(
-        minimumSize: const Size(0, 44),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        backgroundColor: AppColors.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      );
+    minimumSize: const Size(0, 44),
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    backgroundColor: AppColors.primary,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -791,10 +944,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 22),
               GestureDetector(
                 key: const Key('profile-avatar'),
-                onTap: () => _showMessage(
-                  'Ubah foto profil belum tersedia di pratinjau.',
-                  icon: Icons.photo_camera_outlined,
-                ),
+                onTap: _changePhoto,
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -804,16 +954,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: const Color(0xFFDDF3EF),
-                        child: Text(
-                          _initials,
-                          style: const TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w800,
-                          ),
+                      child: ClipOval(
+                        child: SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: _buildAvatarImage(),
                         ),
                       ),
                     ),
@@ -828,11 +973,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 2),
                         ),
-                        child: const Icon(
-                          Icons.camera_alt_outlined,
-                          color: Colors.white,
-                          size: 14,
-                        ),
+                        child: _isUploadingPhoto
+                            ? const Padding(
+                                padding: EdgeInsets.all(6),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Icon(
+                                Icons.camera_alt_outlined,
+                                color: Colors.white,
+                                size: 14,
+                              ),
                       ),
                     ),
                   ],
@@ -905,6 +1058,35 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildAvatarImage() {
+    final photo = _photoUrl;
+    final fallback = Container(
+      color: const Color(0xFFDDF3EF),
+      alignment: Alignment.center,
+      child: Text(
+        _initials,
+        style: const TextStyle(
+          color: AppColors.primary,
+          fontSize: 26,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+    );
+    if (photo == null) return fallback;
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        fallback,
+        Image.network(
+          photo,
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => const SizedBox.shrink(),
+        ),
+      ],
     );
   }
 
@@ -1180,8 +1362,11 @@ class _ProfileTile extends StatelessWidget {
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.edit_outlined,
-                      color: AppColors.accentTeal, size: 14),
+                  Icon(
+                    Icons.edit_outlined,
+                    color: AppColors.accentTeal,
+                    size: 14,
+                  ),
                   SizedBox(width: 4),
                   Text(
                     'Ubah',

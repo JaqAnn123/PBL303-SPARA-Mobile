@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:spara_mobile/pages/dasbor.dart';
 import 'package:spara_mobile/pages/login.dart';
 import 'package:spara_mobile/pages/register.dart';
+import 'package:spara_mobile/services/notification_center.dart';
 
 import 'support/mock_api.dart';
 
@@ -444,6 +445,84 @@ void main() {
     expect(labelColumns, hasLength(1));
     expect(valueColumns, hasLength(1));
     expect(valueColumns.single, greaterThan(labelColumns.single));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+    'notification bell shows backend notifications and clears unread',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(home: DasborPage()));
+      await tester.pumpAndSettle();
+
+      final badge = find.byKey(const ValueKey('dashboard-notification-badge'));
+      expect(badge, findsOneWidget);
+      expect(tester.widget<Badge>(badge).isLabelVisible, isTrue);
+      expect(
+        find.descendant(of: badge, matching: find.text('2')),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.byKey(const ValueKey('dashboard-notifications')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Notifikasi'), findsOneWidget);
+      expect(find.text('Peminjaman Disetujui'), findsOneWidget);
+      expect(find.text('Persetujuan Diproses'), findsOneWidget);
+      expect(find.text('Peminjaman Ditolak'), findsOneWidget);
+      expect(find.text('Tandai semua dibaca'), findsOneWidget);
+
+      await tester.tap(find.byKey(const ValueKey('notification-item-21')));
+      await tester.pumpAndSettle();
+
+      expect(testNotifications.first['read_at'], isNotNull);
+      expect(
+        find.descendant(of: badge, matching: find.text('1')),
+        findsOneWidget,
+      );
+
+      await tester.tap(
+        find.byKey(const ValueKey('notifications-mark-all-read')),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.widget<Badge>(badge).isLabelVisible, isFalse);
+      expect(find.text('Tandai semua dibaca'), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets('polling adds new backend notifications to the badge', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MaterialApp(home: DasborPage()));
+    await tester.pumpAndSettle();
+
+    final badge = find.byKey(const ValueKey('dashboard-notification-badge'));
+    expect(
+      find.descendant(of: badge, matching: find.text('2')),
+      findsOneWidget,
+    );
+
+    testNotifications.insert(0, {
+      'id': 30,
+      'id_number': '2021101001',
+      'type': 'menunggu',
+      'judul': 'Peminjaman Baru',
+      'pesan': 'Tripod Kamera diajukan dan menunggu persetujuan.',
+      'peminjaman_id': 12,
+      'read_at': null,
+      'created_at': '2026-10-30T12:30:00.000000Z',
+    });
+
+    await tester.pump(
+      NotificationCenter.pollInterval + const Duration(seconds: 1),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.descendant(of: badge, matching: find.text('3')),
+      findsOneWidget,
+    );
     expect(tester.takeException(), isNull);
   });
 }

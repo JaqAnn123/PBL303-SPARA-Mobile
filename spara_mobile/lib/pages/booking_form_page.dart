@@ -52,7 +52,7 @@ class _BookingFormPageState extends State<BookingFormPage> {
   void initState() {
     super.initState();
     final current = Session.instance.user;
-    if (current != null) {
+    if (current != null && _isEligiblePj(current.role)) {
       _pjId = current.idNumber;
       _pjName = current.name;
     }
@@ -94,10 +94,16 @@ class _BookingFormPageState extends State<BookingFormPage> {
 
   // ── Data ────────────────────────────────────────────────────────────────
 
+  /// Hanya dosen (lecturer) dan PIC yang boleh menjadi penanggung jawab,
+  /// sama seperti endpoint `/penanggung-jawab` di backend.
+  static bool _isEligiblePj(String role) =>
+      role == 'lecturer' || role == 'pic';
+
   Future<void> _loadPenanggungJawab() async {
     final options = <_PjOption>[];
     final current = Session.instance.user;
-    if (current != null) {
+    final currentIsPj = current != null && _isEligiblePj(current.role);
+    if (currentIsPj) {
       options.add((idNumber: current.idNumber, name: current.name));
     }
 
@@ -111,14 +117,14 @@ class _BookingFormPageState extends State<BookingFormPage> {
         options.add((idNumber: id, name: name.isEmpty ? id : name));
       }
     } catch (_) {
-      // Daftar PJ gagal dimuat: tetap bisa memakai user yang sedang login.
+      // Daftar PJ gagal dimuat: form tetap bisa dipakai jika user berhak.
     }
 
     if (!mounted) return;
     setState(() {
       _pjOptions = options;
       _loadingPj = false;
-      if (_pjId == null && current != null) {
+      if (_pjId == null && currentIsPj) {
         _pjId = current.idNumber;
         _pjName = current.name;
       }

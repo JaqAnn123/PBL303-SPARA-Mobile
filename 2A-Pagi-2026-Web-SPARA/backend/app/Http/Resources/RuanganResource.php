@@ -14,7 +14,7 @@ class RuanganResource extends JsonResource
             'kode_ruangan'      => $this->kode_ruangan,
             'name_ruangan'      => $this->name_ruangan,
             'kapasitas'         => $this->kapasitas,
-            'fasilitas'         => $this->fasilitas ? $this->fasilitas->pluck('nama_fasilitas')->toArray() : [],
+            'fasilitas'         => $this->fasilitasNames(),
             'deskripsi_ruangan' => $this->deskripsi_ruangan,
             'status_ruangan'    => $this->status_ruangan,
             'path_foto' => $this->path_foto
@@ -27,5 +27,30 @@ class RuanganResource extends JsonResource
             'pic'               => $this->picUser?->name ?? '-',
             'id_number_pic'     => $this->id_number_pic,
         ];
+    }
+
+    /**
+     * Nama-nama fasilitas ruangan.
+     *
+     * Sumber utama adalah relasi `fasilitas`. Namun tabel `ruangans` masih
+     * menyimpan kolom lama `fasilitas` (string dipisah koma) yang menimpa
+     * akses relasi, sehingga dipakai sebagai fallback agar data lama tetap
+     * tampil.
+     */
+    private function fasilitasNames(): array
+    {
+        $relation = $this->resource->relationLoaded('fasilitas')
+            ? $this->resource->getRelation('fasilitas')
+            : null;
+
+        if ($relation && $relation->isNotEmpty()) {
+            return $relation->pluck('nama_fasilitas')->all();
+        }
+
+        return collect(explode(',', (string) $this->resource->getRawOriginal('fasilitas')))
+            ->map(fn (string $item) => trim($item))
+            ->filter()
+            ->values()
+            ->all();
     }
 }

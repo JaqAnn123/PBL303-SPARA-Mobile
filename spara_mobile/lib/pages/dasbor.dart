@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../models/app_notification.dart';
 import '../models/app_user.dart';
 import '../models/facility_model.dart';
 import '../services/api_client.dart';
+import '../services/local_notification_service.dart';
+import '../services/notification_center.dart';
 import '../services/session.dart';
 import '../services/spara_api.dart';
 import '../theme/app_colors.dart';
@@ -74,27 +77,6 @@ class _DasborPageState extends State<DasborPage> {
     ),
   ];
 
-  static const _notifications = [
-    (
-      icon: Icons.check_circle_outline,
-      title: 'Pengajuan disetujui',
-      body: 'Peminjaman Ruang Seminar R.302 telah disetujui Admin.',
-      time: '2 jam lalu',
-    ),
-    (
-      icon: Icons.schedule,
-      title: 'Menunggu persetujuan',
-      body: 'Pengajuan Kamera Sony A6400 sedang ditinjau.',
-      time: 'Kemarin',
-    ),
-    (
-      icon: Icons.event_available_outlined,
-      title: 'Pengingat jadwal',
-      body: 'Jadwal peminjaman Proyektor Epson besok pukul 13:00.',
-      time: '2 hari lalu',
-    ),
-  ];
-
   final GlobalKey _headerKey = GlobalKey();
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
@@ -105,7 +87,6 @@ class _DasborPageState extends State<DasborPage> {
   int _navIndex = 0;
   int _selectedCategory = 0;
   int _currentPage = 1;
-  bool _hasUnread = true;
 
   int? _capacityFilter;
   final Set<String> _roomFacilityFilters = <String>{};
@@ -113,6 +94,9 @@ class _DasborPageState extends State<DasborPage> {
 
   @override
   void dispose() {
+    NotificationCenter.instance.removeListener(_onNotificationsChanged);
+    LocalNotificationService.instance.onNotificationTap = null;
+    NotificationCenter.instance.stop();
     _searchController.dispose();
     _searchFocus.dispose();
     super.dispose();
@@ -127,7 +111,16 @@ class _DasborPageState extends State<DasborPage> {
   void initState() {
     super.initState();
     _user = widget.user ?? Session.instance.user;
+    NotificationCenter.instance.addListener(_onNotificationsChanged);
+    LocalNotificationService.instance.onNotificationTap = (_) {
+      if (mounted) _showNotifications();
+    };
+    NotificationCenter.instance.start();
     _loadFacilities();
+  }
+
+  void _onNotificationsChanged() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _loadFacilities() async {
@@ -156,6 +149,7 @@ class _DasborPageState extends State<DasborPage> {
       });
     }
   }
+
   int _capacityOf(_Fac f) {
     final m = RegExp(r'\d+').firstMatch('${f.capacity}');
     return int.tryParse(m?.group(0) ?? '') ?? 0;
@@ -252,6 +246,42 @@ class _DasborPageState extends State<DasborPage> {
     return initials.isEmpty ? 'SP' : initials;
   }
 
+  Widget _buildHeaderAvatar() {
+    final url = _currentUser?.profilePicture?.trim() ?? '';
+    final fallback = Container(
+      color: const Color(0xFFDDF3EF),
+      alignment: Alignment.center,
+      child: Text(
+        _displayInitials,
+        style: const TextStyle(
+          color: AppColors.darkTeal,
+          fontWeight: FontWeight.w800,
+          fontSize: 14,
+        ),
+      ),
+    );
+
+    return ClipOval(
+      child: SizedBox(
+        width: 44,
+        height: 44,
+        child: url.isEmpty
+            ? fallback
+            : Stack(
+                fit: StackFit.expand,
+                children: [
+                  fallback,
+                  Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
+
   void _onNavTap(int index) {
     _searchFocus.unfocus();
     setState(() => _navIndex = index);
@@ -308,10 +338,13 @@ class _DasborPageState extends State<DasborPage> {
   }
 
   Future<void> _showNotifications() async {
-    setState(() => _hasUnread = false);
+    final center = NotificationCenter.instance;
+    center.refresh();
+
     await showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
+      isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -319,90 +352,195 @@ class _DasborPageState extends State<DasborPage> {
       builder: (sheetContext) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Notifikasi',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textDark,
-                ),
-              ),
-              const SizedBox(height: 12),
-              for (final n in _notifications)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListenableBuilder(
+            listenable: center,
+            builder: (context, _) {
+              final items = center.items;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEAF6F4),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(
-                          n.icon,
-                          color: AppColors.darkTeal,
-                          size: 20,
+                      const Text(
+                        'Notifikasi',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textDark,
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              n.title,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textDark,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              n.body,
-                              style: const TextStyle(
-                                fontSize: 12.5,
-                                color: AppColors.textGrey,
-                                height: 1.35,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              n.time,
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
+                      if (center.hasUnread)
+                        TextButton(
+                          key: const ValueKey('notifications-mark-all-read'),
+                          onPressed: center.markAllRead,
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.darkTeal,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            visualDensity: VisualDensity.compact,
+                          ),
+                          child: const Text(
+                            'Tandai semua dibaca',
+                            style: TextStyle(fontSize: 12.5),
+                          ),
                         ),
-                      ),
                     ],
                   ),
-                ),
-              SizedBox(
-                width: double.infinity,
-                height: 46,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(sheetContext);
-                    _onNavTap(2);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.darkTeal,
-                    side: const BorderSide(color: AppColors.darkTeal),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                  const SizedBox(height: 8),
+                  if (center.isLoading && items.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 32),
+                      child: Center(
+                        child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2.5),
+                        ),
+                      ),
+                    )
+                  else if (items.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 28),
+                      child: Center(
+                        child: Text(
+                          center.error ?? 'Belum ada notifikasi.',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textGrey,
+                            height: 1.4,
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.sizeOf(context).height * 0.52,
+                      ),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: items.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: 8),
+                        itemBuilder: (context, index) =>
+                            _buildNotificationItem(center, items[index]),
+                      ),
+                    ),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 46,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(sheetContext);
+                        _onNavTap(2);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.darkTeal,
+                        side: const BorderSide(color: AppColors.darkTeal),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: const Text('Lihat riwayat peminjaman'),
                     ),
                   ),
-                  child: const Text('Lihat riwayat peminjaman'),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNotificationItem(
+    NotificationCenter center,
+    AppNotification notification,
+  ) {
+    final style = _notificationStyle(notification.type);
+    return Material(
+      key: ValueKey('notification-item-${notification.id}'),
+      color: notification.isRead ? Colors.white : style.background,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => center.markRead(notification.id),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: notification.isRead
+                  ? const Color(0xFFE8ECEB)
+                  : style.color.withValues(alpha: 0.18),
+            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: style.background,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(style.icon, color: style.color, size: 20),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!notification.isRead) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6, right: 6),
+                            child: Container(
+                              width: 7,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: style.color,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                        Expanded(
+                          child: Text(
+                            notification.title,
+                            style: const TextStyle(
+                              fontSize: 13.5,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textDark,
+                              height: 1.3,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      notification.plainMessage,
+                      style: const TextStyle(
+                        fontSize: 12.5,
+                        color: AppColors.textGrey,
+                        height: 1.35,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      notification.timeAgo,
+                      style: const TextStyle(fontSize: 11, color: Colors.grey),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -410,6 +548,43 @@ class _DasborPageState extends State<DasborPage> {
         ),
       ),
     );
+  }
+
+  ({IconData icon, Color color, Color background}) _notificationStyle(
+    String type,
+  ) {
+    switch (type) {
+      case 'disetujui':
+        return (
+          icon: Icons.check_circle_outline,
+          color: const Color(0xFF2E7D32),
+          background: const Color(0xFFEAF7EC),
+        );
+      case 'progress':
+        return (
+          icon: Icons.autorenew,
+          color: const Color(0xFFB26A00),
+          background: const Color(0xFFFFF6E5),
+        );
+      case 'ditolak':
+        return (
+          icon: Icons.cancel_outlined,
+          color: const Color(0xFFB3261E),
+          background: const Color(0xFFFDECEA),
+        );
+      case 'dibatalkan':
+        return (
+          icon: Icons.warning_amber_outlined,
+          color: const Color(0xFFB26A00),
+          background: const Color(0xFFFFF6E5),
+        );
+      default:
+        return (
+          icon: Icons.schedule_outlined,
+          color: const Color(0xFF5F6B69),
+          background: const Color(0xFFF1F4F3),
+        );
+    }
   }
 
   Future<void> _showFacilityDetail(_Fac f) async {
@@ -486,6 +661,7 @@ class _DasborPageState extends State<DasborPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final unread = NotificationCenter.instance.unreadCount;
     return Container(
       key: _headerKey,
       width: double.infinity,
@@ -513,18 +689,7 @@ class _DasborPageState extends State<DasborPage> {
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: CircleAvatar(
-                        radius: 22,
-                        backgroundColor: const Color(0xFFDDF3EF),
-                        child: Text(
-                          _displayInitials,
-                          style: const TextStyle(
-                            color: AppColors.darkTeal,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
+                      child: _buildHeaderAvatar(),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -552,10 +717,13 @@ class _DasborPageState extends State<DasborPage> {
                     ),
                   ),
                   Badge(
-                    isLabelVisible: _hasUnread,
-                    smallSize: 10,
+                    key: const ValueKey('dashboard-notification-badge'),
+                    isLabelVisible: unread > 0,
+                    label: unread > 0 ? Text('$unread') : null,
+                    smallSize: 16,
                     backgroundColor: const Color(0xFFFF5252),
-                    alignment: const AlignmentDirectional(24, 8),
+                    textColor: Colors.white,
+                    alignment: const AlignmentDirectional(22, 9),
                     child: IconButton(
                       key: const ValueKey('dashboard-notifications'),
                       tooltip: 'Notifikasi',
@@ -1251,10 +1419,7 @@ class _DasborPageState extends State<DasborPage> {
             Text(
               _facilitiesError ?? 'Periksa koneksi ke server.',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFFCFE3E0),
-                fontSize: 12.5,
-              ),
+              style: const TextStyle(color: Color(0xFFCFE3E0), fontSize: 12.5),
             ),
             const SizedBox(height: 14),
             OutlinedButton.icon(

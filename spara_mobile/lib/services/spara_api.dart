@@ -1,4 +1,5 @@
 import 'api_client.dart';
+import '../models/app_notification.dart';
 import '../models/app_user.dart';
 import '../models/facility_model.dart';
 
@@ -39,11 +40,12 @@ class SparaApi {
     final token = '${response['access_token'] ?? ''}';
     final rawUser = response['user'];
     if (token.isEmpty || rawUser is! Map) {
-      throw ApiException(
-        '${response['message'] ?? 'Login gagal.'}',
-      );
+      throw ApiException('${response['message'] ?? 'Login gagal.'}');
     }
-    return (token: token, user: AppUser.fromJson(Map<String, dynamic>.from(rawUser)));
+    return (
+      token: token,
+      user: AppUser.fromJson(Map<String, dynamic>.from(rawUser)),
+    );
   }
 
   Future<void> register({
@@ -97,6 +99,19 @@ class SparaApi {
     final response = await _client.post('/update-profile-email', {
       'email': email,
     });
+    return _userFromResponse(response);
+  }
+
+  Future<AppUser> uploadProfilePhoto({
+    required List<int> bytes,
+    required String filename,
+  }) async {
+    final response = await _client.postMultipart(
+      '/update-profile-photo',
+      field: 'profile_picture',
+      bytes: bytes,
+      filename: filename,
+    );
     return _userFromResponse(response);
   }
 
@@ -184,8 +199,7 @@ class SparaApi {
     String? keterangan,
   }) async {
     String two(int value) => value.toString().padLeft(2, '0');
-    String fmt(DateTime d) =>
-        '${d.year}-${two(d.month)}-${two(d.day)}';
+    String fmt(DateTime d) => '${d.year}-${two(d.month)}-${two(d.day)}';
     final date = fmt(tanggal);
     final endDate = fmt(tanggalSelesai ?? tanggal);
 
@@ -218,5 +232,30 @@ class SparaApi {
 
   Future<void> cancelPeminjaman(int id) async {
     await _client.post('/peminjaman-batal/$id');
+  }
+
+  // ── Notifikasi ──────────────────────────────────────────────────────────
+
+  Future<List<AppNotification>> getNotifications() async {
+    final response = await _client.get('/notifications');
+    return _asList(response)
+        .whereType<Map>()
+        .map((e) => AppNotification.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+
+  Future<int> getUnreadNotificationCount() async {
+    final response = await _client.get('/notifications/unread-count');
+    final data = _unwrap(response);
+    if (data is Map) return int.tryParse('${data['count']}') ?? 0;
+    return 0;
+  }
+
+  Future<void> markNotificationRead(int id) async {
+    await _client.post('/notifications/$id/read');
+  }
+
+  Future<void> markAllNotificationsRead() async {
+    await _client.post('/notifications/read-all');
   }
 }

@@ -5,6 +5,8 @@ import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spara_mobile/models/app_user.dart';
 import 'package:spara_mobile/services/api_client.dart';
+import 'package:spara_mobile/services/local_notification_service.dart';
+import 'package:spara_mobile/services/notification_center.dart';
 import 'package:spara_mobile/services/session.dart';
 
 /// User contoh yang dipakai seluruh widget test.
@@ -264,6 +266,43 @@ const List<Map<String, dynamic>> testRiwayat = [
   },
 ];
 
+/// Notifikasi palsu; bisa diubah di dalam test untuk mensimulasikan notifikasi
+/// baru saat polling berjalan.
+List<Map<String, dynamic>> testNotifications = _initialNotifications();
+
+List<Map<String, dynamic>> _initialNotifications() => [
+  {
+    'id': 21,
+    'id_number': '2021101001',
+    'type': 'disetujui',
+    'judul': 'Peminjaman Disetujui',
+    'pesan': 'Peminjaman Ruang Seminar R.302 telah disetujui.',
+    'peminjaman_id': 10,
+    'read_at': null,
+    'created_at': '2026-10-30T06:00:00.000000Z',
+  },
+  {
+    'id': 22,
+    'id_number': '2021101001',
+    'type': 'progress',
+    'judul': 'Persetujuan Diproses',
+    'pesan': 'Kamera Sony A6400 menunggu persetujuan tahap berikutnya.',
+    'peminjaman_id': 11,
+    'read_at': null,
+    'created_at': '2026-10-30T05:00:00.000000Z',
+  },
+  {
+    'id': 20,
+    'id_number': '2021101001',
+    'type': 'ditolak',
+    'judul': 'Peminjaman Ditolak',
+    'pesan': 'Peminjaman Proyektor Epson EB-X06 ditolak oleh PIC.',
+    'peminjaman_id': 9,
+    'read_at': '2026-10-29T08:00:00.000000Z',
+    'created_at': '2026-10-29T07:00:00.000000Z',
+  },
+];
+
 http.Response _json(Object body, [int statusCode = 200]) {
   return http.Response(
     jsonEncode(body),
@@ -358,6 +397,35 @@ MockClient createMockClient() {
       });
     }
 
+    if (path.endsWith('/notifications/unread-count')) {
+      final unread = testNotifications
+          .where((item) => item['read_at'] == null)
+          .length;
+      return _json({'count': unread});
+    }
+
+    if (method == 'POST' && path.endsWith('/notifications/read-all')) {
+      for (final item in testNotifications) {
+        item['read_at'] ??= '2026-10-30T12:00:00.000000Z';
+      }
+      return _json({'message': 'Semua notifikasi dibaca'});
+    }
+
+    if (method == 'POST' && path.endsWith('/read')) {
+      final match = RegExp(r'/notifications/(\d+)/read$').firstMatch(path);
+      final id = int.tryParse(match?.group(1) ?? '');
+      for (final item in testNotifications) {
+        if (item['id'] == id) {
+          item['read_at'] = '2026-10-30T12:00:00.000000Z';
+        }
+      }
+      return _json({'message': 'Berhasil ditandai dibaca'});
+    }
+
+    if (path.endsWith('/notifications')) {
+      return _json({'data': testNotifications});
+    }
+
     if (method == 'POST' && path.contains('/peminjaman-batal/')) {
       return _json({'message': 'Peminjaman berhasil dibatalkan.'});
     }
@@ -384,6 +452,9 @@ Future<void> setUpTestApi() async {
   Session.instance.resetForTesting();
   ApiClient.instance.resetForTesting();
   ApiClient.instance.httpClient = createMockClient();
+  NotificationCenter.instance.stop();
+  LocalNotificationService.instance.disableForTesting();
+  testNotifications = _initialNotifications();
   await Session.instance.save(
     token: 'test-token',
     user: AppUser.fromJson(testUserJson),
@@ -392,6 +463,8 @@ Future<void> setUpTestApi() async {
 
 /// Bersihkan state global setelah test selesai.
 void tearDownTestApi() {
+  NotificationCenter.instance.stop();
+  LocalNotificationService.instance.resetForTesting();
   Session.instance.resetForTesting();
   ApiClient.instance.resetForTesting();
 }

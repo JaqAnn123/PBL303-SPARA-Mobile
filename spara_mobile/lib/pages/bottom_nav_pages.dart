@@ -251,7 +251,7 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
             label: Text('$count'),
             backgroundColor: const Color(0xFFD34E4E),
             child: Material(
-              color: count > 0 ? _teal : Colors.white,
+              color: _teal,
               borderRadius: BorderRadius.circular(14),
               child: InkWell(
                 key: const ValueKey('open-search-filter'),
@@ -264,7 +264,7 @@ class _FacilitySearchPageState extends State<FacilitySearchPage> {
                     height: 48,
                     child: Icon(
                       Icons.tune,
-                      color: count > 0 ? Colors.white : _teal,
+                      color: Colors.white,
                     ),
                   ),
                 ),

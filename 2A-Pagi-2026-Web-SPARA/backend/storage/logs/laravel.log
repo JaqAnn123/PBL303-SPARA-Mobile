@@ -32974,3 +32974,1239 @@ Laravel</p>
 </html>
 --7d245qi6--
   
+[2026-11-08 14:36:57] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:36:58] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:36:58] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:36:59] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:37:01] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:37:31] local.ERROR: Call to a member function pluck() on string {"userId":2021101001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:37:41] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:37:43] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:37:45] local.ERROR: Call to a member function pluck() on string {"userId":10000001,"exception":"[object] (Error(code: 0): Call to a member function pluck() on string at C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/app/Http/Resources/RuanganResource.php:17)
+[stacktrace]
+#0 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): App/Http/Resources/RuanganResource->toArray(Object(Illuminate/Http/Request))
+#1 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#2 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#3 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(66): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#4 [internal function]: Illuminate/Support/HigherOrderCollectionProxy->{closure:Illuminate/Support/HigherOrderCollectionProxy::__call():63}(Object(App/Http/Resources/RuanganResource), 0)
+#5 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(841): array_map(Object(Closure), Array, Array)
+#6 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(829): Illuminate/Support/Arr::map(Array, Object(Closure))
+#7 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Collections/HigherOrderCollectionProxy.php(63): Illuminate/Support/Collection->map(Object(Closure))
+#8 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(103): Illuminate/Support/HigherOrderCollectionProxy->__call('resolve', Array)
+#9 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(139): Illuminate/Http/Resources/Json/ResourceCollection->toArray(Object(Illuminate/Http/Request))
+#10 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(150): Illuminate/Http/Resources/Json/JsonResource->toAttributes(Object(Illuminate/Http/Request))
+#11 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(114): Illuminate/Http/Resources/Json/JsonResource->resolveResourceData(Object(Illuminate/Http/Request))
+#12 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceResponse.php(38): Illuminate/Http/Resources/Json/JsonResource->resolve(Object(Illuminate/Http/Request))
+#13 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/JsonResource.php(300): Illuminate/Http/Resources/Json/ResourceResponse->toResponse(Object(Illuminate/Http/Request))
+#14 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php(121): Illuminate/Http/Resources/Json/JsonResource->toResponse(Object(Illuminate/Http/Request))
+#15 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(921): Illuminate/Http/Resources/Json/ResourceCollection->toResponse(Object(Illuminate/Http/Request))
+#16 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(906): Illuminate/Routing/Router::toResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#17 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Routing/Router->prepareResponse(Object(Illuminate/Http/Request), Object(Illuminate/Http/Resources/Json/AnonymousResourceCollection))
+#18 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Routing/Router->{closure:Illuminate/Routing/Router::runRouteWithinStack():821}(Object(Illuminate/Http/Request))
+#19 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#20 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Routing/Middleware/SubstituteBindings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#21 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#22 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(821): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#23 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(800): Illuminate/Routing/Router->runRouteWithinStack(Object(Illuminate/Routing/Route), Object(Illuminate/Http/Request))
+#24 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate/Routing/Router->runRoute(Object(Illuminate/Http/Request), Object(Illuminate/Routing/Route))
+#25 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate/Routing/Router->dispatchToRoute(Object(Illuminate/Http/Request))
+#26 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate/Routing/Router->dispatch(Object(Illuminate/Http/Request))
+#27 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate/Foundation/Http/Kernel->{closure:Illuminate/Foundation/Http/Kernel::dispatchToRouter():197}(Object(Illuminate/Http/Request))
+#28 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:Illuminate/Pipeline/Pipeline::prepareDestination():178}(Object(Illuminate/Http/Request))
+#29 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#30 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull->handle(Object(Illuminate/Http/Request), Object(Closure))
+#31 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#32 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate/Foundation/Http/Middleware/TransformsRequest->handle(Object(Illuminate/Http/Request), Object(Closure))
+#33 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/TrimStrings->handle(Object(Illuminate/Http/Request), Object(Closure))
+#34 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#35 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePostSize->handle(Object(Illuminate/Http/Request), Object(Closure))
+#36 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#37 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance->handle(Object(Illuminate/Http/Request), Object(Closure))
+#38 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#39 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/HandleCors->handle(Object(Illuminate/Http/Request), Object(Closure))
+#40 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#41 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/TrustProxies->handle(Object(Illuminate/Http/Request), Object(Closure))
+#42 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#43 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks->handle(Object(Illuminate/Http/Request), Object(Closure))
+#44 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#45 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate/Http/Middleware/ValidatePathEncoding->handle(Object(Illuminate/Http/Request), Object(Closure))
+#46 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate/Pipeline/Pipeline->{closure:{closure:Illuminate/Pipeline/Pipeline::carry():194}:195}(Object(Illuminate/Http/Request))
+#47 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate/Pipeline/Pipeline->then(Object(Closure))
+#48 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate/Foundation/Http/Kernel->sendRequestThroughRouter(Object(Illuminate/Http/Request))
+#49 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1220): Illuminate/Foundation/Http/Kernel->handle(Object(Illuminate/Http/Request))
+#50 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
+#51 C:/SPARA/PBL303-SPARA-Mobile/2A-Pagi-2026-Web-SPARA/backend/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('C://SPARA//PBL303...')
+#52 {main}
+"} 
+[2026-11-08 14:56:54] local.DEBUG: From: Laravel <hello@example.com>
+To: budi.santoso@kampus.ac.id
+Subject: Perlu Persetujuan Anda: Ruang Kelas A101 =?utf-8?Q?=E2=80=94?=
+ Presentasi ATS
+MIME-Version: 1.0
+Date: Sun, 08 Nov 2026 14:56:54 +0000
+Message-ID: <9d5a78836cd028aaf92fd61df954e489@example.com>
+Content-Type: multipart/alternative; boundary=owy0ugJZ
+
+--owy0ugJZ
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Laravel: http://localhost
+
+# Perlu Persetujuan Anda
+
+Halo **Dr. Budi Santoso**,
+
+Anda mendapat permintaan persetujuan sebagai **Penanggung Jawab**.
+
+**Diajukan oleh:** Rizky Pratama
+**Kegiatan:** Presentasi ATS
+**Item:** Ruang Kelas A101
+**Tanggal:** Monday, 09 November 2026
+**Waktu:** 09:00 – 09:30
+
+Silakan tinjau dan ambil tindakan:
+
+  
+    
+      
+        ✅ Setujui
+      
+    
+    
+      
+        ❌ Tolak
+      
+    
+  
+
+Atau buka halaman persetujuan secara lengkap:
+
+Buka Halaman Persetujuan: http://127.0.0.1:8000/api/approve/84fa7bf82ab3c1cd9fce78a2d5ae7fb7c50565ed5440787d85c71aec200f86cb
+
+> Jika Anda tidak merasa berwenang untuk permintaan ini, abaikan email ini.
+
+Terima kasih,
+Laravel
+
+© 2026 Laravel. All rights reserved.
+
+--owy0ugJZ
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<title>Laravel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<style>
+@media only screen and (max-width: 600px) {
+.inner-body {
+width: 100% !important;
+}
+
+.footer {
+width: 100% !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.button {
+width: 100% !important;
+}
+}
+</style>
+
+</head>
+<body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #52525b; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
+
+<table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td class="header" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 25px 0; text-align: center;">
+<a href="http://localhost" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 19px; font-weight: bold; text-decoration: none; display: inline-block;">
+<img src="https://laravel.com/img/notification-logo-v2.1.png" class="logo" alt="Laravel Logo" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100%; border: none; height: 75px; margin-top: 15px; margin-bottom: 10px; max-height: 75px; width: 75px;">
+</a>
+</td>
+</tr>
+
+<!-- Email Body -->
+<tr>
+<td class="body" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; border-bottom: 1px solid #fafafa; border-top: 1px solid #fafafa; margin: 0; padding: 0; width: 100%; border: hidden !important;">
+<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e4e4e7; border-radius: 4px; border-width: 1px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); margin: 0 auto; padding: 0; width: 570px;">
+<!-- Body content -->
+<tr>
+<td class="content-cell" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<h1 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 18px; font-weight: bold; margin-top: 0; text-align: start;">Perlu Persetujuan Anda</h1>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Halo <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Dr. Budi Santoso</strong>,</p>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Anda mendapat permintaan persetujuan sebagai <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Penanggung Jawab</strong>.</p>
+<table class="panel" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-left: #18181b solid 4px; margin: 21px 0;">
+<tr>
+<td class="panel-content" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; background-color: #fafafa; color: #52525b; padding: 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="panel-item" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left; color: #52525b; margin-bottom: 0; padding-bottom: 0;"><strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Diajukan oleh:</strong> Rizky Pratama
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Kegiatan:</strong> Presentasi ATS
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Item:</strong> Ruang Kelas A101
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Tanggal:</strong> Monday, 09 November 2026
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Waktu:</strong> 09:00 – 09:30</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Silakan tinjau dan ambil tindakan:</p>
+<table width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 24px;">
+  <tr>
+    <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0 8px 0 0;">
+      <a href="http://127.0.0.1:8000/api/approve/84fa7bf82ab3c1cd9fce78a2d5ae7fb7c50565ed5440787d85c71aec200f86cb" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all; display: inline-block; background-color: #16a34a; color: #ffffff; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 6px; text-decoration: none;">
+        ✅ Setujui
+      </a>
+    </td>
+    <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0 0 0 8px;">
+      <a href="http://127.0.0.1:8000/api/tolak/84fa7bf82ab3c1cd9fce78a2d5ae7fb7c50565ed5440787d85c71aec200f86cb" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all; display: inline-block; background-color: #dc2626; color: #ffffff; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 6px; text-decoration: none;">
+        ❌ Tolak
+      </a>
+    </td>
+  </tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Atau buka halaman persetujuan secara lengkap:</p>
+<table class="action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: center; width: 100%; float: unset;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<a href="http://127.0.0.1:8000/api/approve/84fa7bf82ab3c1cd9fce78a2d5ae7fb7c50565ed5440787d85c71aec200f86cb" class="button button-primary" target="_blank" rel="noopener" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: #fff; display: inline-block; overflow: hidden; text-decoration: none; background-color: #18181b; border-bottom: 8px solid #18181b; border-left: 18px solid #18181b; border-right: 18px solid #18181b; border-top: 8px solid #18181b; word-break: break-all;">Buka Halaman Persetujuan</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<blockquote style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.4; text-align: start;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Jika Anda tidak merasa berwenang untuk permintaan ini, abaikan email ini.</p>
+</blockquote>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Terima kasih,<br>
+Laravel</p>
+
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; margin: 0 auto; padding: 0; text-align: center; width: 570px;">
+<tr>
+<td class="content-cell" align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; color: #a1a1aa; font-size: 12px; text-align: center;">© 2026 Laravel. All rights reserved.</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+--owy0ugJZ--
+  
+[2026-11-08 14:57:49] local.DEBUG: From: Laravel <hello@example.com>
+To: andi.pic@kampus.ac.id
+Subject: Perlu Persetujuan Anda: Ruang Kelas A101 =?utf-8?Q?=E2=80=94?=
+ Presentasi ATS
+MIME-Version: 1.0
+Date: Sun, 08 Nov 2026 14:57:49 +0000
+Message-ID: <193f6e5d09cc4581478bbd8a962ead77@example.com>
+Content-Type: multipart/alternative; boundary=0PUZHSCs
+
+--0PUZHSCs
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Laravel: http://localhost
+
+# Perlu Persetujuan Anda
+
+Halo **Andi Wijaya**,
+
+Anda mendapat permintaan persetujuan sebagai **PIC**.
+
+**Diajukan oleh:** Rizky Pratama
+**Kegiatan:** Presentasi ATS
+**Item:** Ruang Kelas A101
+**Tanggal:** Monday, 09 November 2026
+**Waktu:** 09:00:00 – 09:30:00
+
+Silakan tinjau dan ambil tindakan:
+
+  
+    
+      
+        ✅ Setujui
+      
+    
+    
+      
+        ❌ Tolak
+      
+    
+  
+
+Atau buka halaman persetujuan secara lengkap:
+
+Buka Halaman Persetujuan: http://127.0.0.1:8000/api/approve/a66f2e2fcd2a4af319cbbdd7bed67c70f69bcaac724564bc8603dd74ba5804af
+
+> Jika Anda tidak merasa berwenang untuk permintaan ini, abaikan email ini.
+
+Terima kasih,
+Laravel
+
+© 2026 Laravel. All rights reserved.
+
+--0PUZHSCs
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<title>Laravel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<style>
+@media only screen and (max-width: 600px) {
+.inner-body {
+width: 100% !important;
+}
+
+.footer {
+width: 100% !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.button {
+width: 100% !important;
+}
+}
+</style>
+
+</head>
+<body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #52525b; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
+
+<table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td class="header" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 25px 0; text-align: center;">
+<a href="http://localhost" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 19px; font-weight: bold; text-decoration: none; display: inline-block;">
+<img src="https://laravel.com/img/notification-logo-v2.1.png" class="logo" alt="Laravel Logo" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100%; border: none; height: 75px; margin-top: 15px; margin-bottom: 10px; max-height: 75px; width: 75px;">
+</a>
+</td>
+</tr>
+
+<!-- Email Body -->
+<tr>
+<td class="body" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; border-bottom: 1px solid #fafafa; border-top: 1px solid #fafafa; margin: 0; padding: 0; width: 100%; border: hidden !important;">
+<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e4e4e7; border-radius: 4px; border-width: 1px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); margin: 0 auto; padding: 0; width: 570px;">
+<!-- Body content -->
+<tr>
+<td class="content-cell" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<h1 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 18px; font-weight: bold; margin-top: 0; text-align: start;">Perlu Persetujuan Anda</h1>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Halo <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Andi Wijaya</strong>,</p>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Anda mendapat permintaan persetujuan sebagai <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">PIC</strong>.</p>
+<table class="panel" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-left: #18181b solid 4px; margin: 21px 0;">
+<tr>
+<td class="panel-content" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; background-color: #fafafa; color: #52525b; padding: 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="panel-item" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left; color: #52525b; margin-bottom: 0; padding-bottom: 0;"><strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Diajukan oleh:</strong> Rizky Pratama
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Kegiatan:</strong> Presentasi ATS
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Item:</strong> Ruang Kelas A101
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Tanggal:</strong> Monday, 09 November 2026
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Waktu:</strong> 09:00:00 – 09:30:00</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Silakan tinjau dan ambil tindakan:</p>
+<table width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 24px;">
+  <tr>
+    <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0 8px 0 0;">
+      <a href="http://127.0.0.1:8000/api/approve/a66f2e2fcd2a4af319cbbdd7bed67c70f69bcaac724564bc8603dd74ba5804af" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all; display: inline-block; background-color: #16a34a; color: #ffffff; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 6px; text-decoration: none;">
+        ✅ Setujui
+      </a>
+    </td>
+    <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0 0 0 8px;">
+      <a href="http://127.0.0.1:8000/api/tolak/a66f2e2fcd2a4af319cbbdd7bed67c70f69bcaac724564bc8603dd74ba5804af" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all; display: inline-block; background-color: #dc2626; color: #ffffff; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 6px; text-decoration: none;">
+        ❌ Tolak
+      </a>
+    </td>
+  </tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Atau buka halaman persetujuan secara lengkap:</p>
+<table class="action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: center; width: 100%; float: unset;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<a href="http://127.0.0.1:8000/api/approve/a66f2e2fcd2a4af319cbbdd7bed67c70f69bcaac724564bc8603dd74ba5804af" class="button button-primary" target="_blank" rel="noopener" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: #fff; display: inline-block; overflow: hidden; text-decoration: none; background-color: #18181b; border-bottom: 8px solid #18181b; border-left: 18px solid #18181b; border-right: 18px solid #18181b; border-top: 8px solid #18181b; word-break: break-all;">Buka Halaman Persetujuan</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<blockquote style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.4; text-align: start;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Jika Anda tidak merasa berwenang untuk permintaan ini, abaikan email ini.</p>
+</blockquote>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Terima kasih,<br>
+Laravel</p>
+
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; margin: 0 auto; padding: 0; text-align: center; width: 570px;">
+<tr>
+<td class="content-cell" align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; color: #a1a1aa; font-size: 12px; text-align: center;">© 2026 Laravel. All rights reserved.</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+--0PUZHSCs--
+  
+[2026-11-08 14:58:40] local.DEBUG: From: Laravel <hello@example.com>
+To: admin@kampus.ac.id
+Subject: Perlu Persetujuan Anda: Ruang Kelas A101 =?utf-8?Q?=E2=80=94?=
+ Presentasi ATS
+MIME-Version: 1.0
+Date: Sun, 08 Nov 2026 14:58:40 +0000
+Message-ID: <e0eb53968987b48de4a430a990e23554@example.com>
+Content-Type: multipart/alternative; boundary=8gSYXFYM
+
+--8gSYXFYM
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Laravel: http://localhost
+
+# Perlu Persetujuan Anda
+
+Halo **Admin Utama**,
+
+Anda mendapat permintaan persetujuan sebagai **Admin**.
+
+**Diajukan oleh:** Rizky Pratama
+**Kegiatan:** Presentasi ATS
+**Item:** Ruang Kelas A101
+**Tanggal:** Monday, 09 November 2026
+**Waktu:** 09:00:00 – 09:30:00
+
+Silakan tinjau dan ambil tindakan:
+
+  
+    
+      
+        ✅ Setujui
+      
+    
+    
+      
+        ❌ Tolak
+      
+    
+  
+
+Atau buka halaman persetujuan secara lengkap:
+
+Buka Halaman Persetujuan: http://127.0.0.1:8000/api/approve/1446ba55e591703d3be9c94cc84ea88c9146e2f2686c8eec4b0143dacdbe4c13
+
+> Jika Anda tidak merasa berwenang untuk permintaan ini, abaikan email ini.
+
+Terima kasih,
+Laravel
+
+© 2026 Laravel. All rights reserved.
+
+--8gSYXFYM
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<title>Laravel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<style>
+@media only screen and (max-width: 600px) {
+.inner-body {
+width: 100% !important;
+}
+
+.footer {
+width: 100% !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.button {
+width: 100% !important;
+}
+}
+</style>
+
+</head>
+<body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #52525b; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
+
+<table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td class="header" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 25px 0; text-align: center;">
+<a href="http://localhost" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 19px; font-weight: bold; text-decoration: none; display: inline-block;">
+<img src="https://laravel.com/img/notification-logo-v2.1.png" class="logo" alt="Laravel Logo" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100%; border: none; height: 75px; margin-top: 15px; margin-bottom: 10px; max-height: 75px; width: 75px;">
+</a>
+</td>
+</tr>
+
+<!-- Email Body -->
+<tr>
+<td class="body" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; border-bottom: 1px solid #fafafa; border-top: 1px solid #fafafa; margin: 0; padding: 0; width: 100%; border: hidden !important;">
+<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e4e4e7; border-radius: 4px; border-width: 1px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); margin: 0 auto; padding: 0; width: 570px;">
+<!-- Body content -->
+<tr>
+<td class="content-cell" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<h1 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 18px; font-weight: bold; margin-top: 0; text-align: start;">Perlu Persetujuan Anda</h1>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Halo <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Admin Utama</strong>,</p>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Anda mendapat permintaan persetujuan sebagai <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Admin</strong>.</p>
+<table class="panel" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-left: #18181b solid 4px; margin: 21px 0;">
+<tr>
+<td class="panel-content" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; background-color: #fafafa; color: #52525b; padding: 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="panel-item" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left; color: #52525b; margin-bottom: 0; padding-bottom: 0;"><strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Diajukan oleh:</strong> Rizky Pratama
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Kegiatan:</strong> Presentasi ATS
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Item:</strong> Ruang Kelas A101
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Tanggal:</strong> Monday, 09 November 2026
+<strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Waktu:</strong> 09:00:00 – 09:30:00</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Silakan tinjau dan ambil tindakan:</p>
+<table width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 24px;">
+  <tr>
+    <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0 8px 0 0;">
+      <a href="http://127.0.0.1:8000/api/approve/1446ba55e591703d3be9c94cc84ea88c9146e2f2686c8eec4b0143dacdbe4c13" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all; display: inline-block; background-color: #16a34a; color: #ffffff; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 6px; text-decoration: none;">
+        ✅ Setujui
+      </a>
+    </td>
+    <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0 0 0 8px;">
+      <a href="http://127.0.0.1:8000/api/tolak/1446ba55e591703d3be9c94cc84ea88c9146e2f2686c8eec4b0143dacdbe4c13" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all; display: inline-block; background-color: #dc2626; color: #ffffff; font-weight: 600; font-size: 14px; padding: 12px 28px; border-radius: 6px; text-decoration: none;">
+        ❌ Tolak
+      </a>
+    </td>
+  </tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Atau buka halaman persetujuan secara lengkap:</p>
+<table class="action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: center; width: 100%; float: unset;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<a href="http://127.0.0.1:8000/api/approve/1446ba55e591703d3be9c94cc84ea88c9146e2f2686c8eec4b0143dacdbe4c13" class="button button-primary" target="_blank" rel="noopener" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: #fff; display: inline-block; overflow: hidden; text-decoration: none; background-color: #18181b; border-bottom: 8px solid #18181b; border-left: 18px solid #18181b; border-right: 18px solid #18181b; border-top: 8px solid #18181b; word-break: break-all;">Buka Halaman Persetujuan</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<blockquote style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.4; text-align: start;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Jika Anda tidak merasa berwenang untuk permintaan ini, abaikan email ini.</p>
+</blockquote>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Terima kasih,<br>
+Laravel</p>
+
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; margin: 0 auto; padding: 0; text-align: center; width: 570px;">
+<tr>
+<td class="content-cell" align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; color: #a1a1aa; font-size: 12px; text-align: center;">© 2026 Laravel. All rights reserved.</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+--8gSYXFYM--
+  
+[2026-11-08 14:59:23] local.DEBUG: From: Laravel <hello@example.com>
+To: rizky@mahasiswa.ac.id
+Subject: Peminjaman Ruang Kelas A101 Disetujui
+MIME-Version: 1.0
+Date: Sun, 08 Nov 2026 14:59:23 +0000
+Message-ID: <d5334bc7ad37d14ac1ec146fdbf6b994@example.com>
+Content-Type: multipart/alternative; boundary=Kmv2Y3Vi
+
+--Kmv2Y3Vi
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Laravel: http://localhost
+
+# Peminjaman Anda Disetujui ✅
+
+Halo **Rizky Pratama**,
+
+Selamat! Peminjaman Anda telah **disetujui oleh semua pihak** dan siap digunakan.
+
+**Item:** Ruang Kelas A101
+
+Silakan cek detail peminjaman Anda melalui portal.
+
+Lihat Riwayat Peminjaman: http://localhost/riwayat
+
+Terima kasih,
+Laravel
+
+© 2026 Laravel. All rights reserved.
+
+--Kmv2Y3Vi
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<title>Laravel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<style>
+@media only screen and (max-width: 600px) {
+.inner-body {
+width: 100% !important;
+}
+
+.footer {
+width: 100% !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.button {
+width: 100% !important;
+}
+}
+</style>
+
+</head>
+<body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #52525b; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
+
+<table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td class="header" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 25px 0; text-align: center;">
+<a href="http://localhost" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 19px; font-weight: bold; text-decoration: none; display: inline-block;">
+<img src="https://laravel.com/img/notification-logo-v2.1.png" class="logo" alt="Laravel Logo" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100%; border: none; height: 75px; margin-top: 15px; margin-bottom: 10px; max-height: 75px; width: 75px;">
+</a>
+</td>
+</tr>
+
+<!-- Email Body -->
+<tr>
+<td class="body" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #fafafa; border-bottom: 1px solid #fafafa; border-top: 1px solid #fafafa; margin: 0; padding: 0; width: 100%; border: hidden !important;">
+<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e4e4e7; border-radius: 4px; border-width: 1px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); margin: 0 auto; padding: 0; width: 570px;">
+<!-- Body content -->
+<tr>
+<td class="content-cell" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<h1 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 18px; font-weight: bold; margin-top: 0; text-align: start;">Peminjaman Anda Disetujui ✅</h1>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Halo <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Rizky Pratama</strong>,</p>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Selamat! Peminjaman Anda telah <strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">disetujui oleh semua pihak</strong> dan siap digunakan.</p>
+<table class="panel" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-left: #18181b solid 4px; margin: 21px 0;">
+<tr>
+<td class="panel-content" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; background-color: #fafafa; color: #52525b; padding: 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="panel-item" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 0;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left; color: #52525b; margin-bottom: 0; padding-bottom: 0;"><strong style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Item:</strong> Ruang Kelas A101</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Silakan cek detail peminjaman Anda melalui portal.</p>
+<table class="action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: center; width: 100%; float: unset;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<a href="http://localhost/riwayat" class="button button-primary" target="_blank" rel="noopener" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: #fff; display: inline-block; overflow: hidden; text-decoration: none; background-color: #18181b; border-bottom: 8px solid #18181b; border-left: 18px solid #18181b; border-right: 18px solid #18181b; border-top: 8px solid #18181b; word-break: break-all;">Lihat Riwayat Peminjaman</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">Terima kasih,<br>
+Laravel</p>
+
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; margin: 0 auto; padding: 0; text-align: center; width: 570px;">
+<tr>
+<td class="content-cell" align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; color: #a1a1aa; font-size: 12px; text-align: center;">© 2026 Laravel. All rights reserved.</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+--Kmv2Y3Vi--
+  

@@ -60,16 +60,18 @@ class ApiClient {
 
   void setToken(String? token) => _token = token;
 
-  Map<String, String> get _headers {
-    final headers = <String, String>{
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    };
+  Map<String, String> get _authHeaders {
+    final headers = <String, String>{'Accept': 'application/json'};
     if (_token != null && _token!.isNotEmpty) {
       headers['Authorization'] = 'Bearer $_token';
     }
     return headers;
   }
+
+  Map<String, String> get _headers => {
+    ..._authHeaders,
+    'Content-Type': 'application/json',
+  };
 
   Future<dynamic> get(String path) async {
     return _send(() => _http.get(_uri(path), headers: _headers));
@@ -83,6 +85,24 @@ class ApiClient {
         body: jsonEncode(body ?? const <String, dynamic>{}),
       ),
     );
+  }
+
+  /// Kirim satu file sebagai `multipart/form-data`.
+  Future<dynamic> postMultipart(
+    String path, {
+    required String field,
+    required List<int> bytes,
+    required String filename,
+  }) async {
+    return _send(() async {
+      final request = http.MultipartRequest('POST', _uri(path))
+        ..headers.addAll(_authHeaders)
+        ..files.add(
+          http.MultipartFile.fromBytes(field, bytes, filename: filename),
+        );
+      final streamed = await _http.send(request);
+      return http.Response.fromStream(streamed);
+    });
   }
 
   Uri _uri(String path) {
