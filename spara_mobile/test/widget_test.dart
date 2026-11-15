@@ -240,6 +240,10 @@ void main() {
       'Rapat Himpunan',
     );
 
+    await tapKey(const ValueKey('booking-pj'));
+    await tester.tap(find.text('Budi Santoso'));
+    await tester.pumpAndSettle();
+
     await tapKey(const ValueKey('booking-date'));
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();

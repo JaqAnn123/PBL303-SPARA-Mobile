@@ -97,7 +97,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Preview Surat Izin'), findsOneWidget);
     expect(find.text('SURAT IZIN PEMINJAMAN'), findsOneWidget);
-    expect(find.text('Cetak format PDF'), findsOneWidget);
+    expect(find.text('Download PDF'), findsOneWidget);
   });
 
   testWidgets('history pagination changes the visible records', (
