@@ -93,16 +93,47 @@ class ApiClient {
     required String field,
     required List<int> bytes,
     required String filename,
+    String? contentType,
   }) async {
     return _send(() async {
       final request = http.MultipartRequest('POST', _uri(path))
         ..headers.addAll(_authHeaders)
         ..files.add(
-          http.MultipartFile.fromBytes(field, bytes, filename: filename),
+          http.MultipartFile.fromBytes(
+            field,
+            bytes,
+            filename: filename,
+            contentType: contentType == null
+                ? null
+                : http.MediaType.parse(contentType),
+          ),
         );
       final streamed = await _http.send(request);
       return http.Response.fromStream(streamed);
     });
+  }
+
+  /// URL absolut untuk file media (`/storage/...`) yang disajikan backend.
+  ///
+  /// Host disamakan dengan [baseUrl] supaya foto tetap terbuka di emulator
+  /// Android (10.0.2.2) meski backend mengembalikan URL 127.0.0.1.
+  String? mediaUrl(String? raw) {
+    final value = raw?.trim() ?? '';
+    if (value.isEmpty) return null;
+    final uri = Uri.tryParse(value);
+    if (uri == null) return value;
+    final base = Uri.parse(baseUrl);
+    if (!uri.hasScheme) {
+      return base.resolve(value).toString();
+    }
+    if (!uri.path.contains('/storage/')) return value;
+    return uri
+        .replace(
+          scheme: base.scheme,
+          host: base.host,
+          port: base.hasPort ? base.port : null,
+        )
+        .toString();
   }
 
   Uri _uri(String path) {

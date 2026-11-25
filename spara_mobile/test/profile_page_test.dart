@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spara_mobile/pages/dasbor.dart';
+import 'package:spara_mobile/services/api_client.dart';
+import 'package:spara_mobile/services/spara_api.dart';
 
 import 'support/mock_api.dart';
 
@@ -30,7 +32,7 @@ void main() {
 
   tearDown(tearDownTestApi);
 
-  testWidgets('profile displays account details and updates phone via API', (
+  testWidgets('profile shows contact info as read-only', (
     WidgetTester tester,
   ) async {
     await _openProfile(tester);
@@ -38,53 +40,32 @@ void main() {
     expect(find.text('Profil Akun'), findsOneWidget);
     expect(find.text('Rajiv Tajusa David'), findsOneWidget);
     expect(find.text('+62 812-3456-7890'), findsOneWidget);
+    expect(find.text('rajivcream@gmail.com'), findsOneWidget);
 
-    await _tapVisible(tester, find.byKey(const Key('profile-edit-phone')));
-    await tester.enterText(
-      find.byType(TextFormField).first,
-      '+62 811-2222-3333',
-    );
-    await tester.tap(find.text('SMS'));
-    await tester.tap(find.text('Lanjutkan'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Verifikasi Kode'), findsOneWidget);
-    await tester.enterText(find.byType(TextFormField).last, '123456');
-    await tester.tap(find.text('Verifikasi'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('+62 811-2222-3333'), findsOneWidget);
-    expect(find.text('Nomor telepon berhasil diperbarui.'), findsOneWidget);
+    // Telepon & email tidak lagi bisa diubah dari aplikasi mobile.
+    expect(find.byKey(const Key('profile-edit-phone')), findsNothing);
+    expect(find.byKey(const Key('profile-edit-email')), findsNothing);
+    // Kata sandi masih bisa diubah.
+    expect(find.byKey(const Key('profile-edit-password')), findsOneWidget);
   });
 
-  testWidgets('email update validates address and saves the new address', (
-    WidgetTester tester,
-  ) async {
-    await _openProfile(tester);
-
-    await _tapVisible(tester, find.byKey(const Key('profile-edit-email')));
-    await tester.enterText(find.byType(TextFormField).first, 'not-an-email');
-    await tester.tap(find.text('Lanjutkan'));
-    await tester.pumpAndSettle();
-    expect(find.text('Masukkan alamat email yang valid.'), findsOneWidget);
-    expect(find.text('Verifikasi Kode'), findsNothing);
-
-    await tester.enterText(
-      find.byType(TextFormField).first,
-      'rajiv.new@example.com',
+  test('uploadProfilePhoto mengirim multipart dan mengembalikan foto baru', () async {
+    final user = await SparaApi.instance.uploadProfilePhoto(
+      bytes: const [1, 2, 3, 4],
+      filename: 'foto.png',
     );
-    await tester.tap(find.text('Lanjutkan'));
-    await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextFormField).last, '987654');
-    await tester.tap(find.text('Verifikasi'));
-    await tester.pumpAndSettle();
 
-    expect(
-      find.text('Email berhasil diperbarui.'),
-      findsOneWidget,
+    expect(user.profilePicture, contains('/storage/profile_picture/'));
+  });
+
+  test('mediaUrl menyamakan host gambar dengan host API', () {
+    final url = ApiClient.instance.mediaUrl(
+      'http://127.0.0.1:8000/storage/profile_picture/test.png',
     );
-    expect(find.text('rajiv.new@example.com'), findsOneWidget);
-    expect(find.text('rajivcream@gmail.com'), findsNothing);
+
+    expect(url, isNotNull);
+    expect(Uri.parse(url!).host, Uri.parse(ApiClient.baseUrl).host);
+    expect(url, contains('/storage/profile_picture/test.png'));
   });
 
   testWidgets('password change checks required and matching new passwords', (

@@ -151,7 +151,7 @@ class _DasborPageState extends State<DasborPage> {
   }
 
   int _capacityOf(_Fac f) {
-    final m = RegExp(r'\d+').firstMatch('${f.capacity}');
+    final m = RegExp(r'\d+').firstMatch(f.capacity);
     return int.tryParse(m?.group(0) ?? '') ?? 0;
   }
 
@@ -247,7 +247,7 @@ class _DasborPageState extends State<DasborPage> {
   }
 
   Widget _buildHeaderAvatar() {
-    final url = _currentUser?.profilePicture?.trim() ?? '';
+    final url = ApiClient.instance.mediaUrl(_currentUser?.profilePicture) ?? '';
     final fallback = Container(
       color: const Color(0xFFDDF3EF),
       alignment: Alignment.center,
@@ -274,6 +274,7 @@ class _DasborPageState extends State<DasborPage> {
                   Image.network(
                     url,
                     fit: BoxFit.cover,
+                    webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
                     errorBuilder: (_, _, _) => const SizedBox.shrink(),
                   ),
                 ],
@@ -1905,8 +1906,8 @@ class _FacilityCard extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 6,
                   children: [
-                    _infoChip(Icons.people_outline, '${facility.capacity}'),
-                    _infoChip(Icons.layers_outlined, '${facility.floor}'),
+                    _infoChip(Icons.people_outline, facility.capacity),
+                    _infoChip(Icons.layers_outlined, facility.floor),
                     _infoChip(Icons.category_outlined, facility.type),
                   ],
                 ),
@@ -2012,12 +2013,12 @@ class _Fac {
   });
 
   factory _Fac.from(Facility f) => _Fac(
-    id: '${f.id}',
-    name: '${f.name}',
-    type: '${f.type}',
-    building: '${f.building}',
-    floor: '${f.floor}',
-    capacity: '${f.capacity}',
+    id: f.id,
+    name: f.name,
+    type: f.type,
+    building: f.building,
+    floor: f.floor,
+    capacity: f.capacity,
     dbId: f.dbId,
     status: f.status,
     imageUrl: f.imageUrl,

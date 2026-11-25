@@ -354,24 +354,18 @@ MockClient createMockClient() {
       });
     }
 
-    if (method == 'POST' && path.endsWith('/update-profile-phone')) {
-      final phone = '${body()['phone_number'] ?? testUserJson['phone_number']}';
+    if (method == 'POST' && path.endsWith('/update-profile-photo')) {
       return _json({
-        'message': 'Nomor telepon berhasil diperbarui.',
-        'user': _userWith({'phone_number': phone}),
+        'message': 'Foto profil berhasil diperbarui',
+        'user': _userWith({
+          'profile_picture':
+              'http://127.0.0.1:8000/storage/profile_picture/test.png',
+        }),
       });
     }
 
     if (method == 'POST' && path.endsWith('/update-password')) {
       return _json({'message': 'Kata sandi berhasil diperbarui.'});
-    }
-
-    if (method == 'POST' && path.endsWith('/update-profile-email')) {
-      final email = '${body()['email'] ?? testUserJson['email']}';
-      return _json({
-        'message': 'Email berhasil diperbarui.',
-        'user': _userWith({'email': email}),
-      });
     }
 
     if (path.endsWith('/get-ruangan')) {

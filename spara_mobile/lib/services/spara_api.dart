@@ -88,29 +88,22 @@ class SparaApi {
     }
   }
 
-  Future<AppUser> updatePhone(String phoneNumber) async {
-    final response = await _client.post('/update-profile-phone', {
-      'phone_number': phoneNumber,
-    });
-    return _userFromResponse(response);
-  }
-
-  Future<AppUser> updateEmail(String email) async {
-    final response = await _client.post('/update-profile-email', {
-      'email': email,
-    });
-    return _userFromResponse(response);
-  }
-
   Future<AppUser> uploadProfilePhoto({
     required List<int> bytes,
     required String filename,
   }) async {
+    final lower = filename.toLowerCase();
+    final contentType = lower.endsWith('.png')
+        ? 'image/png'
+        : lower.endsWith('.gif')
+        ? 'image/gif'
+        : 'image/jpeg';
     final response = await _client.postMultipart(
       '/update-profile-photo',
       field: 'profile_picture',
       bytes: bytes,
       filename: filename,
+      contentType: contentType,
     );
     return _userFromResponse(response);
   }
@@ -212,8 +205,8 @@ class SparaApi {
       'jam_mulai': jamMulai,
       'jam_selesai': jamSelesai,
       'keterangan': keterangan,
-      if (idRuangan != null) 'id_ruangan': idRuangan,
-      if (idAlat != null) 'id_alat': idAlat,
+      'id_ruangan': ?idRuangan,
+      'id_alat': ?idAlat,
       'id_number_penanggungjawab': idNumberPenanggungJawab,
     });
     if (response is Map) {

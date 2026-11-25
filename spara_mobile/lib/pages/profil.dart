@@ -40,10 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String get _initials => _user?.initials ?? 'SP';
 
-  String? get _photoUrl {
-    final value = _user?.profilePicture?.trim() ?? '';
-    return value.isEmpty ? null : value;
-  }
+  String? get _photoUrl =>
+      ApiClient.instance.mediaUrl(_user?.profilePicture);
 
   @override
   void initState() {
@@ -88,59 +86,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _changePhoto() async {
     if (_isUploadingPhoto) return;
 
-    final source = await showModalBottomSheet<ImageSource>(
-      context: context,
-      backgroundColor: Colors.white,
-      showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (sheetContext) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Ubah Foto Profil',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textDark,
-                ),
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                'Pilih sumber foto. Ukuran maksimal 2 MB.',
-                style: TextStyle(color: AppColors.textGrey, fontSize: 13),
-              ),
-              const SizedBox(height: 14),
-              _photoSourceOption(
-                icon: Icons.photo_camera_outlined,
-                title: 'Kamera',
-                subtitle: 'Ambil foto langsung',
-                onTap: () => Navigator.pop(sheetContext, ImageSource.camera),
-              ),
-              const SizedBox(height: 8),
-              _photoSourceOption(
-                icon: Icons.photo_library_outlined,
-                title: 'Galeri',
-                subtitle: 'Pilih dari penyimpanan',
-                onTap: () => Navigator.pop(sheetContext, ImageSource.gallery),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-    if (source == null || !mounted) return;
-
     XFile? file;
     try {
       file = await ImagePicker().pickImage(
-        source: source,
+        source: ImageSource.gallery,
         maxWidth: 1024,
         maxHeight: 1024,
         imageQuality: 85,
@@ -148,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
     } catch (_) {
       if (!mounted) return;
       _showMessage(
-        'Tidak dapat membuka pemilih gambar.',
+        'Tidak dapat membuka galeri.',
         icon: Icons.error_outline,
       );
       return;
@@ -187,345 +136,6 @@ class _ProfilePageState extends State<ProfilePage> {
     } finally {
       if (mounted) setState(() => _isUploadingPhoto = false);
     }
-  }
-
-  Widget _photoSourceOption({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF6F9F8),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: const Color(0xFFE1E8E8)),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: AppColors.primary, size: 22),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: AppColors.textDark,
-                      fontSize: 13.5,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: AppColors.textGrey,
-                      fontSize: 11.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _changeContact({required bool changePhone}) async {
-    final formKey = GlobalKey<FormState>();
-    var enteredValue = '';
-    var verificationMethod = 'WhatsApp';
-
-    final newValue = await showDialog<String>(
-      context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.transparent,
-          title: Row(
-            children: [
-              _DialogIcon(
-                icon: changePhone ? Icons.call_outlined : Icons.mail_outline,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  changePhone ? 'Ganti Nomor Telepon' : 'Ganti Email',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textDark,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          content: Form(
-            key: formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    changePhone
-                        ? 'Masukkan nomor baru untuk akun Anda.'
-                        : 'Masukkan alamat email baru untuk akun Anda.',
-                    style: const TextStyle(
-                      color: AppColors.textGrey,
-                      fontSize: 13.5,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  _formField(
-                    label: changePhone ? 'Nomor Telepon Baru' : 'Email Baru',
-                    hint: changePhone ? '+62 812-3456-7890' : 'nama@email.com',
-                    prefixIcon: changePhone
-                        ? Icons.phone_outlined
-                        : Icons.alternate_email,
-                    onChanged: (value) => enteredValue = value.trim(),
-                    keyboardType: changePhone
-                        ? TextInputType.phone
-                        : TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Isi data terlebih dahulu!';
-                      }
-                      if (!changePhone &&
-                          !RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
-                              .hasMatch(value.trim())) {
-                        return 'Masukkan alamat email yang valid.';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    changePhone ? 'Pilih Metode Verifikasi' : 'Email Saat Ini',
-                    style: const TextStyle(
-                      color: AppColors.textDark,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  if (changePhone) ...[
-                    const SizedBox(height: 10),
-                    _verificationOption(
-                      title: 'WhatsApp',
-                      subtitle: 'Kirim kode verifikasi ke nomor baru',
-                      icon: Icons.chat_bubble_outline,
-                      selected: verificationMethod == 'WhatsApp',
-                      onTap: () =>
-                          setDialogState(() => verificationMethod = 'WhatsApp'),
-                    ),
-                    const SizedBox(height: 8),
-                    _verificationOption(
-                      title: 'SMS',
-                      subtitle: 'Kirim kode verifikasi melalui SMS',
-                      icon: Icons.sms_outlined,
-                      selected: verificationMethod == 'SMS',
-                      onTap: () =>
-                          setDialogState(() => verificationMethod = 'SMS'),
-                    ),
-                  ] else ...[
-                    const SizedBox(height: 6),
-                    Text(
-                      _email,
-                      style: const TextStyle(
-                        color: AppColors.textGrey,
-                        fontSize: 13.5,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-          actions: [
-            OutlinedButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              style: _dialogOutlinedStyle,
-              child: const Text('Batal'),
-            ),
-            FilledButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  Navigator.pop(dialogContext, enteredValue);
-                }
-              },
-              style: _dialogFilledStyle,
-              child: const Text('Lanjutkan'),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    if (newValue == null || !mounted) return;
-    final verifiedInPreview = await _verifyCode(
-      destination: newValue,
-      channel: changePhone ? verificationMethod : 'email',
-    );
-    if (!verifiedInPreview || !mounted) return;
-
-    if (!changePhone) {
-      try {
-        final updated = await SparaApi.instance.updateEmail(newValue);
-        await Session.instance.updateUser(updated);
-        if (!mounted) return;
-        setState(() => _user = updated);
-        _showMessage(
-          'Email berhasil diperbarui.',
-          icon: Icons.check_circle_outline,
-        );
-      } on ApiException catch (e) {
-        if (!mounted) return;
-        _showMessage(e.message, icon: Icons.error_outline);
-      } catch (_) {
-        if (!mounted) return;
-        _showMessage('Gagal memperbarui email.', icon: Icons.error_outline);
-      }
-      return;
-    }
-
-    try {
-      final updated = await SparaApi.instance.updatePhone(newValue);
-      await Session.instance.updateUser(updated);
-      if (!mounted) return;
-      setState(() => _user = updated);
-      _showMessage(
-        'Nomor telepon berhasil diperbarui.',
-        icon: Icons.check_circle_outline,
-      );
-    } on ApiException catch (e) {
-      if (!mounted) return;
-      _showMessage(e.message, icon: Icons.error_outline);
-    } catch (_) {
-      if (!mounted) return;
-      _showMessage(
-        'Gagal memperbarui nomor telepon.',
-        icon: Icons.error_outline,
-      );
-    }
-  }
-
-  Future<bool> _verifyCode({
-    required String destination,
-    required String channel,
-  }) async {
-    final formKey = GlobalKey<FormState>();
-    final verified = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        title: Row(
-          children: [
-            _DialogIcon(
-              icon: channel == 'email'
-                  ? Icons.mail_outline
-                  : Icons.verified_user_outlined,
-            ),
-            const SizedBox(width: 12),
-            const Expanded(
-              child: Text(
-                'Verifikasi Kode',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textDark,
-                ),
-              ),
-            ),
-          ],
-        ),
-        content: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Masukkan kode 6 digit untuk $destination.',
-                style: const TextStyle(
-                  color: AppColors.textGrey,
-                  fontSize: 13.5,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                autofocus: true,
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 10,
-                  color: AppColors.textDark,
-                ),
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: InputDecoration(
-                  hintText: '••••••',
-                  counterText: '',
-                  filled: true,
-                  fillColor: const Color(0xFFF6F9F8),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: AppColors.accentTeal,
-                      width: 1.5,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.length != 6) {
-                    return 'Masukkan kode 6 digit.';
-                  }
-                  return null;
-                },
-              ),
-            ],
-          ),
-        ),
-        actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-        actions: [
-          OutlinedButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            style: _dialogOutlinedStyle,
-            child: const Text('Kembali'),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                Navigator.pop(dialogContext, true);
-              }
-            },
-            style: _dialogFilledStyle,
-            child: const Text('Verifikasi'),
-          ),
-        ],
-      ),
-    );
-    return verified ?? false;
   }
 
   Future<void> _changePassword() async {
@@ -632,12 +242,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         }
                         return null;
                       },
-                    ),
-                    const SizedBox(height: 14),
-                    const _PrototypeNotice(
-                      text:
-                          'Kata sandi saat ini akan diperiksa oleh server '
-                          'sebelum perubahan disimpan.',
                     ),
                   ],
                 ),
@@ -840,16 +444,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               icon: Icons.call_outlined,
                               label: 'Nomor Telepon',
                               value: _phone,
-                              onEdit: () => _changeContact(changePhone: true),
-                              editKey: const Key('profile-edit-phone'),
                             ),
                             const _TileDivider(),
                             _ProfileTile(
                               icon: Icons.mail_outline,
                               label: 'Alamat Email',
                               value: _email,
-                              onEdit: () => _changeContact(changePhone: false),
-                              editKey: const Key('profile-edit-email'),
                             ),
                           ],
                         ),
@@ -982,7 +582,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               )
                             : const Icon(
-                                Icons.camera_alt_outlined,
+                                Icons.photo_library_outlined,
                                 color: Colors.white,
                                 size: 14,
                               ),
@@ -1084,6 +684,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Image.network(
           photo,
           fit: BoxFit.cover,
+          webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
           errorBuilder: (_, _, _) => const SizedBox.shrink(),
         ),
       ],
@@ -1180,63 +781,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
-  Widget _verificationOption({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required bool selected,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: selected ? const Color(0xFFF0FAF8) : Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: selected ? AppColors.accentTeal : const Color(0xFFE1E8E8),
-            width: selected ? 1.5 : 1,
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: AppColors.primary, size: 22),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: AppColors.textDark,
-                      fontSize: 13.5,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      color: AppColors.textGrey,
-                      fontSize: 11.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              selected ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: selected ? AppColors.primary : Colors.grey,
-              size: 22,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class _SectionCard extends StatelessWidget {
@@ -1297,18 +841,19 @@ class _ProfileTile extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
-    required this.onEdit,
-    required this.editKey,
+    this.onEdit,
+    this.editKey,
   });
 
   final IconData icon;
   final String label;
   final String value;
-  final VoidCallback onEdit;
-  final Key editKey;
+  final VoidCallback? onEdit;
+  final Key? editKey;
 
   @override
   Widget build(BuildContext context) {
+    final editable = onEdit != null;
     return InkWell(
       key: editKey,
       onTap: onEdit,
@@ -1352,33 +897,38 @@ class _ProfileTile extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.accentTeal.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.edit_outlined,
-                    color: AppColors.accentTeal,
-                    size: 14,
-                  ),
-                  SizedBox(width: 4),
-                  Text(
-                    'Ubah',
-                    style: TextStyle(
+            if (editable) ...[
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.accentTeal.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.edit_outlined,
                       color: AppColors.accentTeal,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
+                      size: 14,
                     ),
-                  ),
-                ],
+                    SizedBox(width: 4),
+                    Text(
+                      'Ubah',
+                      style: TextStyle(
+                        color: AppColors.accentTeal,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
@@ -1401,40 +951,3 @@ class _DialogIcon extends StatelessWidget {
   }
 }
 
-class _PrototypeNotice extends StatelessWidget {
-  const _PrototypeNotice({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEEF2FF),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 1),
-            child: Icon(Icons.info_outline, size: 16, color: Color(0xFF4B5BD6)),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: AppColors.textDark,
-                fontSize: 11.5,
-                height: 1.4,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
